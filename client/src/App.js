@@ -18,7 +18,7 @@ class App extends Component {
       <ApolloProvider client={client}>
         <div className="App" id="App">
           <header className="App-header">
-            <h1 className="App-title">Fudr</h1>
+            <h1 className="App-title">Füdr</h1>
           </header>
           <SwipeCard className="card"/>
         </div>

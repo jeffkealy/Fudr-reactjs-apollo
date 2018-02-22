@@ -34,6 +34,9 @@ const typeDefs = `
     _id: String
     name: String
     address: String
+    locality:String
+    region:String
+    postcode:String
   }
   type Query {
     allDishes (needMoreDishes: Boolean, after: String, first: Int, before: String,last: Int): [Dish]

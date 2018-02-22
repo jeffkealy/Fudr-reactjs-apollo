@@ -11,9 +11,7 @@ const Restaurant  = ({ data: { loading, error, restaurant  }}) => {
   }
   else {
     return (
-      <div>
         <p>{restaurant.name}</p>
-      </div>
     )
   }
 

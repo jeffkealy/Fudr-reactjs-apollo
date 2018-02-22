@@ -1,6 +1,9 @@
 import React, {Component} from 'react';
 import Modal from 'react-modal';
+import { gql, graphql } from 'react-apollo';
 import './InfoModalStyle.css'
+import Info from 'react-icons/lib/md/info-outline'
+import Close from 'react-icons/lib/ti/delete-outline'
 
 // const customStyles = {
     // overlay: {
@@ -33,9 +36,8 @@ import './InfoModalStyle.css'
   // };
 
 class InfoModal extends Component {
-  constructor() {
-    super();
-
+  constructor(props) {
+    super(props);
     this.state = {
       modalIsOpen: false
     };
@@ -43,16 +45,20 @@ class InfoModal extends Component {
     this.openModal = this.openModal.bind(this);
     this.afterOpenModal = this.afterOpenModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
-    console.log(this);
+
   }
   componentWillMount() {
     Modal.setAppElement('body');
-    console.log("CWM",this);
+    console.log("MODAL componentWillMount",this.state);
 
   }
 
   openModal() {
-    this.setState({modalIsOpen: true});
+    this.setState({
+      modalIsOpen: true
+    });
+    console.log("MODAL openModal",this.state);
+
   }
 
   afterOpenModal() {
@@ -66,9 +72,19 @@ class InfoModal extends Component {
   }
 
   render() {
+    const {loading, error, restaurant} = this.props.data;
+    const currentDish = this.props.currentDish
+    if (loading) {
+        return <Info className="info-icon loading" />
+      }
+    if (error) {
+      return <p>{error.message}</p>
+    }
+    console.log("MODAL RENDER",this.props);
+
     return (
       <div>
-        <button onClick={this.openModal}>Info</button>
+        <button onClick={this.openModal} className="info-button"><Info className="info-icon" /></button>
         <Modal
           isOpen={this.state.modalIsOpen}
           onAfterOpen={this.afterOpenModal}
@@ -76,21 +92,36 @@ class InfoModal extends Component {
           contentLabel="Example Modal"
           closeTimeoutMS={700}
           className={{
-            base: 'modal',
-            afterOpen: 'modal-after-open',
-            beforeClose: 'modal-before-close'
+            base: 'info modal',
+            afterOpen: 'info modal-after-open',
+            beforeClose: 'info modal-before-close'
           }}
           overlayClassName={{
-            base: 'modal-overlay',
-            afterOpen: 'modal-overlay-after-open',
-            beforeClose: 'modal-overlay-before-close'
+            base: 'info modal-overlay',
+            afterOpen: 'info modal-overlay-after-open',
+            beforeClose: 'info modal-overlay-before-close'
           }}
 
         >
-
-          <h2 ref={subtitle => this.subtitle = subtitle}>Hello</h2>
-          <div>I am a modal</div>
-          <button onClick={this.closeModal}>close</button>
+          <div>
+            <div className="info-modal-header">
+              <span className="info-modal dish-name" ref={subtitle => this.subtitle = subtitle}>{this.props.currentDish.dishName}</span>
+              <button onClick={this.closeModal} className='close-button'><Close className='close-icon' /></button>
+            </div>
+            <div className='info-modal image-container'>
+              <img className='info-modal-image' src={currentDish.photourl} alt="dish"/>
+            </div>
+            <div className='info-modal restaurant-address'>
+              <h1 className='info-modal restaurant-name'>{restaurant.name}</h1>
+              <p>{restaurant.address}</p>
+              <p><span>{restaurant.locality}</span>, <span>{restaurant.region}</span> <span>{restaurant.postcode}</span></p>
+            </div>
+          </div>
+          <div
+            className='modal-mage-container'
+            style={{'backgroundImage':`url(${currentDish.photourl})`}}
+              >
+          </div>
 
         </Modal>
       </div>
@@ -98,5 +129,21 @@ class InfoModal extends Component {
   }
 }
 
+export const restaurantQuery = gql`
+query RestaurantQuery ($_id: String) {
+  restaurant ( _id: $_id) {
+    _id
+    name
+    address
+    locality
+    region
+    postcode
+  }
+}
+`;
 
-export default InfoModal
+export default graphql(restaurantQuery, {
+  options: (props) => ({
+    variables: { _id: props.restaurantID },
+  }),
+})(InfoModal)

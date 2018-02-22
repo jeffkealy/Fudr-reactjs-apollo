@@ -7,7 +7,12 @@ var restaurantSchema = new Schema({
 
       factual_id: {type: String, unique:true},
       name: String,
-      address:String
+      address:String,
+      locality: String,
+      region: String,
+      postcode: String
+
+
 
 }, {strict: false});
 

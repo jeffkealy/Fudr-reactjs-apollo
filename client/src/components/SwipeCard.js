@@ -13,53 +13,63 @@ class SwipeCard extends Component {
   constructor(props){
     super(props)
     this.state = {
-      left: "left",
-      right: "right",
       yesDishes:[],
+      currentDish:{}
 
     }
-    this.swipeLeft = this.swipeLeft.bind(this)
-    // this.openModal = this.openModal.bind(this);
-    // this.afterOpenModal = this.afterOpenModal.bind(this);
-    // this.closeModal = this.closeModal.bind(this);
+    this.swipe = this.swipe.bind(this)
 
     console.log("constructor props", this.props );
 
+
   }
   componentWillMount() {
-    // Modal.setAppElement('body');
     // this.setState((prevState, props) => ({
     // }));
     console.log("componentWillMount", this.props);
 
   }
-  componentDidMount(){
-    console.log("componentDidMount props", this.props);
-    console.log("componentDidMount state", this.state);
+  componentDidMount(allDishes, i){
+    // console.log("componentDidMount");
   }
+  componentDidUpdate(prevProps, prevState){
+    // console.log("componentDidUpdate state", this.state);
+    // console.log("componentDidUpdate props", this.props);
 
-  swipeLeft(allDishes, i ){
-    let addYesDish = this.state.yesDishes.slice()
-    addYesDish.push(allDishes[i])
-    console.log("addedDish", addYesDish);
-    console.log("INDEX", i);
-    this.setState((prevState, props) => ({
-      yesDishes: addYesDish
-    }));
-
-    console.log(this.state.yesDishes);
-    // dishesList = allDishes[i].push()
-    // console.log("swipeLeft", dishes);
-    if ((i+2)% 10 === 0) {
-        console.log("IF");
-        this.onFetchMore()
+    // console.log("currentDish", this.props.DishesListQuery.allDishes[0]);
+    // console.log("this.state.currentDish", this.state.currentDish.dishName);
+    console.log("this.state.currentDish", this.state.currentDish);
+    let cd = this.props.DishesListQuery.allDishes[0]
+    if (this.state.currentDish.dishName === undefined) {
+      console.log("if");
+      this.setState((props) =>({
+        currentDish: cd
+      }))
     }
   }
+  swipe(allDishes, item, i, swipe){
+    let currentDish = allDishes[i+1]
+    if (swipe === "right") {
+      // console.log(swipe);
+      let addYesDish = this.state.yesDishes.slice()
+      addYesDish.push(item)
+      console.log("addedDish", addYesDish);
+      // console.log("INDEX", i);
+      this.setState(() => ({
+        yesDishes: addYesDish,
+        currentDish: currentDish
+      }));
 
-  swipeRight(allDishes, i)  {
-    console.log(allDishes);
+      console.log("swipe currentDish", this.state.currentDish);
+
+    } else {
+      console.log(swipe);
+      this.setState(() => ({
+        currentDish: currentDish
+      }));
+
+    }
     if ((i+2)% 10 === 0) {
-        console.log("IF");
         this.onFetchMore()
     }
   }
@@ -79,20 +89,16 @@ class SwipeCard extends Component {
        },
      });
    }
-   // openModal() {
-   //   console.log(this);
-   //   this.setState({modalIsOpen: true});
-   // }
-   // afterOpenModal() {
-   //   // references are now sync'd and can be accessed.
-   //   this.style.color = '#f00';
-   // }
-   //
-   // closeModal() {
-   //   this.setState({modalIsOpen: false});
-   // }
+  // setCurrentDish(allDishes, i){
+  //   let cd = allDishes[0]
+  //   this.setState((prevState, props) => ({
+  //     currentDish: cd
+  //   }));
+  // }
   render(){
     const {loading, error, allDishes} = this.props.DishesListQuery;
+    let left = "left"
+    let right = "right"
     if (loading) {
         return <p>Loading...</p>
       }
@@ -111,22 +117,24 @@ class SwipeCard extends Component {
             {allDishes.map((item, i) =>
 
                 <Card key={i}
-                 onSwipeLeft={()=>this.swipeLeft(allDishes, i)}
-                 onSwipeRight={()=>this.swipeRight(allDishes,i)}>
-                   <div>
+                 onSwipeLeft={()=>this.swipe(allDishes, item, i, left)}
+                 onSwipeRight={()=>this.swipe(allDishes, item,i, right)}
+
+                 >
+                 <div className="card-contents">
+                   <img className="card-image" src={item.photourl} alt="Dish"/>
+                   <div className="card-text">
                      <h2>{item.dishName}</h2>
                      <Restaurant restaurantID={item.restaurant_id}/>
-                     <div
-                       className="image-container"
-                       style={{'backgroundImage':`url(${item.photourl})`}}
-                         >
-                     </div>
-
                    </div>
+                  </div>
                 </Card>
               )}
           </Cards>
-          <InfoModal></InfoModal>
+          <InfoModal
+            currentDish={this.state.currentDish}
+            restaurantID={this.state.currentDish.restaurant_id}
+            ></InfoModal>
         </div>
       )
 
