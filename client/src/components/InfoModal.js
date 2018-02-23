@@ -75,7 +75,7 @@ class InfoModal extends Component {
     const {loading, error, restaurant} = this.props.data;
     const currentDish = this.props.currentDish
     if (loading) {
-        return <Info className="info-icon loading" />
+        return <Info className="info-button-loading" />
       }
     if (error) {
       return <p>{error.message}</p>
@@ -84,7 +84,7 @@ class InfoModal extends Component {
 
     return (
       <div>
-        <button onClick={this.openModal} className="info-button"><Info className="info-icon" /></button>
+        <button onClick={this.openModal} className="info-button button icon-button"><Info className="info-icon" /></button>
         <Modal
           isOpen={this.state.modalIsOpen}
           onAfterOpen={this.afterOpenModal}
@@ -105,8 +105,8 @@ class InfoModal extends Component {
         >
           <div>
             <div className="info-modal-header">
+              <button onClick={this.closeModal} className='close-button button icon-button'><Close className='close-icon' /></button>
               <span className="info-modal dish-name" ref={subtitle => this.subtitle = subtitle}>{this.props.currentDish.dishName}</span>
-              <button onClick={this.closeModal} className='close-button'><Close className='close-icon' /></button>
             </div>
             <div className='info-modal image-container'>
               <img className='info-modal-image' src={currentDish.photourl} alt="dish"/>

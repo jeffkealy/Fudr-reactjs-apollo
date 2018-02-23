@@ -32,16 +32,16 @@ h1, h2{
 .App-header {
   height: auto;
   padding: 5px 0 0px;
-  font-family: 'Tiki_Tropic_Outline', sans-serif;
-  -webkit-text-stroke: 4px #E83B18;
   letter-spacing: 4px;
   /* border-top: 5px solid #05386b;
   border-bottom: 5px solid #05386b; */
 }
 
 .App-title {
+  font-family: 'Tiki_Tropic', sans-serif;
+  -webkit-text-stroke: 4px #9C479D;
   font-size: 100px;
-  color: #FF401A;
+  color: #F7CB15;
   margin: 0;
 }
 
@@ -52,7 +52,10 @@ h1, h2{
 /* media queries */
 @media screen and (max-width:644px) {
   .App-header{
-    padding: 20px 0 10px;
+    padding: 0;
+  }
+  .App-title{
+    font-size: 85px;
   }
 }
 

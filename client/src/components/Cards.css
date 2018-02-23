@@ -50,7 +50,7 @@ li {
   border-radius: 5px;
   height: 540px;
   width: 424px;
-  background-color: #F7CB15;
+  background-color: #efefef;
 
 
 }
@@ -60,12 +60,12 @@ li {
   width: 424px;
   height: 424px;
   border-radius: 3px 3px 0 0;
-  border-bottom: 4px solid #05386b;
+  /* border-bottom: 4px solid #fff; */
 
 
 }
 .card-text{
-  color: #05386b;
+  color: #000;
   padding-top: 15px;
 
 }
