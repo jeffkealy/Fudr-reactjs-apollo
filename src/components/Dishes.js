@@ -24,7 +24,7 @@ const Dishes  = ({ data: { loading, error, allDishes  }}) => {
   );
 }
 
-export const dishesListQuery = gql`
+export const allDishesQuery = gql`
   query DishesListQuery {
     allDishes {
       _id
@@ -33,7 +33,6 @@ export const dishesListQuery = gql`
       restaurant_id
     }
   }
-
 `;
 
-export default graphql(dishesListQuery)(Dishes);
+export default graphql(allDishesQuery)(Dishes);

@@ -1,18 +1,3 @@
-// export const resolvers = {
-//   Query: {
-//     dishes: () => {
-//       return dishes;
-//     },
-//   },
-//   Mutation: {
-//     addDish: (root, args) => {
-//       const newDish = { id: args.id, dishName: args.dishName, photourl: args.photourl};
-//       dishes.push(newDish);
-//       return newDish;
-//     }
-//   }
-// };
-
 export const resolvers = {
   Query: {
     allDishes: async (root, args, { Dish }) => {
@@ -26,17 +11,11 @@ export const resolvers = {
         dishes: {
           try{
             console.log("START");
-            var firstCall
-            if (firstCall == undefined) {
-              var firstCall = false
-              console.log("yo", firstCall);
 
-            }
-            console.log("firstCall", firstCall);
             const dishes = await Dish.find();
 
             let dishesCopy = dishes.slice().sort(function(){return .5 - Math.random()});
-            let dishesToSend = dishesCopy.slice(0, 10);
+            let dishesToSend = dishes.slice(0, 10);
             dishesCopy.splice(0, 10)
             console.log(dishesCopy.length, "dishes");
             console.log("END");
@@ -77,7 +56,43 @@ export const resolvers = {
     },
   },
   Mutation: {
-    addDish: async (root, args, { Dish }) => {
+    addDish: (root, { input }, { Dish }) => {
+      const newDish = new Dish(input)
+      return new Promise((resolve, object) => {
+        newDish.save((err) => {
+          if(err) reject(err)
+          else resolve(newDish)
+        })
+      })
+    },
+    // addDish: async (root, args, { Dish }) => {
+    //   console.log("adddish mutation", args);
+    //   const dish = await new Dish(args.input).save();
+    //   dish._id = dish._id.toString();
+    //   return dish;
+    // },
+    // updateDish: async (root, {input}, {  Dish }) => {
+    //   // { _id: 123123, name: "whatever"}
+    //   console.log("DishInput", input);
+    //   const dish = await new Dish.findOneAndUpdate({ _id: input._id }, Dish);
+    //   dish._id = dish._id.toString();
+    //   console.log("dish", dish);
+    //
+    //   return dish;
+    // },
+    updateDish: (root, { input }, {Dish}) =>{
+      return new Promise((resolve, object) => {
+        Dish.findOneAndUpdate({ _id: input._id }, input, (err, dish) => {
+          if(err) reject(err)
+          else resolve(dish)
+          console.log(dish);
+
+        })
+      })
+    },
+  },
+  Subscription:{
+    updateDish: async (root, args, { Dish }) => {
       // { _id: 123123, name: "whatever"}
       const dish = await new Dish(args).save();
       dish._id = dish._id.toString();

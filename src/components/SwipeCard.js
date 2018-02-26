@@ -107,7 +107,7 @@ class SwipeCard extends Component {
     }
       console.log("RENDER", allDishes);
       return (
-        <div className="cardModalWrapper">
+        <div >
           <Cards
             onEnd={()=>console.log("End")}
             alertLeft={<div>No</div>}

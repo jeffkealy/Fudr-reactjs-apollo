@@ -23,9 +23,17 @@ const typeDefs = `
     cursor: String!
   }
   type Dish{
-    _id:ID!
+    _id:ID
     dishName: String
     photourl: String
+    factual_id: String
+    cuisinetype:[String]
+    restaurant_id: String
+  }
+  input DishInput{
+    _id: String
+    dishName: String!
+    photourl: String!
     factual_id: String
     cuisinetype:[String]
     restaurant_id: String
@@ -44,8 +52,13 @@ const typeDefs = `
     restaurant(_id:String): Restaurant
   }
   type Mutation {
-  addDish(_id: String!, dishName: String!, photourl: String!, factual_id: String, restuarant_id: String): Dish
-}
+  addDish(input:DishInput): Dish
+  updateDish(input:DishInput): Dish
+
+  }
+  type Subscription{
+    updateDish(_id: String!, dishName: String!, photourl: String!, factual_id: String, restuarant_id: String): Dish
+  }
 `;
 
 const schema = makeExecutableSchema({typeDefs, resolvers});
