@@ -3,7 +3,7 @@ import Cards, { Card } from 'react-swipe-card'
 import { gql, graphql } from 'react-apollo';
 import './Cards.css';
 import InfoModal from './InfoModal';
-// import Dish from './Dish.js'
+// import Dishes from './Dishes.js'
 import Restaurant from './Restaurant.js'
 
 
@@ -26,7 +26,7 @@ class SwipeCard extends Component {
   componentWillMount() {
     // this.setState((prevState, props) => ({
     // }));
-    console.log("componentWillMount", this.props);
+    console.log("componentWillMount");
 
   }
   componentDidMount(allDishes, i){
@@ -38,7 +38,7 @@ class SwipeCard extends Component {
 
     // console.log("currentDish", this.props.DishesListQuery.allDishes[0]);
     // console.log("this.state.currentDish", this.state.currentDish.dishName);
-    console.log("this.state.currentDish", this.state.currentDish);
+    console.log("componentDidUpdate");
     let cd = this.props.DishesListQuery.allDishes[0]
     if (this.state.currentDish.dishName === undefined) {
       console.log("if");

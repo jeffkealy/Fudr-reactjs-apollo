@@ -49,7 +49,6 @@ class InfoModal extends Component {
   }
   componentWillMount() {
     Modal.setAppElement('body');
-    console.log("MODAL componentWillMount",this.state);
 
   }
 

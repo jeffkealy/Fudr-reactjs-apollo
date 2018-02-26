@@ -26,12 +26,19 @@ export const resolvers = {
         dishes: {
           try{
             console.log("START");
+            var firstCall
+            if (firstCall == undefined) {
+              var firstCall = false
+              console.log("yo", firstCall);
+
+            }
+            console.log("firstCall", firstCall);
             const dishes = await Dish.find();
 
             let dishesCopy = dishes.slice().sort(function(){return .5 - Math.random()});
             let dishesToSend = dishesCopy.slice(0, 10);
             dishesCopy.splice(0, 10)
-            console.log(dishesToSend, "dishes");
+            console.log(dishesCopy.length, "dishes");
             console.log("END");
             return dishesToSend.map((x) => {
               x._id = x._id.toString();
