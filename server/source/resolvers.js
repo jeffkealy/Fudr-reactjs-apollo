@@ -65,6 +65,16 @@ export const resolvers = {
         })
       })
     },
+    updateDish: (root, { input }, {Dish}) =>{
+      return new Promise((resolve, object) => {
+        Dish.findOneAndUpdate({ _id: input._id }, input, (err, dish) => {
+          if(err) reject(err)
+          else resolve(dish)
+          console.log(dish);
+
+        })
+      })
+    },
     // addDish: async (root, args, { Dish }) => {
     //   console.log("adddish mutation", args);
     //   const dish = await new Dish(args.input).save();
@@ -80,16 +90,7 @@ export const resolvers = {
     //
     //   return dish;
     // },
-    updateDish: (root, { input }, {Dish}) =>{
-      return new Promise((resolve, object) => {
-        Dish.findOneAndUpdate({ _id: input._id }, input, (err, dish) => {
-          if(err) reject(err)
-          else resolve(dish)
-          console.log(dish);
 
-        })
-      })
-    },
   },
   Subscription:{
     updateDish: async (root, args, { Dish }) => {

@@ -13,6 +13,9 @@ html {
 li {
   list-style: none;
 }
+.hidden{
+  display: none;
+}
 .card-image-test img{
   height: 150px;
   width:auto;
