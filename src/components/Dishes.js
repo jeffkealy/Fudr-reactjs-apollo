@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import { gql, graphql, compose } from 'react-apollo';
+import { gql, graphql } from 'react-apollo';
+import EditDish from './EditDish'
 
 class Dishes extends Component {
   constructor(props){
@@ -7,8 +8,8 @@ class Dishes extends Component {
     this.state = {
       inputDishName: '',
       inputPhotourl:'',
+      dishToEdit: '',
       editingDish: false,
-      dishToEdit: "hidden",
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -44,10 +45,9 @@ class Dishes extends Component {
   }
   editDish = (i) => (event) =>{
     console.log("editdish", i);
-    console.log("editdish", event);
-    console.log("editDish", this.state.dishToEdit);
     this.setState({
-      dishToEdit: " ",
+      dishToEdit: i,
+      editingDish: true,
     })
   }
 
@@ -69,17 +69,11 @@ render(){
           <p>{item.dishName}</p>
           <p>{item._id}</p>
           <button onClick={this.editDish(i)}>Edit</button>
-          <form className={this.state.dishToEdit} onSubmit={this.handleSubmit}>
-            <label>
-              Dish Name:
-              <input type="text" placeholder={item.dishName}  name="inputDishName" value={this.state.inputDishName} onChange={this.handleChange(i)} />
-            </label>
-            <label>
-              Photo Url:
-              <input type="text" placeholder={item.photourl} name="inputPhotourl" value={this.state.inputPhotourl} onChange={this.handleChange(i)} />
-            </label>
-            <input type="submit" value="Submit" />
-          </form>
+
+          <EditDish index={i}
+                    dish={item}
+                    dishToEdit={this.state.dishToEdit}
+                    />
         </div>
 
         )
@@ -88,6 +82,22 @@ render(){
     );
 }
 }
+
+// <button onClick={this.editDish(i)}>Edit</button>
+
+// <form className={this.state.dishToEdit ?  " ": "hidden" } onSubmit={this.handleSubmit}>
+//   <label>
+//     Dish Name:
+//     <input type="text" placeholder={item.dishName}  name="inputDishName" value={this.state.inputDishName} onChange={this.handleChange(i)} />
+//   </label>
+//   <label>
+//     Photo Url:
+//     <input type="text" placeholder={item.photourl} name="inputPhotourl" value={this.state.inputPhotourl} onChange={this.handleChange(i)} />
+//   </label>
+//   <input type="submit" value="Submit" />
+// </form>
+
+
 
 export const allDishesQuery = gql`
   query DishesListQuery {
@@ -100,22 +110,7 @@ export const allDishesQuery = gql`
   }
 `;
 
-const updateDish = gql`
-  mutation DishUpdateMutation ($id: String!){
-    updateDish(_id: $id){
-      dishName
-      photourl
-      restaurant_id
-    }
-  }
 
-`
 
-Dishes = compose(
-  graphql(allDishesQuery,{name: 'DishesListQuery'}),
-  graphql(updateDish, {
-    name: 'DishUpdateMutation'
-
-  })
-)(Dishes);
+Dishes = graphql(allDishesQuery,{name: 'DishesListQuery'})(Dishes);
 export default graphql(allDishesQuery)(Dishes);

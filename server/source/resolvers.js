@@ -15,7 +15,7 @@ export const resolvers = {
             const dishes = await Dish.find();
 
             let dishesCopy = dishes.slice().sort(function(){return .5 - Math.random()});
-            let dishesToSend = dishes.slice(0, 10);
+            let dishesToSend = dishes.slice(105, dishes.length);
             dishesCopy.splice(0, 10)
             console.log(dishesCopy.length, "dishes");
             console.log("END");
