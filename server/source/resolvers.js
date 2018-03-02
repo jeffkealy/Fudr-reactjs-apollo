@@ -25,19 +25,19 @@ export const resolvers = {
               return x;
             });
           } catch(e){
-            console.log("error");
+            console.log("error :dishes query");
           }
         // }
       }
 
     },
-    Dish: async (root, args, {Dish}) =>{
+    dish: async (root, args, {Dish}) =>{
       try{
         const dish = await Dish.findById(args._id);
         console.log(dish);
         return dish
       } catch(e){
-        console.log("error");
+        console.log("error: dish query");
       }
     },
     restaurant: async (root, args, {Restaurant}) =>{
@@ -50,17 +50,19 @@ export const resolvers = {
         //   return x;
         // })
       } catch(e){
-        console.log("error");
+        console.log("error: restaurant query");
       }
     },
   },
   Mutation: {
     addDish: (root, { input }, { Dish }) => {
+      console.log("ADD DISH BEFORE",input);
       const newDish = new Dish(input)
       return new Promise((resolve, object) => {
         newDish.save((err) => {
           if(err) reject(err)
           else resolve(newDish)
+         console.log("Dish added", newDish);
         })
       })
     },

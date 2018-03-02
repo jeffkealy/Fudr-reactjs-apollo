@@ -1,44 +1,51 @@
 import React, { Component } from 'react';
 import { gql, graphql } from 'react-apollo';
 import {allDishesQuery} from './Dishes'
+import '../styles/AddDish.css';
+import Dish from './Dish.js'
+import {dishQuery} from './Dish'
 
 
 class AddDish extends Component {
   state = {
     dishName: '',
-    photourl: ''
+    photourl: '',
+    id:''
   }
 
   handleSave = ({ mutate }) => {
     const {dishName, photourl } = this.state;
-    const id = require('crypto').randomBytes(5).toString('hex');
     this.props.mutate({
-      variables: {id, dishName, photourl},
-      optimisticResponse: {
-        addDish: {
-          id,
-          dishName,
-          photourl,
-          __typename: 'Dish',
-        },
+      variables: {
+        dish:{dishName, photourl}
       },
-      update: (store, { data: {addDish }}) => {
-        const data = store.readQuery({ query: allDishesQuery });
-        data.dishes.push(addDish);
-        store.writeQuery({ query: allDishesQuery, data});
-      }
+      // optimisticResponse: {
+      //   addDish: {
+      //     dishName,
+      //     photourl,
+      //     __typename: 'Dish',
+      //   },
+      // },
+      // update: (store, { data: {addDish }}) => {
+      //   console.log("store ADDDISH",store);
+      //   const data = store.readQuery({ query: dishQuery });
+      //   data.dishes.push(addDish);
+      //   store.writeQuery({ query: dishQuery, data});
+      // }
     })
     .then( res => {
+      console.log(res.data.addDish);
       this.setState({
         dishName: '',
-        photourl: ''
+        photourl: '',
+        id: res.data.addDish._id,
       });
     });
   }
 
   render () {
     return (
-      <div>
+      <div className="AddDish">
         <input
           value={this.state.dishName}
           placeholder='Dish name'
@@ -50,22 +57,24 @@ class AddDish extends Component {
           onChange={(e) => this.setState({photourl: e.target.value})}
         />
         <button onClick={this.handleSave}>Save</button>
+        <Dish dishID={this.state.id}/>
       </div>
     )
   }
 
 }
 
-const createDish = gql`
-  mutation addDish($id: String!, $dishName: String!, $photourl: String!) {
-    addDish(id: $id, dishName: $dishName, photourl: $photourl ) {
-      id
+const addDish = gql`
+  mutation addDishMutation($dish:DishInput) {
+    addDish(input:$dish ) {
+      _id
       dishName
       photourl
+      factual_id
     }
   }
 `;
 
-const AddDishesWithMutation = graphql(createDish)(AddDish);
+const AddDishesWithMutation = graphql(addDish)(AddDish);
 
 export default AddDishesWithMutation;

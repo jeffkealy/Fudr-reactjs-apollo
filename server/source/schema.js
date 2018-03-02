@@ -23,7 +23,7 @@ const typeDefs = `
     cursor: String!
   }
   type Dish{
-    _id:ID
+    _id:String
     dishName: String
     photourl: String
     factual_id: String
@@ -48,7 +48,7 @@ const typeDefs = `
   }
   type Query {
     allDishes (needMoreDishes: Boolean, after: String, first: Int, before: String,last: Int): [Dish]
-    Dish( _id: String): Dish
+    dish( _id: String): Dish
     restaurant(_id:String): Restaurant
   }
   type Mutation {
