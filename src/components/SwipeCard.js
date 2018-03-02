@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Cards, { Card } from 'react-swipe-card'
 import { gql, graphql } from 'react-apollo';
-import './Cards.css';
+import '../styles/SwipeCard.css';
 import InfoModal from './InfoModal';
 // import Dishes from './Dishes.js'
 import Restaurant from './Restaurant.js'

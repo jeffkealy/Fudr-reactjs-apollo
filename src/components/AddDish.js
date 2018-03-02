@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { gql, graphql } from 'react-apollo';
+import {allDishesQuery} from './Dishes'
 
-import { dishesListQuery } from './Dishes'; 
 
 class AddDish extends Component {
   state = {
@@ -23,9 +23,9 @@ class AddDish extends Component {
         },
       },
       update: (store, { data: {addDish }}) => {
-        const data = store.readQuery({ query: dishesListQuery });
+        const data = store.readQuery({ query: allDishesQuery });
         data.dishes.push(addDish);
-        store.writeQuery({ query: dishesListQuery, data});
+        store.writeQuery({ query: allDishesQuery, data});
       }
     })
     .then( res => {

@@ -15,7 +15,7 @@ export const resolvers = {
             const dishes = await Dish.find();
 
             let dishesCopy = dishes.slice().sort(function(){return .5 - Math.random()});
-            let dishesToSend = dishes.slice(105, dishes.length);
+            let dishesToSend = dishes.slice(0, 10);
             dishesCopy.splice(0, 10)
             console.log(dishesCopy.length, "dishes");
             console.log("END");
@@ -42,9 +42,8 @@ export const resolvers = {
     },
     restaurant: async (root, args, {Restaurant}) =>{
       try{
-        // console.log("start query", args);
+        console.log("RESTAURANT");
         const restaurant = await Restaurant.findById(args._id);
-        // console.log("args", args._id);
         return restaurant
         // return restaurants.map((x) => {
         //   x._id = x._id.toString();

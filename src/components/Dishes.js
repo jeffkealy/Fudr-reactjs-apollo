@@ -11,9 +11,11 @@ class Dishes extends Component {
     };
     this.editDish = this.editDish.bind(this);
     this.cancelEdit = this.cancelEdit.bind(this);
-
+    this.addDish = this.addDish.bind(this);
   }
-
+  addDish(){
+    console.log("addDish");
+  }
   editDish = (i) => (event) =>{
     console.log("editdish", i);
     this.setState({
@@ -40,9 +42,8 @@ render(){
   }
   return (
     <div>
-
       {allDishes.map((item, i) =>(
-        <div className='card-image-test' key={i}>
+        <div className='dishes-list-entry' key={i}>
           <img src={item.photourl} alt="asdf"/>
           <p>{item.dishName}</p>
           <p>{item._id}</p>

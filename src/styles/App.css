@@ -1,14 +1,14 @@
 
 @font-face {
   font-family: 'Tiki_Tropic_Outline';
-  src:  url('fonts/Tiki_Tropic_Outline.ttf')  format('truetype');
+  src:  url('../fonts/Tiki_Tropic_Outline.ttf')  format('truetype');
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Tiki_Tropic';
-  src:  url('fonts/Tiki_Tropic.ttf')  format('truetype');
+  src:  url('../fonts/Tiki_Tropic.ttf')  format('truetype');
   font-weight: normal;
   font-style: normal;
 }

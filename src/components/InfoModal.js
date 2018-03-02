@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Modal from 'react-modal';
 import { gql, graphql } from 'react-apollo';
-import './InfoModalStyle.css'
+import '../styles/InfoModal.css'
 import Info from 'react-icons/lib/md/info-outline'
 import Close from 'react-icons/lib/ti/delete-outline'
 
