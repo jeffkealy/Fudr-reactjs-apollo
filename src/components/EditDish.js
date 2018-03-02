@@ -1,64 +1,80 @@
 import React, {Component} from 'react';
 import { gql, graphql } from 'react-apollo';
+import {allDishesQuery} from './Dishes'
 
 class EditDish extends Component{
   constructor(props){
     super(props)
+    console.log(this.props);
     this.state = {
-      inputDishName: '',
-      inputPhotourl:'',
-      editingDish: true,
-      dishIndex: this.props.index,
+      dishName: '',
+      photourl:'',
+      editingDish: this.props.isEditing,
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.editDish = this.editDish.bind(this);
   }
   handleChange = (i) => (event) => {
     const name = event.target.name;
     let value = event.target.value;
     this.setState({
       [name]: value
-    });
+    })
+
  }
 
-  handleSubmit(event) {
+  handleSubmit = (event, {mutate}) => {
    event.preventDefault();
    console.log("State",this.state);
-   console.log("props",this.props);
-
-   // this.setState({
-   //   inputDishName: '',
-   //   inputPhotourl:'',
-   // })
- }
-
-
-  editDish = (i) => (event) =>{
-    console.log("editdish", i);
-    console.log("editdish", event);
-    console.log("editDish", this.state.dishToEdit);
-    this.setState((i)=>({
-      editingDish: !this.state.editingDish,
-    }))
+   const { dishName, photourl } = this.state
+   const { _id} = this.props.dish
+   console.log("dishName", dishName);
+   this.props.mutate({
+      variables: {
+        dish:{
+          _id: _id,
+          dishName: dishName,
+          photourl: photourl,
+        }},
+      optimisticResponse: {
+        updateDish: {
+          _id: _id,
+          dishName: dishName,
+          photourl: photourl,
+          __typename: 'Dish',
+        },
+      },
+      update: (store, { data: {updateDish }}) => {
+        const data = store.readQuery({ query: allDishesQuery });
+        store.writeQuery({ query: allDishesQuery, data});
+      }
+    })
+    .then( res => {
+      console.log("THEN");
+      this.props.cancelEdit()
+      this.setState({
+        dishName: '',
+        photourl:'',
+      });
+    });
   }
 
-
-
   render(){
-    if (this.props.dishToEdit === this.props.index ) {
+    if (this.props.dishToEdit === this.props.index && this.props.isEditing === true) {
       const {dish} = this.props
       return(
-        <div>
+        <div className="edit-form-container">
+        <button className="edit-button" onClick={this.props.cancelEdit}>Cancel</button>
+
           <form onSubmit={this.handleSubmit}>
             <label>
               Dish Name:
-              <input type="text" placeholder={dish.dishName}  name="inputDishName" value={this.state.inputDishName} onChange={this.handleChange(this.props.index)} />
+              <input type="text" placeholder={dish.dishName}  name="dishName" value={this.state.dishName} onChange={this.handleChange(this.props.index)} required />
             </label>
             <label>
               Photo Url:
-              <input type="text" placeholder={dish.photourl} name="inputPhotourl" value={this.state.inputPhotourl} onChange={this.handleChange(this.props.index)} />
+              <input type="text" placeholder={dish.photourl} name="photourl" value={this.state.photourl} onChange={this.handleChange(this.props.index)} required />
             </label>
             <input type="submit" value="Submit" />
           </form>
@@ -71,18 +87,15 @@ class EditDish extends Component{
 }
 
 const updateDish = gql`
-  mutation DishUpdateMutation ($id: String!){
-    updateDish(_id: $id){
+  mutation DishUpdateMutation ($dish:DishInput){
+    updateDish(input:$dish){
+      _id
       dishName
       photourl
-      restaurant_id
     }
   }
 
 `
-EditDish = graphql(updateDish, {
-  name: 'DishUpdateMutation'
 
-})(EditDish)
 
-export default EditDish
+export default graphql(updateDish)(EditDish)

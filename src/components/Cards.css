@@ -19,14 +19,17 @@ li {
 .card-image-test img{
   height: 150px;
   width:auto;
-  user-select: none;
-
 }
 .card-image-test{
+  border-bottom: 1px solid;
+  margin: 20px auto;
 }
 .card-image-test p{
 }
 
+.edit-button{
+  margin-bottom: 10px;
+}
 
 .card-container {
   margin: 6px auto;
@@ -157,3 +160,6 @@ li {
   transform: translate(-50%, 0);
   margin-left: 50%;
  }
+.edit-form-container{
+  margin-bottom: 20px;
+}

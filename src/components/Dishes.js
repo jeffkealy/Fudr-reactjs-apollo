@@ -6,49 +6,27 @@ class Dishes extends Component {
   constructor(props){
     super(props)
     this.state = {
-      inputDishName: '',
-      inputPhotourl:'',
       dishToEdit: '',
-      editingDish: false,
+      isEditing: false,
     };
-
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
     this.editDish = this.editDish.bind(this);
+    this.cancelEdit = this.cancelEdit.bind(this);
+
   }
 
-  handleChange = (i) => (event) => {
-
-    const name = event.target.name;
-    let value = event.target.value
-    this.setState({
-      [name]: value
-    });
-    console.log(event.target[i])
-      console.log(i);
-
-
- }
-
-  handleSubmit(event) {
-   event.preventDefault();
-   console.log("State",this.state);
-   console.log("props",this.props);
-
-
-
-   // this.props.mutate({
-   //   variables:{}
-   //
-   //   }
-   // })
-  }
   editDish = (i) => (event) =>{
     console.log("editdish", i);
     this.setState({
       dishToEdit: i,
-      editingDish: true,
+      isEditing: true,
+    });
+  }
+  cancelEdit(){
+    this.setState({
+      isEditing: false,
+
     })
+    console.log(this.state.isEditing);
   }
 
 render(){
@@ -68,12 +46,18 @@ render(){
           <img src={item.photourl} alt="asdf"/>
           <p>{item.dishName}</p>
           <p>{item._id}</p>
-          <button onClick={this.editDish(i)}>Edit</button>
+          <p>{item.photourl}</p>
+
+          <button className={this.state.isEditing? "hidden " :"edit-button"} onClick={this.editDish(i)}>Edit</button>
 
           <EditDish index={i}
                     dish={item}
                     dishToEdit={this.state.dishToEdit}
-                    />
+                    isEditing={this.state.isEditing}
+                    cancelEdit={this.cancelEdit}
+                    >
+
+                  </EditDish>
         </div>
 
         )
@@ -82,21 +66,6 @@ render(){
     );
 }
 }
-
-// <button onClick={this.editDish(i)}>Edit</button>
-
-// <form className={this.state.dishToEdit ?  " ": "hidden" } onSubmit={this.handleSubmit}>
-//   <label>
-//     Dish Name:
-//     <input type="text" placeholder={item.dishName}  name="inputDishName" value={this.state.inputDishName} onChange={this.handleChange(i)} />
-//   </label>
-//   <label>
-//     Photo Url:
-//     <input type="text" placeholder={item.photourl} name="inputPhotourl" value={this.state.inputPhotourl} onChange={this.handleChange(i)} />
-//   </label>
-//   <input type="submit" value="Submit" />
-// </form>
-
 
 
 export const allDishesQuery = gql`

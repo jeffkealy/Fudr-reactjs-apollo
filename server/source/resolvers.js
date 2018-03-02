@@ -65,13 +65,15 @@ export const resolvers = {
         })
       })
     },
-    updateDish: (root, { input }, {Dish}) =>{
+    updateDish: (root, {input}, {Dish}) =>{
       return new Promise((resolve, object) => {
-        Dish.findOneAndUpdate({ _id: input._id }, input, (err, dish) => {
+        console.log("findOneAndUpdate", input);
+        Dish.findOneAndUpdate({ _id: input._id }, input, {new:true},(err, dish) => {
           if(err) reject(err)
-          else resolve(dish)
-          console.log(dish);
-
+          else {resolve(dish)
+            console.log("dish updated");
+            console.log(dish);
+          }
         })
       })
     },
@@ -81,14 +83,14 @@ export const resolvers = {
     //   dish._id = dish._id.toString();
     //   return dish;
     // },
-    // updateDish: async (root, {input}, {  Dish }) => {
+    // updateDish: async (root, { input }, {  Dish }) => {
     //   // { _id: 123123, name: "whatever"}
-    //   console.log("DishInput", input);
-    //   const dish = await new Dish.findOneAndUpdate({ _id: input._id }, Dish);
-    //   dish._id = dish._id.toString();
+    //   console.log("findOneAndUpdate", input);
+    //   const dish = await Dish.findOneAndUpdate({ _id: input._id }, Dish);
+    //   const dishToSend = dish.toString();
     //   console.log("dish", dish);
     //
-    //   return dish;
+    //   return dishToSend;
     // },
 
   },
