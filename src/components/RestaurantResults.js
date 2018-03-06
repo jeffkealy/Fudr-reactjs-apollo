@@ -1,33 +1,45 @@
-import React from 'react';
+import React, {Component} from 'react';
 import { gql, graphql } from 'react-apollo';
 
-const RestaurantResults  = ({ data: { loading, error, searchRestaurant  }}) => {
-  if (loading) {
-    return <p>Loading...</p>
+class RestaurantResults extends Component {
+  constructor(props){
+    super(props)
+
+  this.handleClick = this.handleClick.bind(this);
+
   }
-  if (error) {
-    return <p>{error.message}</p>
+  handleClick(i){
+    console.log(i);
   }
-  if (searchRestaurant) {
-    let business = searchRestaurant.business
-    console.log(business);
 
-    return (
-        <div>
-          {business.map((item, i)=>(
-          <div key={i}>
+  render(){
+    const { loading, error, searchRestaurant } = this.props.data
+    if (loading) {
+      return <p>Loading...</p>
+    }
+    if (error) {
+      return <p>{error.message}</p>
+    }
+    if (searchRestaurant) {
+      let business = searchRestaurant.business
 
-            <h2>{item.name}</h2>
-            <p>{item.location.formatted_address}</p>
+      return (
+          <div>
+            {business.map((item, i)=>(
+            <button onClick={()=>this.handleClick(i)}  key={i}>
 
+              <h2>{item.name}</h2>
+              <p>{item.location.formatted_address}</p>
+
+            </button>
+              ))
+            }
           </div>
-            ))
-          }
-        </div>
-    )
-  }
-  else {
-    return null
+      )
+    }
+    else {
+      return null
+    }
   }
 }
 

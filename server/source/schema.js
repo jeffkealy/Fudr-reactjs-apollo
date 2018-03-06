@@ -72,7 +72,7 @@ const typeDefs = `
     searchRestaurant(term: String, location: String): SearchRestaurant
   }
   type Mutation {
-  addDish(input:DishInput): Dish
+  newDish(input:DishInput): Dish
   updateDish(input:DishInput): Dish
 
   }

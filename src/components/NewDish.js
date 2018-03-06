@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { gql, graphql } from 'react-apollo';
-import '../styles/AddDish.css';
-import Dish from './Dish.js'
+import '../styles/NewDish.css';
+// import Dish from './Dish.js'
 // import {dishQuery} from './Dish'
 // import RestaurantAPI from './RestaurantAPI.js'
 import SearchRestaurant from './SearchRestaurant'
 
 
-class AddDish extends Component {
+class NewDish extends Component {
 
   state = {
     dishName: '',
@@ -50,12 +50,7 @@ class AddDish extends Component {
   render () {
     return (
       <div className="AddDish">
-
-
         <SearchRestaurant />
-
-
-
         <input
           value={this.state.dishName}
           placeholder='Dish name'
@@ -70,21 +65,17 @@ class AddDish extends Component {
 
         />
         <button onClick={this.handleSave}
-          className = "hidden"
+          className = "hidden">Save</button>
 
-          >Save</button>
       </div>
     )
   }
 
 }
-
-
-// <Dish dishID={this.state.id}/>
-
-const addDish = gql`
+//<Dish dishID={this.state.id}/>
+const newDish = gql`
   mutation addDishMutation($dish:DishInput) {
-    addDish(input:$dish ) {
+    newDish(input:$dish ) {
       _id
       dishName
       photourl
@@ -93,6 +84,6 @@ const addDish = gql`
   }
 `;
 
-const AddDishesWithMutation = graphql(addDish)(AddDish);
+const AddNewDishWithMutation = graphql(newDish)(NewDish);
 
-export default AddDishesWithMutation;
+export default AddNewDishWithMutation;

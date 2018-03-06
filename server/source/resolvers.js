@@ -22,7 +22,7 @@ export const resolvers = {
             const dishes = await Dish.find();
 
             let dishesCopy = dishes.slice().sort(function(){return .5 - Math.random()});
-            let dishesToSend = dishes.slice(0, 10);
+            let dishesToSend = dishes.slice(dishes.length-10, dishes.length);
             dishesCopy.splice(0, 10)
             console.log(dishesCopy.length, "dishes");
             console.log("END");
@@ -128,7 +128,7 @@ export const resolvers = {
        return apolloFetch({ query }) //all apolloFetch arguments are optional
         .then(result => {
           const { data, errors, extensions } = result;
-          console.log("then", data.search.id);
+          console.log("searchRestaurant then", data.search.business[0].id);
           return data.search
           //GraphQL errors and extensions are optional
         })
@@ -139,7 +139,7 @@ export const resolvers = {
     },
   },
   Mutation: {
-    addDish: (root, { input }, { Dish }) => {
+    newDish: (root, { input }, { Dish }) => {
       const newDish = new Dish(input)
       return new Promise((resolve, object) => {
         newDish.save((err) => {

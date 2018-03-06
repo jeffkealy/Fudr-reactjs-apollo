@@ -4,7 +4,7 @@ import './styles/App.css';
 import SwipeCard from './components/SwipeCard'
 import { BrowserRouter as Router, Route} from 'react-router-dom'
 import Dishes from './components/Dishes'
-import AddDish from './components/AddDish'
+import NewDish from './components/NewDish'
 
 
 const networkInterface = createNetworkInterface({
@@ -27,7 +27,7 @@ class App extends Component {
             </header>
             <Route path='/' exact={true}  component={SwipeCard}/>
             <Route path='/Dishes' component={Dishes}/>
-            <Route path='/AddDish' component={AddDish}/>
+            <Route path='/NewDish' component={NewDish}/>
 
           </div>
         </Router>
