@@ -1,3 +1,6 @@
+import {createApolloFetch} from 'apollo-fetch'
+
+
 export const resolvers = {
   Query: {
     allDishes: async (root, args, { Dish }) => {
@@ -21,7 +24,6 @@ export const resolvers = {
             console.log("END");
             return dishesToSend.map((x) => {
               x._id = x._id.toString();
-
               return x;
             });
           } catch(e){
@@ -42,8 +44,10 @@ export const resolvers = {
     },
     restaurant: async (root, args, {Restaurant}) =>{
       try{
-        console.log("RESTAURANT");
+        console.log("RESTAURANT", Restaurant);
         const restaurant = await Restaurant.findById(args._id);
+        console.log(restaurant);
+
         return restaurant
         // return restaurants.map((x) => {
         //   x._id = x._id.toString();
@@ -53,10 +57,47 @@ export const resolvers = {
         console.log("error: restaurant query");
       }
     },
+    business: (root, args,{Business} )=> {
+      console.log("args", args);
+      console.log("Business", Business);
+      const uri = 'https://api.yelp.com/v3/graphql';
+      const apolloFetch = createApolloFetch({uri});
+      const query =
+              `{
+                business(id: "${args.id}") {
+                    id
+                    name
+                    rating
+                    url
+                    phone
+                }
+              }`;
+       apolloFetch.use(({ request, options }, next) => {
+        if (!options.headers) {
+          options.headers = {};
+        }
+        options.headers['Authorization'] = `Bearer ${process.env.YAPI}`;
+        // options.headers['content-type'] = 'application/graphql';
+        console.log("headers", options.headers);
+        next();
+      });
+
+       return apolloFetch({ query }) //all apolloFetch arguments are optional
+        .then(result => {
+          const { data, errors, extensions } = result;
+          console.log("then", result);
+
+          return data.business
+          //GraphQL errors and extensions are optional
+        })
+        .catch(error => {
+          console.log(error);
+          //respond to a network error
+        });
+    },
   },
   Mutation: {
     addDish: (root, { input }, { Dish }) => {
-      console.log("ADD DISH BEFORE",input);
       const newDish = new Dish(input)
       return new Promise((resolve, object) => {
         newDish.save((err) => {

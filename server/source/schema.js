@@ -46,10 +46,22 @@ const typeDefs = `
     region:String
     postcode:String
   }
+  type Business{
+    id: String
+    name: String
+    rating: Float
+    url: String
+    phone: String
+    location: Location
+  }
+  type Location{
+    address1: String
+  }
   type Query {
     allDishes (needMoreDishes: Boolean, after: String, first: Int, before: String,last: Int): [Dish]
     dish( _id: String): Dish
     restaurant(_id:String): Restaurant
+    business(id:String):Business
   }
   type Mutation {
   addDish(input:DishInput): Dish
