@@ -18,6 +18,7 @@ class EditDish extends Component{
   handleChange = (i) => (event) => {
     const name = event.target.name;
     let value = event.target.value;
+    console.log(value);
     this.setState({
       [name]: value
     })

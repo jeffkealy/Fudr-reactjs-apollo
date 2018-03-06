@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import { gql, graphql } from 'react-apollo';
-import {allDishesQuery} from './Dishes'
 import '../styles/AddDish.css';
 import Dish from './Dish.js'
-import {dishQuery} from './Dish'
+// import {dishQuery} from './Dish'
+// import RestaurantAPI from './RestaurantAPI.js'
+import SearchRestaurant from './SearchRestaurant'
 
 
 class AddDish extends Component {
+
   state = {
     dishName: '',
     photourl: '',
@@ -41,28 +43,44 @@ class AddDish extends Component {
         id: res.data.addDish._id,
       });
     });
+
+
   }
 
   render () {
     return (
       <div className="AddDish">
+
+
+        <SearchRestaurant />
+
+
+
         <input
           value={this.state.dishName}
           placeholder='Dish name'
           onChange={(e) => this.setState({dishName: e.target.value})}
+          className = "hidden"
         />
         <input
           value={this.state.photourl}
           placeholder='Photo URL'
           onChange={(e) => this.setState({photourl: e.target.value})}
+          className = "hidden"
+
         />
-        <button onClick={this.handleSave}>Save</button>
-        <Dish dishID={this.state.id}/>
+        <button onClick={this.handleSave}
+          className = "hidden"
+
+          >Save</button>
       </div>
     )
   }
 
 }
+
+
+// <Dish dishID={this.state.id}/>
 
 const addDish = gql`
   mutation addDishMutation($dish:DishInput) {

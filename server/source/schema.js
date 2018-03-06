@@ -54,14 +54,22 @@ const typeDefs = `
     phone: String
     location: Location
   }
+  type SearchRestaurant{
+    business: [Business]
+  }
   type Location{
     address1: String
+    city: String
+    state: String
+    zip_code: String
+    formatted_address: String
   }
   type Query {
     allDishes (needMoreDishes: Boolean, after: String, first: Int, before: String,last: Int): [Dish]
     dish( _id: String): Dish
     restaurant(_id:String): Restaurant
     business(id:String):Business
+    searchRestaurant(term: String, location: String): SearchRestaurant
   }
   type Mutation {
   addDish(input:DishInput): Dish
@@ -77,7 +85,11 @@ const schema = makeExecutableSchema({typeDefs, resolvers});
 
 export {schema};
 
-//
+//    SearchRestaurant(term: String): searchRestaurant
+
+
+
+
 // type DishesConnection{
 //   pageInfo: PageInfo!
 //   edges:[DishEdge]
