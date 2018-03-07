@@ -2,7 +2,6 @@ import {createApolloFetch} from 'apollo-fetch'
 
 
 const uri = 'https://api.yelp.com/v3/graphql';
-const apolloFetch = createApolloFetch({uri});
 
 
 export const resolvers = {
@@ -96,7 +95,8 @@ export const resolvers = {
     },
     searchRestaurant: (root, args, {SearchRestaurant})=>{
       console.log('ARGS', args);
-      const apolloFetch = createApolloFetch({uri});
+      let apolloFetch = createApolloFetch({uri});
+
       let query = `
       {
         search(term: "${args.term}", location: "${args.location}", limit: 5){

@@ -1,8 +1,8 @@
 
-.AddDish{
+.NewDish{
   display: inline-block;
 }
-.AddDish input{
+.NewDish input{
   width: 100%;
   text-align: center;
 }

@@ -34,7 +34,7 @@ const typeDefs = `
     _id: String
     dishName: String!
     photourl: String!
-    factual_id: String
+    yelp_id: String
     cuisinetype:[String]
     restaurant_id: String
   }

@@ -147,34 +147,6 @@ class SwipeCard extends Component {
 // <img className="image" src={item.photourl} alt=""/>
 
 
-// const SwipeCard = ({ data: { loading, error, dishes  }}) => {
-//   console.log("dishes data", dishes);
-//
-//   if (loading) {
-//     return <p>Loading...</p>
-//   }
-//   if (error) {
-//     return <p>{error.message}</p>
-//   }
-//   return (
-//       <Cards onEnd={console.log('end')} alertLeft={<div>No</div>} alertRight={<div>Yes</div>} className='master-root'>
-//         {dishes.map((item, i) =>
-//
-//             <Card key={i}
-//              onSwipeLeft={()=>console.log(item.id,i)}
-//              onSwipeRight={()=>this.props.swipeRight(item.id,i)}
-//              >
-//                <div>
-//                 <h2>{item.dishName}</h2>
-//                 <img className="image" src={item.photourl} alt=""/>
-//
-//               </div>
-//             </Card>
-//           )}
-//       </Cards>
-//       )
-// }
-
 
 const dishesListQuery = gql`
   query DishesListQuery {

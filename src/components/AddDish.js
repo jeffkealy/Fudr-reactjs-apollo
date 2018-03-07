@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { gql, graphql } from 'react-apollo';
-import '../styles/NewDish.css';
 import Dish from './Dish.js'
-// import {dishQuery} from './Dish'
 // import RestaurantAPI from './RestaurantAPI.js'
 import SearchRestaurant from './SearchRestaurant'
 
@@ -49,7 +47,7 @@ class NewDish extends Component {
 
   render () {
     return (
-      <div className="NewDish">
+      <div className="AddDish">
         <SearchRestaurant />
         <input
           value={this.state.dishName}
