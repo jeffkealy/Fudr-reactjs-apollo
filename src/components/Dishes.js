@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
-import { gql, graphql } from 'react-apollo';
-import EditDish from './EditDish'
+import SearchRestaurant from './SearchRestaurant'
 
 class Dishes extends Component {
   constructor(props){
@@ -32,55 +31,28 @@ class Dishes extends Component {
   }
 
 render(){
-  const {loading, error, allDishes} = this.props.DishesListQuery;
-
-  if (loading) {
-    return <p>Loading...</p>
-  }
-  if (error) {
-    return <p>{error.message}</p>
-  }
   return (
     <div>
-      {allDishes.map((item, i) =>(
-        <div className='dishes-list-entry' key={i}>
-          <img src={item.photourl} alt="asdf"/>
-          <p>{item.dishName}</p>
-          <p>{item._id}</p>
-          <p>{item.photourl}</p>
-
-          <button className={this.state.isEditing? "hidden " :"edit-button"} onClick={this.editDish(i)}>Edit</button>
-
-          <EditDish index={i}
-                    dish={item}
-                    dishToEdit={this.state.dishToEdit}
-                    isEditing={this.state.isEditing}
-                    cancelEdit={this.cancelEdit}
-                    >
-
-                  </EditDish>
-        </div>
-
-        )
-      )}
+      <SearchRestaurant />
     </div>
     );
 }
 }
 
 
-export const allDishesQuery = gql`
-  query DishesListQuery {
-    allDishes {
-      _id
-      dishName
-      photourl
-      restaurant_id
-    }
-  }
-`;
+//
+// export const allDishesQuery = gql`
+//   query DishesListQuery {
+//     allDishes {
+//       _id
+//       dishName
+//       photourl
+//       restaurant_id
+//     }
+//   }
+// `;
 
 
 
-Dishes = graphql(allDishesQuery,{name: 'DishesListQuery'})(Dishes);
-export default graphql(allDishesQuery)(Dishes);
+// Dishes = graphql(allDishesQuery)(Dishes);
+export default Dishes;

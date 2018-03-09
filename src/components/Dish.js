@@ -27,12 +27,12 @@ const Dish  = ({ data: { loading, error, dish  }}) => {
 }
 
 export const dishQuery = gql`
-  query dishQuery ($_id: String!){
+  query dishQuery ($_id: String){
     dish ( _id: $_id) {
       _id
       dishName
       photourl
-      factual_id
+      yelp_id
       cuisinetype
       restaurant_id
     }

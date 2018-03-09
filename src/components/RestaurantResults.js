@@ -1,37 +1,41 @@
 import React, {Component} from 'react';
 import { gql, graphql } from 'react-apollo';
+import AddDish from './AddDish'
+import RestaurantDishes from './RestaurantDishes'
+
 
 class RestaurantResults extends Component {
   constructor(props){
     super(props)
     this.state ={
-      businesses: []
+      businesses: [],
+      yelp_id: '',
     }
 
   this.handleClick = this.handleClick.bind(this);
 
   }
-  componentDidUpdate(props){
+  componentDidUpdate(){
     if (this.state.businesses.length === 0) {
-      let businesses = this.props.data.searchRestaurant.business
+      let business = this.props.data.searchRestaurant.business
       this.setState({
-        businesses: businesses
+        businesses: business,
       })
     }
-    console.log("componentDidUpdate", this.state);
+    console.log("componentDidUpdate", this.state.businesses);
 
   }
   handleClick(item, i){
-    console.log(item, i);
+    console.log("Click",item.id);
     this.setState({
-      businesses: [item]
+      businesses: [item],
+      yelp_id: item.id,
     })
-    console.log(this.state);
   }
 
   render(){
-    console.log("RENDER");
-    const { loading, error, searchRestaurant } = this.props.data
+    console.log("RENDER RestaurantResults");
+    const { loading, error } = this.props.data
     if (loading) {
       return <p>Loading...</p>
     }
@@ -39,9 +43,9 @@ class RestaurantResults extends Component {
       return <p>{error.message}</p>
     }
     if (this.state.businesses.length > 0) {
-      console.log("Elements");
       return (
           <div>
+            <p>Yelpid: {this.state.yelp_id}</p>
             {this.state.businesses.map((item, i)=>(
             <button onClick={()=>this.handleClick(item, i)}  key={i}>
 
@@ -49,8 +53,10 @@ class RestaurantResults extends Component {
               <p>{item.location.formatted_address}</p>
 
             </button>
-              ))
-            }
+              ))}
+            <AddDish yelpId={this.state.yelp_id} />
+            <RestaurantDishes yelpId={this.state.yelp_id} />
+
           </div>
       )
     }

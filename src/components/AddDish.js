@@ -1,70 +1,95 @@
 import React, { Component } from 'react';
 import { gql, graphql } from 'react-apollo';
-import Dish from './Dish.js'
-// import RestaurantAPI from './RestaurantAPI.js'
-import SearchRestaurant from './SearchRestaurant'
+// import Dish from './Dish.js'
+import {dishesByYelpId} from './RestaurantDishes'
 
 
 class NewDish extends Component {
+  constructor(props){
+    super(props)
+  console.log("addDish props.dishID", props);
+    this.state = {
+      dishName: '',
+      photourl: '',
+      yelp_id: '',
+      dishID: '',
+      addDishVisible: false,
 
-  state = {
-    dishName: '',
-    photourl: '',
-    id:''
+    }
+    console.log("state", this.state);
   }
-
   handleSave = ({ mutate }) => {
-    const {dishName, photourl } = this.state;
+    console.log("BUTTON save ");
+    const {_id, dishName, photourl, yelp_id } = this.state;
     this.props.mutate({
       variables: {
-        dish:{dishName, photourl}
+        dish:{_id, dishName, photourl, yelp_id}
       },
-      // optimisticResponse: {
-      //   addDish: {
-      //     dishName,
-      //     photourl,
-      //     __typename: 'Dish',
-      //   },
-      // },
-      // update: (store, { data: {addDish }}) => {
-      //   console.log("store ADDDISH",store);
-      //   const data = store.readQuery({ query: dishQuery });
-      //   data.dishes.push(addDish);
-      //   store.writeQuery({ query: dishQuery, data});
+      optimisticResponse: {
+        __typename: 'Mutation',
+        newDish: {
+          _id,
+          dishName,
+          photourl,
+          yelp_id,
+          __typename: 'Dish',
+        },
+      },
+      // update: (store, { data: { newDish }}) => {
+      //   console.log("store ADDDISH", store);
+      //   const data = store.readQuery({ query: dishesByYelpId });
+      //   console.log();
+      //   data.dishes.push(newDish);
+      //   store.writeQuery({ query: dishesByYelpId, data});
       // }
     })
     .then( res => {
-      console.log(res.data.addDish);
+      console.log("returned Dish", res);
       this.setState({
         dishName: '',
         photourl: '',
-        id: res.data.addDish._id,
+        dishID: res.data.newDish._id,
       });
     });
 
 
   }
+  componentDidUpdate(){
+    if (!this.state.yelp_id) {
+      this.setState({
+        yelp_id: this.props.yelpId
+      })
+    }
 
+  }
   render () {
-    return (
-      <div className="AddDish">
-        <SearchRestaurant />
-        <input
-          value={this.state.dishName}
-          placeholder='Dish name'
-          onChange={(e) => this.setState({dishName: e.target.value})}
-        />
-        <input
-          value={this.state.photourl}
-          placeholder='Photo URL'
-          onChange={(e) => this.setState({photourl: e.target.value})}
+    const {yelpId} = this.props
+    if (yelpId) {
 
-        />
-        <button onClick={this.handleSave}
-          >Save</button>
-          <Dish dishID={this.state.id}/>
-      </div>
-    )
+      return (
+        <div className="AddDish">
+          <button onClick={() => this.setState({addDishVisible: true})}>Add New Dish</button>
+            <div className={this.state.addDishVisible? '' : 'hidden'}>
+              <button onClick={() => this.setState({addDishVisible: false})}>Cancel</button>
+              <p>{this.state.yelp_id}</p>
+              <input
+                value={this.state.dishName}
+                placeholder='Dish name'
+                onChange={(e) => this.setState({dishName: e.target.value})}
+              />
+              <input
+                value={this.state.photourl}
+                placeholder='Photo URL'
+                onChange={(e) => this.setState({photourl: e.target.value})}
+              />
+              <button onClick={this.handleSave}>Save</button>
+          </div>
+        </div>
+      )
+    } else {
+      return null
+    }
+
   }
 
 }
@@ -74,7 +99,7 @@ const newDish = gql`
       _id
       dishName
       photourl
-      factual_id
+      yelp_id
     }
   }
 `;

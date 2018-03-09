@@ -26,7 +26,7 @@ const typeDefs = `
     _id:String
     dishName: String
     photourl: String
-    factual_id: String
+    yelp_id: String
     cuisinetype:[String]
     restaurant_id: String
   }
@@ -70,14 +70,15 @@ const typeDefs = `
     restaurant(_id:String): Restaurant
     business(id:String):Business
     searchRestaurant(term: String, location: String): SearchRestaurant
+    dishesByYelpId(yelp_id: String ): [Dish]
   }
   type Mutation {
   newDish(input:DishInput): Dish
-  updateDish(input:DishInput): Dish
+  updateDish(input:DishInput):Dish
 
   }
   type Subscription{
-    updateDish(_id: String!, dishName: String!, photourl: String!, factual_id: String, restuarant_id: String): Dish
+    updateDish(_id: String!, dishName: String!, photourl: String!, yelp_id: String, restuarant_id: String): Dish
   }
 `;
 

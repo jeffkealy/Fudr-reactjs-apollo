@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import { gql, graphql } from 'react-apollo';
-import {allDishesQuery} from './Dishes'
 
 class EditDish extends Component{
   constructor(props){
@@ -18,7 +17,6 @@ class EditDish extends Component{
   handleChange = (i) => (event) => {
     const name = event.target.name;
     let value = event.target.value;
-    console.log(value);
     this.setState({
       [name]: value
     })
@@ -27,16 +25,16 @@ class EditDish extends Component{
 
   handleSubmit = (event, {mutate}) => {
    event.preventDefault();
-   console.log("State",this.state);
+   console.log("SUBMIT",this.state);
    const { dishName, photourl } = this.state
    const { _id} = this.props.dish
    console.log("dishName", dishName);
    this.props.mutate({
       variables: {
         dish:{
-          _id: _id,
-          dishName: dishName,
-          photourl: photourl,
+          _id,
+          dishName,
+          photourl,
         }},
       optimisticResponse: {
         updateDish: {
@@ -46,10 +44,16 @@ class EditDish extends Component{
           __typename: 'Dish',
         },
       },
-      update: (store, { data: {updateDish }}) => {
-        const data = store.readQuery({ query: allDishesQuery });
-        store.writeQuery({ query: allDishesQuery, data});
-      }
+      // update: (store, { data: {updateDish }}) => {
+      //     console.log("EditDish readQuery data", updateDish);
+      //   const data = store.readQuery({
+      //     query: dishByYelpRestaurantId,
+      //     variables: {
+      //
+      //     }
+      //    });
+      //   store.writeQuery({ query: dishByYelpRestaurantId, data});
+      // },
     })
     .then( res => {
       console.log("THEN");

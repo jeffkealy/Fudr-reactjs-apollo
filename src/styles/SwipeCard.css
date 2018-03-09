@@ -18,8 +18,9 @@ li {
 }
 
 .dishes-list-entry{
-  border-bottom: 1px solid;
+  border-top: 1px solid;
   margin: 20px auto;
+  padding: 20px;
 }
 .dishes-list-entry img{
   height: 250px;

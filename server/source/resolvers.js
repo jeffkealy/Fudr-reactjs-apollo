@@ -1,6 +1,4 @@
 import {createApolloFetch} from 'apollo-fetch'
-
-
 const uri = 'https://api.yelp.com/v3/graphql';
 
 
@@ -16,15 +14,18 @@ export const resolvers = {
       //   },
         dishes: {
           try{
-            console.log("START");
 
             const dishes = await Dish.find();
 
             let dishesCopy = dishes.slice().sort(function(){return .5 - Math.random()});
-            let dishesToSend = dishes.slice(dishes.length-10, dishes.length);
+            // let dishesToSend = dishes.slice(dishes.length-10, dishes.length);
+            let dishesToSend = dishes.slice(0,10);
+
             dishesCopy.splice(0, 10)
-            console.log(dishesCopy.length, "dishes");
-            console.log("END");
+            // console.log(dishesToSend, "dishes");
+            console.log("dishes query");
+
+
             return dishesToSend.map((x) => {
               x._id = x._id.toString();
               return x;
@@ -45,6 +46,18 @@ export const resolvers = {
         console.log("error: dish query");
       }
     },
+    dishesByYelpId: async (root, args, {Dish}) =>{
+      try{
+        const dishes = await Dish.find({'yelp_id':args.yelp_id});
+        return dishes.map((x) => {
+          x._id = x._id.toString();
+          console.log(x);
+          return x;
+        });
+      } catch(e){
+        console.log("error: dish query");
+      }
+    },
     restaurant: async (root, args, {Restaurant}) =>{
       try{
         console.log("RESTAURANT");
@@ -55,7 +68,9 @@ export const resolvers = {
         console.log("error: restaurant query");
       }
     },
+
     business: (root, args, {Business} )=> {
+      let apolloFetch = createApolloFetch({uri});
       let query =
               `{
                 business(id: "${args.id}") {
@@ -140,6 +155,7 @@ export const resolvers = {
   },
   Mutation: {
     newDish: (root, { input }, { Dish }) => {
+      console.log("INPUT newDish", input);
       const newDish = new Dish(input)
       return new Promise((resolve, object) => {
         newDish.save((err) => {
