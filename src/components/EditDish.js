@@ -4,7 +4,6 @@ import { gql, graphql } from 'react-apollo';
 class EditDish extends Component{
   constructor(props){
     super(props)
-    console.log(this.props);
     this.state = {
       dishName: '',
       photourl:'',
@@ -92,7 +91,7 @@ class EditDish extends Component{
 }
 
 const updateDish = gql`
-  mutation DishUpdateMutation ($dish:DishInput){
+  mutation UpdateDishMutation ($dish:DishInput){
     updateDish(input:$dish){
       _id
       dishName

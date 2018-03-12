@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import { gql, graphql } from 'react-apollo';
 import EditDish from './EditDish'
-
+import DeleteDish from './DeleteDish'
+import AddDish from './AddDish'
 
 class ResaurantDishes extends Component {
   constructor(props){
@@ -10,14 +11,24 @@ class ResaurantDishes extends Component {
       dishToEdit: '',
       isEditing: false,
       dishesByYelpId:[],
+      yelp_id:'',
+      restaurant_id: '',
     };
     this.editDish = this.editDish.bind(this);
     this.cancelEdit = this.cancelEdit.bind(this);
   }
+  componentWillMount(){
+    console.log("componentWillMount", this.props);
+
+  }
 
   componentWillReceiveProps(nextProps){
+    console.log("componentWillReceiveProps", nextProps);
+    console.log("componentWillReceiveProps", this.props);
     this.setState({
       dishesByYelpId: nextProps.data.dishesByYelpId,
+      // yelp_id: nextProps.data.yelpId,
+      // restaurant_id: nextProps.data.restaurantId,
     })
   }
   editDish = (i) => (event) =>{
@@ -36,20 +47,27 @@ class ResaurantDishes extends Component {
 
   render(){
     const {loading, error} = this.props.data;
-    let yelpId = this.props.yelpId
-
+    let {yelpId, restaurantId} = this.props
+    console.log("RENDER RestaurantDishes", yelpId);
+    console.log("RENDER this.state.dishesByYelpId", this.state.dishesByYelpId);
     if (loading) {
       return <p>Loading...</p>
     }
     if (error) {
       return <p>{error.message}</p>
     }
-    if (yelpId) {
+    if (yelpId && this.state.dishesByYelpId) {
       console.log("RENDER RestaurantDishes state", this.state);
       console.log(yelpId);
       return (
         <div>
+          <AddDish yelpId={yelpId}
+                   restaurantId = {restaurantId}
+                   dishesByYelpId = {this.state.dishesByYelpId}/>
 
+           {this.state.dishesByYelpId.length === 0 &&
+             <p>No Dishes Yet</p>
+           }
           {this.state.dishesByYelpId.map((item, i) =>(
             <div className='dishes-list-entry' key={i}>
               <img src={item.photourl} alt={item.photourl}/>
@@ -67,6 +85,10 @@ class ResaurantDishes extends Component {
                         >
 
                       </EditDish>
+              <DeleteDish dishId = {item._id}
+                          yelpId = {yelpId}
+                          deleteId={i}
+                />
             </div>
 
             )
@@ -74,7 +96,7 @@ class ResaurantDishes extends Component {
         </div>
       );
     } else {
-      return null
+      return <p>Else</p>
     }
   }
 }

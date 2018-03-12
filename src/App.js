@@ -12,6 +12,7 @@ const networkInterface = createNetworkInterface({
 });
 
 const client = new ApolloClient({
+  addTypename: false,
   networkInterface,
 });
 

@@ -30,13 +30,16 @@ const typeDefs = `
     cuisinetype:[String]
     restaurant_id: String
   }
+
+  #Dish INPUT
+
   input DishInput{
     _id: String
     dishName: String!
     photourl: String!
-    yelp_id: String
+    yelp_id: String!
     cuisinetype:[String]
-    restaurant_id: String
+    restaurant_id: String!
   }
   type Restaurant{
     _id: String
@@ -46,24 +49,140 @@ const typeDefs = `
     region:String
     postcode:String
   }
+
   type Business{
-    id: String
+    _id: String
     name: String
-    rating: Float
+    id: String
+    is_claimed: Boolean
+    is_closed: Boolean
     url: String
     phone: String
+    display_phone: String
+    review_count: Int
+    categories: [Category]
+    rating: Float
+    price: String
     location: Location
+    coordinates: Coordinates
+    photos: [String]
+    hours: [Hours]
+    reviews(limit: Int, offset: Int): [Review]
+    distance: Float
   }
+    type Category{
+      title: String
+      alias: String
+    }
+    type Location{
+      address1: String
+      address2: String
+      address3: String
+      city: String
+      state: String
+      zip_code: String
+      country: String
+      formatted_address: String
+    }
+    type Coordinates{
+      latitude: Float
+      longitude: Float
+    }
+    type Hours{
+      hours_type: String
+      open: [OpenHours]
+      is_open_now: Boolean
+    }
+      type OpenHours{
+        is_overnight: Boolean
+        end: String
+        start: String
+        day: Int
+      }
+    type Review{
+      rating: Int
+      user: User
+      text: String
+      time_created: String
+      url: String
+    }
+      type User {
+        image_url: String
+        name: String
+      }
+
+
+
+#Business input
+
+      input BusinessInput{
+        categories: [CategoryInput]
+        coordinates: CoordinatesInput
+        display_phone: String
+        distance: Float
+        hours: [HoursInput]
+        id: String
+        is_claimed: Boolean
+        is_closed: Boolean
+        location: LocationInput
+        name: String
+        phone: String
+        photos: [String]
+        price: String
+        rating: Float
+        review_count: Int
+        reviews: [ReviewInput]
+        url: String
+      }
+        input CategoryInput{
+          title: String
+          alias: String
+        }
+        input CoordinatesInput{
+          latitude: Float
+          longitude: Float
+        }
+        input LocationInput{
+          address1: String
+          address2: String
+          address3: String
+          city: String
+          state: String
+          zip_code: String
+          country: String
+          formatted_address: String
+        }
+
+        input HoursInput{
+          hours_type: String
+          open: [OpenHoursInput]
+          is_open_now: Boolean
+        }
+          input OpenHoursInput{
+            is_overnight: Boolean
+            end: String
+            start: String
+            day: Int
+          }
+        input ReviewInput{
+          rating: Int
+          user: UserInput
+          text: String
+          time_created: String
+          url: String
+        }
+          input UserInput {
+            image_url: String
+            name: String
+          }
+
+
+
+
   type SearchRestaurant{
     business: [Business]
   }
-  type Location{
-    address1: String
-    city: String
-    state: String
-    zip_code: String
-    formatted_address: String
-  }
+
   type Query {
     allDishes (needMoreDishes: Boolean, after: String, first: Int, before: String,last: Int): [Dish]
     dish( _id: String): Dish
@@ -73,12 +192,14 @@ const typeDefs = `
     dishesByYelpId(yelp_id: String ): [Dish]
   }
   type Mutation {
-  newDish(input:DishInput): Dish
+  addDish(input:DishInput): Dish
+  newRestaurant(input:BusinessInput): Business
   updateDish(input:DishInput):Dish
+  deleteDish(_id: String): Dish
 
   }
   type Subscription{
-    updateDish(_id: String!, dishName: String!, photourl: String!, yelp_id: String, restuarant_id: String): Dish
+    updateDish(_id: String!, dishName: String!, photourl: String!, yelp_id: String, restaurant_id: String): Dish
   }
 `;
 

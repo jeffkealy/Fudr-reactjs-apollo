@@ -49,9 +49,9 @@ export const resolvers = {
     dishesByYelpId: async (root, args, {Dish}) =>{
       try{
         const dishes = await Dish.find({'yelp_id':args.yelp_id});
+        console.log("dishesByYelpId");
         return dishes.map((x) => {
           x._id = x._id.toString();
-          console.log(x);
           return x;
         });
       } catch(e){
@@ -61,7 +61,7 @@ export const resolvers = {
     restaurant: async (root, args, {Restaurant}) =>{
       try{
         console.log("RESTAURANT");
-        const restaurant = await Restaurant.findById(args._id);
+        const restaurant = await Restaurant.find({'yelp_id':args.yelp_id});
         // console.log(restaurant);
         return restaurant
       } catch(e){
@@ -115,17 +115,47 @@ export const resolvers = {
       let query = `
       {
         search(term: "${args.term}", location: "${args.location}", limit: 5){
-          business{
-            id
+          business  {
             name
+            id
+            is_claimed
+            is_closed
+            url
             phone
+            display_phone
+            review_count
+            categories{
+              title
+              alias
+            }
+            rating
+            price
             location{
               address1
+              address2
+              address3
               city
               state
               zip_code
+              country
               formatted_address
             }
+            coordinates{
+              latitude
+              longitude
+            }
+            photos
+            hours {
+              hours_type
+              open{
+                is_overnight
+                end
+                start
+                day
+              }
+              is_open_now
+            }
+            distance
           }
         }
       }`
@@ -154,14 +184,37 @@ export const resolvers = {
     },
   },
   Mutation: {
-    newDish: (root, { input }, { Dish }) => {
-      console.log("INPUT newDish", input);
+    addDish: (root, { input }, { Dish }) => {
+      // console.log("INPUT newDish", input);
       const newDish = new Dish(input)
-      return new Promise((resolve, object) => {
+      return new Promise((resolve, reject,  object) => {
         newDish.save((err) => {
           if(err) reject(err)
           else resolve(newDish)
          console.log("Dish added", newDish);
+        })
+      })
+    },
+    newRestaurant: (root, { input }, { Restaurant }) => {
+      // console.log("INPUT newRestaurant", input);
+      const newRestaurant = new Restaurant(input)
+      return new Promise((resolve, reject, object) => {
+        newRestaurant.save((err) => {
+          if(err){
+            console.log(err.errors);
+            if (err.errors.name = "ValidatorError") {
+              console.log("Error, expected `id` to be unique. Will send restaurant", err)
+              // console.log(newRestaurant);
+              resolve(newRestaurant)
+            }else {
+              console.log("ERROR: newRestaurant ", err.errors.name);
+              reject(err)
+            }
+          }
+          else {
+            resolve(newRestaurant)
+            console.log("Business added", newRestaurant);
+          }
         })
       })
     },
@@ -177,6 +230,15 @@ export const resolvers = {
         })
       })
     },
+    deleteDish: (root, args, {Dish}) => {
+      console.log("deleteDish", args._id);
+      return new Promise((resolve, object) => {
+          Dish.remove({ _id: args._id}, (err) => {
+              if (err) reject(err)
+              else resolve('Successfully deleted Dish')
+          })
+      })
+    }
     // addDish: async (root, args, { Dish }) => {
     //   console.log("adddish mutation", args);
     //   const dish = await new Dish(args.input).save();

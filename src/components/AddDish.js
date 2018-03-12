@@ -3,75 +3,86 @@ import { gql, graphql } from 'react-apollo';
 // import Dish from './Dish.js'
 import {dishesByYelpId} from './RestaurantDishes'
 
+const addDishLogs = true
 
 class NewDish extends Component {
   constructor(props){
     super(props)
-  console.log("addDish props.dishID", props);
     this.state = {
       dishName: '',
       photourl: '',
       yelp_id: '',
-      dishID: '',
       addDishVisible: false,
+      restaurant_id: '',
+      dishesByYelpId: []
 
     }
-    console.log("state", this.state);
   }
-  handleSave = ({ mutate }) => {
-    console.log("BUTTON save ");
-    const {_id, dishName, photourl, yelp_id } = this.state;
+
+  addDish = ({ mutate }) => {
+    let {dishName, photourl, yelp_id, restaurant_id } = this.state;
     this.props.mutate({
       variables: {
-        dish:{_id, dishName, photourl, yelp_id}
+        dish:{ dishName, photourl, yelp_id, restaurant_id}
       },
       optimisticResponse: {
-        __typename: 'Mutation',
-        newDish: {
-          _id,
+        addDish: {
           dishName,
           photourl,
           yelp_id,
+          restaurant_id,
           __typename: 'Dish',
         },
       },
-      // update: (store, { data: { newDish }}) => {
-      //   console.log("store ADDDISH", store);
-      //   const data = store.readQuery({ query: dishesByYelpId });
-      //   console.log();
-      //   data.dishes.push(newDish);
-      //   store.writeQuery({ query: dishesByYelpId, data});
-      // }
+      update: (store, { data: { addDish }}) => {
+        if(addDishLogs)console.log("addDish",addDish);
+        console.log("yelp_id", yelp_id);
+        const data = store.readQuery({
+                                      query: dishesByYelpId,
+                                      variables: {yelp_id: yelp_id},
+                                    });
+      if(addDishLogs)  console.log("data",data.dishesByYelpId.length);
+        data.dishesByYelpId.push(addDish);
+      if(addDishLogs)console.log("data after push",data.dishesByYelpId.length);
+      store.writeQuery({ query: dishesByYelpId,
+                            variables: {yelp_id: yelp_id},
+                           data});
+       if(addDishLogs)console.log("store ADDDISH", store);
+       if(addDishLogs)console.log("data ADDDISH", data);
+
+       // this.setState({
+       //   yelp_id: yelp_id
+       // })
+      }
     })
     .then( res => {
-      console.log("returned Dish", res);
-      this.setState({
-        dishName: '',
-        photourl: '',
-        dishID: res.data.newDish._id,
-      });
+      if(addDishLogs)console.log("returned Dish", res);
+      // this.setState({
+      //   dishName: '',
+      //   photourl: '',
+      // });
+      console.log("returned Dish State", this.state );
     });
 
 
   }
-  componentDidUpdate(){
-    if (!this.state.yelp_id) {
+  componentWillReceiveProps(nextProps){
+    console.log("componentWillReceiveProps", nextProps);
       this.setState({
-        yelp_id: this.props.yelpId
+        dishesByYelpId: nextProps.dishesByYelpId
       })
-    }
-
   }
   render () {
-    const {yelpId} = this.props
-    if (yelpId) {
+    const {yelpId, restaurantId} = this.props
+
 
       return (
         <div className="AddDish">
-          <button onClick={() => this.setState({addDishVisible: true})}>Add New Dish</button>
+          <button onClick={() => this.setState({addDishVisible: true, yelp_id: yelpId, restaurant_id:restaurantId})}>Add New Dish</button>
             <div className={this.state.addDishVisible? '' : 'hidden'}>
               <button onClick={() => this.setState({addDishVisible: false})}>Cancel</button>
-              <p>{this.state.yelp_id}</p>
+              <p> yelp_id: {this.state.yelp_id}</p>
+              <p>restaurantId: {this.state.restaurant_id}</p>
               <input
                 value={this.state.dishName}
                 placeholder='Dish name'
@@ -82,28 +93,26 @@ class NewDish extends Component {
                 placeholder='Photo URL'
                 onChange={(e) => this.setState({photourl: e.target.value})}
               />
-              <button onClick={this.handleSave}>Save</button>
+            <button onClick={this.addDish}>Save</button>
           </div>
         </div>
       )
-    } else {
-      return null
-    }
+
 
   }
 
 }
-const newDish = gql`
+const addDish = gql`
   mutation addDishMutation($dish:DishInput) {
-    newDish(input:$dish ) {
-      _id
+    addDish(input:$dish ) {
       dishName
       photourl
       yelp_id
+      restaurant_id
     }
   }
 `;
 
-const AddNewDishWithMutation = graphql(newDish)(NewDish);
+const AddNewDishWithMutation = graphql(addDish)(NewDish);
 
 export default AddNewDishWithMutation;
