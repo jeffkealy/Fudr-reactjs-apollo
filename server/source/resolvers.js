@@ -186,28 +186,33 @@ export const resolvers = {
   Mutation: {
     addDish: (root, { input }, { Dish }) => {
       // console.log("INPUT newDish", input);
+      delete input._id;
+      console.log("addDish Dish", input);
       const newDish = new Dish(input)
       return new Promise((resolve, reject,  object) => {
         newDish.save((err) => {
-          if(err) reject(err)
+          if(err) {
+            console.log("addDish Error", err);
+            reject(err)
+          }
           else resolve(newDish)
          console.log("Dish added", newDish);
         })
       })
     },
     newRestaurant: (root, { input }, { Restaurant }) => {
-      // console.log("INPUT newRestaurant", input);
+      console.log("INPUT newRestaurant", input);
       const newRestaurant = new Restaurant(input)
       return new Promise((resolve, reject, object) => {
         newRestaurant.save((err) => {
           if(err){
-            console.log(err.errors);
+            console.log(err);
             if (err.errors.name = "ValidatorError") {
-              console.log("Error, expected `id` to be unique. Will send restaurant", err)
+              console.log("Error, expected `id` to be unique. Will send restaurant", err.errors)
               // console.log(newRestaurant);
               resolve(newRestaurant)
             }else {
-              console.log("ERROR: newRestaurant ", err.errors.name);
+              console.log("ERROR: newRestaurant ", err);
               reject(err)
             }
           }

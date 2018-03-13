@@ -41,6 +41,15 @@ const typeDefs = `
     cuisinetype:[String]
     restaurant_id: String!
   }
+
+  #DishEditInput
+
+  input DishEditInput{
+    _id: String!
+    dishName: String!
+    photourl: String!
+  }
+
   type Restaurant{
     _id: String
     name: String
@@ -194,7 +203,7 @@ const typeDefs = `
   type Mutation {
   addDish(input:DishInput): Dish
   newRestaurant(input:BusinessInput): Business
-  updateDish(input:DishInput):Dish
+  updateDish(input:DishEditInput):Dish
   deleteDish(_id: String): Dish
 
   }

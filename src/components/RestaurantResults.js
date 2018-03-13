@@ -88,6 +88,8 @@ class RestaurantResults extends Component {
       return(
         <div>
           <h1>{this.state.restaurant.name}</h1>
+          <p>{this.state.restaurant.location.formatted_address}</p>
+
           {this.state.yelp_id &&
             <RestaurantDishes yelpId={this.state.yelp_id}
                               restaurantId={this.state.restaurant_id}/>

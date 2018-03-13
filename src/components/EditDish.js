@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import { gql, graphql } from 'react-apollo';
+import {dishesByYelpId} from './RestaurantDishes'
+
 
 class EditDish extends Component{
   constructor(props){
@@ -7,27 +9,43 @@ class EditDish extends Component{
     this.state = {
       dishName: '',
       photourl:'',
-      editingDish: this.props.isEditing,
+      dish:'',
+      dishToEdit: '',
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
+
+componentWillReceiveProps(nextProps){
+  console.log("componentWillReceiveProps", nextProps);
+  this.setState({
+    dishToEdit: nextProps.dishToEdit,
+    dishName: nextProps.dish.dishName,
+    photourl: nextProps.dish.dishName,
+
+  })
+}
+
   handleChange = (i) => (event) => {
     const name = event.target.name;
     let value = event.target.value;
     this.setState({
-      [name]: value
+      [name]: value,
+      dish: this.props.dish
     })
 
  }
 
   handleSubmit = (event, {mutate}) => {
    event.preventDefault();
-   console.log("SUBMIT",this.state);
+   console.log("SUBMIT edit",this.props);
    const { dishName, photourl } = this.state
+   const {yelp_id, restaurant_id} =this.state.dish
+   const {dishToEdit} = this.state
    const { _id} = this.props.dish
    console.log("dishName", dishName);
+   console.log("dish", yelp_id, restaurant_id);
    this.props.mutate({
       variables: {
         dish:{
@@ -43,16 +61,19 @@ class EditDish extends Component{
           __typename: 'Dish',
         },
       },
-      // update: (store, { data: {updateDish }}) => {
-      //     console.log("EditDish readQuery data", updateDish);
-      //   const data = store.readQuery({
-      //     query: dishByYelpRestaurantId,
-      //     variables: {
-      //
-      //     }
-      //    });
-      //   store.writeQuery({ query: dishByYelpRestaurantId, data});
-      // },
+      update: (store, { data: {updateDish }}) => {
+          console.log("EditDish readQuery data", updateDish);
+        const data = store.readQuery({
+                                      query: dishesByYelpId,
+                                      variables: {yelp_id:yelp_id},
+                                    });
+
+        data.dishesByYelpId.splice(dishToEdit,1, {dishName, photourl, restaurant_id, _id, yelp_id})
+        console.log("data data", data );
+                  store.writeQuery({ query: dishesByYelpId,
+                                      variables: {yelp_id:yelp_id},
+                                     data});
+      },
     })
     .then( res => {
       console.log("THEN");
@@ -91,7 +112,7 @@ class EditDish extends Component{
 }
 
 const updateDish = gql`
-  mutation UpdateDishMutation ($dish:DishInput){
+  mutation UpdateDishMutation ($dish:DishEditInput){
     updateDish(input:$dish){
       _id
       dishName

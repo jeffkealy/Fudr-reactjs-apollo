@@ -17,31 +17,33 @@ class ResaurantDishes extends Component {
     this.editDish = this.editDish.bind(this);
     this.cancelEdit = this.cancelEdit.bind(this);
   }
-  componentWillMount(){
-    console.log("componentWillMount", this.props);
-
-  }
-
+  // componentDidUpdate(){
+  //   console.log("componentDidUpdate", this.props);
+  //
+  // }
+  //
   componentWillReceiveProps(nextProps){
     console.log("componentWillReceiveProps", nextProps);
-    console.log("componentWillReceiveProps", this.props);
+    console.log("componentWillReceiveProps this.props doesnt have dishesByYelpId");
     this.setState({
       dishesByYelpId: nextProps.data.dishesByYelpId,
       // yelp_id: nextProps.data.yelpId,
       // restaurant_id: nextProps.data.restaurantId,
     })
   }
-  editDish = (i) => (event) =>{
-    console.log("editdish", i);
+  editDish = (i, item) => (event) =>{
+    console.log("editdish", i, item);
     this.setState({
       dishToEdit: i,
       isEditing: true,
+      dish: item,
     });
   }
 
   cancelEdit(){
     this.setState({
       isEditing: false,
+
     })
   }
 
@@ -49,23 +51,28 @@ class ResaurantDishes extends Component {
     const {loading, error} = this.props.data;
     let {yelpId, restaurantId} = this.props
     console.log("RENDER RestaurantDishes", yelpId);
-    console.log("RENDER this.state.dishesByYelpId", this.state.dishesByYelpId);
+    console.log("RENDER this.props", this.props);
     if (loading) {
+      console.log("loading props", this.props);
       return <p>Loading...</p>
     }
     if (error) {
       return <p>{error.message}</p>
     }
-    if (yelpId && this.state.dishesByYelpId) {
-      console.log("RENDER RestaurantDishes state", this.state);
+    if (yelpId) {
+      console.log("MOUNT RestaurantDishes state", this.state);
+      console.log("MOUNT this.props", this.props);
+
       console.log(yelpId);
+
       return (
         <div>
+          <div></div>
           <AddDish yelpId={yelpId}
                    restaurantId = {restaurantId}
-                   dishesByYelpId = {this.state.dishesByYelpId}/>
+                   />
 
-           {this.state.dishesByYelpId.length === 0 &&
+                 {this.state.dishesByYelpId.length === 0 &&
              <p>No Dishes Yet</p>
            }
           {this.state.dishesByYelpId.map((item, i) =>(
@@ -75,10 +82,10 @@ class ResaurantDishes extends Component {
               <p>Dish_id: {item._id}</p>
               <p>photourl: {item.photourl}</p>
 
-              <button className={this.state.isEditing? "hidden " :"edit-button"} onClick={this.editDish(i)}>Edit</button>
+              <button className={this.state.isEditing? "hidden " :"edit-button"} onClick={this.editDish(i, item)}>Edit</button>
 
               <EditDish index={i}
-                        dish={item}
+                        dish={this.state.dish}
                         dishToEdit={this.state.dishToEdit}
                         isEditing={this.state.isEditing}
                         cancelEdit={this.cancelEdit}
@@ -89,10 +96,8 @@ class ResaurantDishes extends Component {
                           yelpId = {yelpId}
                           deleteId={i}
                 />
-            </div>
-
-            )
-          )}
+              </div>
+              ))}
         </div>
       );
     } else {

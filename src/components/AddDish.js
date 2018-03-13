@@ -11,78 +11,88 @@ class NewDish extends Component {
     this.state = {
       dishName: '',
       photourl: '',
-      yelp_id: '',
       addDishVisible: false,
-      restaurant_id: '',
-      dishesByYelpId: []
 
     }
   }
 
-  addDish = ({ mutate }) => {
-    let {dishName, photourl, yelp_id, restaurant_id } = this.state;
+  addDish = () => {
+    let {dishName, photourl } = this.state;
+    let _id = ''
+    let {yelpId,restaurantId} = this.props
+    console.log("props", yelpId,restaurantId);
     this.props.mutate({
       variables: {
-        dish:{ dishName, photourl, yelp_id, restaurant_id}
+        dish:{
+              _id: _id,
+              dishName: dishName,
+              photourl:photourl,
+              yelp_id: yelpId,
+              restaurant_id: restaurantId
+            }
       },
       optimisticResponse: {
         addDish: {
+          _id,
           dishName,
           photourl,
-          yelp_id,
-          restaurant_id,
+          yelp_id: yelpId,
+          restaurant_id: restaurantId,
           __typename: 'Dish',
         },
       },
       update: (store, { data: { addDish }}) => {
-        if(addDishLogs)console.log("addDish",addDish);
-        console.log("yelp_id", yelp_id);
+        if(addDishLogs)console.log("CLICK addDish",addDish);
+        console.log("yelp_id", yelpId);
         const data = store.readQuery({
                                       query: dishesByYelpId,
-                                      variables: {yelp_id: yelp_id},
+                                      variables: {yelp_id: yelpId},
                                     });
       if(addDishLogs)  console.log("data",data.dishesByYelpId.length);
         data.dishesByYelpId.push(addDish);
       if(addDishLogs)console.log("data after push",data.dishesByYelpId.length);
+      console.log("yelp_id", yelpId);
       store.writeQuery({ query: dishesByYelpId,
-                            variables: {yelp_id: yelp_id},
-                           data});
+                          variables: {yelp_id: yelpId},
+                         data});
        if(addDishLogs)console.log("store ADDDISH", store);
        if(addDishLogs)console.log("data ADDDISH", data);
-
-       // this.setState({
-       //   yelp_id: yelp_id
-       // })
-      }
+     },
     })
     .then( res => {
       if(addDishLogs)console.log("returned Dish", res);
-      // this.setState({
-      //   dishName: '',
-      //   photourl: '',
-      // });
+      this.setState({
+        dishName: '',
+        photourl: '',
+      });
       console.log("returned Dish State", this.state );
     });
 
 
   }
-  componentWillReceiveProps(nextProps){
-    console.log("componentWillReceiveProps", nextProps);
-      this.setState({
-        dishesByYelpId: nextProps.dishesByYelpId
-      })
+  componentWillMount(){
+    console.log("componentWillMount");
   }
+  // componentDidMount(){
+  //   console.log("componentDidMount", this.state);
+  // }
+  // componentWillReceiveProps(nextProps){
+  //   console.log("componentWillReceiveProps", nextProps);
+  //     this.setState({
+  //       dishesByYelpId: nextProps.dishesByYelpId
+  //     })
+  // }
   render () {
     const {yelpId, restaurantId} = this.props
-
+    console.log("RENDER AddDish");
 
       return (
         <div className="AddDish">
-          <button onClick={() => this.setState({addDishVisible: true, yelp_id: yelpId, restaurant_id:restaurantId})}>Add New Dish</button>
+          <button onClick={() => this.setState({addDishVisible: true})}>Add New Dish</button>
             <div className={this.state.addDishVisible? '' : 'hidden'}>
               <button onClick={() => this.setState({addDishVisible: false})}>Cancel</button>
-              <p> yelp_id: {this.state.yelp_id}</p>
-              <p>restaurantId: {this.state.restaurant_id}</p>
+              <p> yelp_id: {yelpId}</p>
+              <p>restaurantId: {restaurantId}</p>
               <input
                 value={this.state.dishName}
                 placeholder='Dish name'
@@ -93,8 +103,8 @@ class NewDish extends Component {
                 placeholder='Photo URL'
                 onChange={(e) => this.setState({photourl: e.target.value})}
               />
-            <button onClick={this.addDish}>Save</button>
-          </div>
+            <button type="submit" onClick={this.addDish}>Save</button>
+            </div>
         </div>
       )
 
@@ -105,6 +115,7 @@ class NewDish extends Component {
 const addDish = gql`
   mutation addDishMutation($dish:DishInput) {
     addDish(input:$dish ) {
+      _id
       dishName
       photourl
       yelp_id

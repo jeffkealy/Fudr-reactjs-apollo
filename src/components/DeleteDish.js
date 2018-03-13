@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { gql, graphql } from 'react-apollo';
 import {dishesByYelpId} from './RestaurantDishes'
 
-const DeleteDishLogs = false
+const DeleteDishLogs = true
 
 class DeleteDish extends Component{
 
