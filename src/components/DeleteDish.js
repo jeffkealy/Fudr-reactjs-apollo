@@ -8,13 +8,15 @@ class DeleteDish extends Component{
 
   deleteDish = ({ mutate }) => {
     if(DeleteDishLogs)console.log("BUTTON delete", this.props);
-    let {dishId, yelpId, deleteId }= this.props
+    let {dishId, yelpId, deleteId, photourlHash }= this.props
     if(DeleteDishLogs)console.log(dishId, yelpId);
+    this.props.cancelEdit()
     this.props.mutate({
-      variables: {_id: dishId},
+      variables: {_id: dishId, photourlHash },
       optimisticResponse: {
         deleteDish: {
           _id: dishId,
+          photourlHash: photourlHash,
           __typename: 'Dish',
         }
       },
@@ -35,7 +37,7 @@ class DeleteDish extends Component{
 
     })
     .then(res => {
-      if(DeleteDishLogs)console.log("Deleted Dish res");
+      if(DeleteDishLogs)console.log("Deleted Dish res", res);
     })
 
   }
@@ -47,9 +49,10 @@ class DeleteDish extends Component{
 }
 
 const deleteDish = gql`
-  mutation DishUpdateMutation ($_id:String!){
-    deleteDish(_id:$_id){
+  mutation DishUpdateMutation ($_id:String!,$photourlHash: String ){
+    deleteDish(_id:$_id, photourlHash:$photourlHash){
       _id
+      photourlHash
     }
   }
 

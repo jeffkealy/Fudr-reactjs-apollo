@@ -17,11 +17,6 @@ class ResaurantDishes extends Component {
     this.editDish = this.editDish.bind(this);
     this.cancelEdit = this.cancelEdit.bind(this);
   }
-  // componentDidUpdate(){
-  //   console.log("componentDidUpdate", this.props);
-  //
-  // }
-  //
   componentWillReceiveProps(nextProps){
     console.log("componentWillReceiveProps", nextProps);
     console.log("componentWillReceiveProps this.props doesnt have dishesByYelpId");
@@ -82,19 +77,21 @@ class ResaurantDishes extends Component {
               <p>Dish_id: {item._id}</p>
               <p>photourl: {item.photourl}</p>
 
-              <button className={this.state.isEditing? "hidden " :"edit-button"} onClick={this.editDish(i, item)}>Edit</button>
+              <button className={this.state.isEditing? "hidden " :"edit-button"} onClick={this.editDish(i, item)}>Update Dish</button>
 
               <EditDish index={i}
                         dish={this.state.dish}
+                        photourlHash={item.photourlHash}
                         dishToEdit={this.state.dishToEdit}
                         isEditing={this.state.isEditing}
                         cancelEdit={this.cancelEdit}
                         >
-
                       </EditDish>
               <DeleteDish dishId = {item._id}
                           yelpId = {yelpId}
                           deleteId={i}
+                          photourlHash={item.photourlHash}
+                          cancelEdit={this.cancelEdit}
                 />
               </div>
               ))}
@@ -116,6 +113,7 @@ export const dishesByYelpId = gql`
       _id
       dishName
       photourl
+      photourlHash
       restaurant_id
       yelp_id
     }

@@ -22,8 +22,8 @@ componentWillReceiveProps(nextProps){
   this.setState({
     dishToEdit: nextProps.dishToEdit,
     dishName: nextProps.dish.dishName,
-    photourl: nextProps.dish.dishName,
-
+    photourl: nextProps.dish.photourl,
+    photourlHash: nextProps.dish.photourlHash,
   })
 }
 
@@ -40,11 +40,10 @@ componentWillReceiveProps(nextProps){
   handleSubmit = (event, {mutate}) => {
    event.preventDefault();
    console.log("SUBMIT edit",this.props);
-   const { dishName, photourl } = this.state
-   const {yelp_id, restaurant_id} =this.state.dish
+   const { dishName, photourl, photourlHash } = this.state
    const {dishToEdit} = this.state
-   const { _id} = this.props.dish
-   console.log("dishName", dishName);
+   const { _id, yelp_id, restaurant_id} = this.props.dish
+   console.log("dishName, hash", dishName);
    console.log("dish", yelp_id, restaurant_id);
    this.props.mutate({
       variables: {
@@ -52,12 +51,14 @@ componentWillReceiveProps(nextProps){
           _id,
           dishName,
           photourl,
+          photourlHash,
         }},
       optimisticResponse: {
         updateDish: {
           _id: _id,
           dishName: dishName,
           photourl: photourl,
+          photourlHash:photourlHash ,
           __typename: 'Dish',
         },
       },
@@ -68,7 +69,7 @@ componentWillReceiveProps(nextProps){
                                       variables: {yelp_id:yelp_id},
                                     });
 
-        data.dishesByYelpId.splice(dishToEdit,1, {dishName, photourl, restaurant_id, _id, yelp_id})
+        data.dishesByYelpId.splice(dishToEdit,1, {dishName, photourl, restaurant_id, _id, yelp_id, photourlHash})
         console.log("data data", data );
                   store.writeQuery({ query: dishesByYelpId,
                                       variables: {yelp_id:yelp_id},
@@ -76,7 +77,7 @@ componentWillReceiveProps(nextProps){
       },
     })
     .then( res => {
-      console.log("THEN");
+      console.log("EditDish res", res);
       this.props.cancelEdit()
       this.setState({
         dishName: '',
@@ -117,6 +118,7 @@ const updateDish = gql`
       _id
       dishName
       photourl
+      photourlHash
     }
   }
 

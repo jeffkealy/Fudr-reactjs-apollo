@@ -14,13 +14,16 @@ class RestaurantResults extends Component {
     }
 
   this.handleClick = this.handleClick.bind(this);
-
+  console.log("Props", this.props);
   }
   componentWillReceiveProps(nextProps){
     console.log("businesses", nextProps);
-    this.setState({
-      businesses: nextProps.data.searchRestaurant.business
-    })
+    if (nextProps.data.loading === false) {
+      this.setState({
+        businesses: nextProps.data.searchRestaurant.business
+      })
+    }
+
   }
   handleClick(item, i){
     console.log("clicked restaurant");
@@ -33,19 +36,18 @@ class RestaurantResults extends Component {
     console.log("Click state",this.state);
     console.log("Clicked",item);
     let restaurant = item
+    let _id =''
     this.props.mutate({
       variables: {
         BusinessInput: restaurant
       },
-      // optimisticResponse: {
-      //   __typename:'Mutation',
-      //   newRestaurant: {
-      //
-      //   }
-      // },
-      // update: (store, { data: { newRestaurant} }) => {
-      //
-      // }
+      optimisticResponse: {
+        __typename:'Mutation',
+        newRestaurant: restaurant
+      },
+      update: (store, { data: { newRestaurant} }) => {
+
+      },
     })
     .then(res =>{
       this.setState({
@@ -166,15 +168,13 @@ query RestaurantResultsQuery ($term: String, $location: String) {
 }
 `;
 
-// term: props.submit.term,
 // location: props.submit.location,
-
 
 export default compose(
 graphql(RestaurantResultsQuery, {
   options: (props) => ({
     variables: {
-      term: "lowry",
+      term: props.submit.term,
       location: 55409,
      },
   }),

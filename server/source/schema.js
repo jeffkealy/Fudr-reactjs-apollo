@@ -26,6 +26,7 @@ const typeDefs = `
     _id:String
     dishName: String
     photourl: String
+    photourlHash: String
     yelp_id: String
     cuisinetype:[String]
     restaurant_id: String
@@ -37,6 +38,7 @@ const typeDefs = `
     _id: String
     dishName: String!
     photourl: String!
+    photourlHash: String
     yelp_id: String!
     cuisinetype:[String]
     restaurant_id: String!
@@ -48,6 +50,7 @@ const typeDefs = `
     _id: String!
     dishName: String!
     photourl: String!
+    photourlHash: String
   }
 
   type Restaurant{
@@ -204,7 +207,7 @@ const typeDefs = `
   addDish(input:DishInput): Dish
   newRestaurant(input:BusinessInput): Business
   updateDish(input:DishEditInput):Dish
-  deleteDish(_id: String): Dish
+  deleteDish(_id: String, photourlHash: String): Dish
 
   }
   type Subscription{

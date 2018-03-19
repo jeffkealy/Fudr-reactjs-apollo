@@ -19,6 +19,7 @@ class NewDish extends Component {
   addDish = () => {
     let {dishName, photourl } = this.state;
     let _id = ''
+    let photourlHash = ''
     let {yelpId,restaurantId} = this.props
     console.log("props", yelpId,restaurantId);
     this.props.mutate({
@@ -27,6 +28,7 @@ class NewDish extends Component {
               _id: _id,
               dishName: dishName,
               photourl:photourl,
+              photourlHash: photourlHash,
               yelp_id: yelpId,
               restaurant_id: restaurantId
             }
@@ -36,6 +38,7 @@ class NewDish extends Component {
           _id,
           dishName,
           photourl,
+          photourlHash,
           yelp_id: yelpId,
           restaurant_id: restaurantId,
           __typename: 'Dish',
@@ -65,7 +68,6 @@ class NewDish extends Component {
         dishName: '',
         photourl: '',
       });
-      console.log("returned Dish State", this.state );
     });
 
 
@@ -118,6 +120,7 @@ const addDish = gql`
       _id
       dishName
       photourl
+      photourlHash
       yelp_id
       restaurant_id
     }

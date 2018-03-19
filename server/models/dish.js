@@ -7,6 +7,7 @@ var dishSchema = new Schema({
 
     dishName: String,
     photourl: String,
+    photourlHash: String,
     cuisinetype:[],
     yelp_id: String,
     restaurant_id: String

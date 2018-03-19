@@ -1,5 +1,4 @@
 import {createApolloFetch} from 'apollo-fetch'
-const uri = 'https://api.yelp.com/v3/graphql';
 
 
 export const resolvers = {
@@ -70,6 +69,7 @@ export const resolvers = {
     },
 
     business: (root, args, {Business} )=> {
+      const uri = 'https://api.yelp.com/v3/graphql';
       let apolloFetch = createApolloFetch({uri});
       let query =
               `{
@@ -110,6 +110,8 @@ export const resolvers = {
     },
     searchRestaurant: (root, args, {SearchRestaurant})=>{
       console.log('ARGS', args);
+      const uri = 'https://api.yelp.com/v3/graphql';
+
       let apolloFetch = createApolloFetch({uri});
 
       let query = `
@@ -160,13 +162,16 @@ export const resolvers = {
         }
       }`
       apolloFetch.use(({ request, options }, next) => {
+
        if (options.headers) {
          console.log("Header already set");
+
        }else{
          options.headers = {Authorization: `Bearer ${process.env.YAPI}`}
          console.log("set header ");
 
        }
+       // console.log("searchRestaurant request", request);
        next();
       });
 
@@ -185,20 +190,73 @@ export const resolvers = {
   },
   Mutation: {
     addDish: (root, { input }, { Dish }) => {
-      // console.log("INPUT newDish", input);
-      delete input._id;
-      console.log("addDish Dish", input);
-      const newDish = new Dish(input)
-      return new Promise((resolve, reject,  object) => {
-        newDish.save((err) => {
-          if(err) {
-            console.log("addDish Error", err);
-            reject(err)
+        console.log("INPUT newDish", input);
+        const uri = 'https://api.imgur.com/3/image';
+        let apolloFetch = createApolloFetch({ uri });
+        let body = { image: input.photourl,
+               album: 'x7QFo'
+             }
+
+             // input.photourl
+        apolloFetch.use(({ request, options }, next) => {
+         if (options.headers) {
+           console.log("imgur Header already set");
+         }else{
+           options.headers = {Authorization: `Bearer ${process.env.imguraccessToken}`}
+           console.log("imgur set header  ");
+         }
+         options.body = JSON.stringify(body)
+         console.log("options",options);
+
+         next();
+
+        });
+        return apolloFetch()
+        .then(result => {
+          const { data, errors, extensions } = result;
+          console.log("Input work in result ", input);
+          console.log("imgur result", result);
+          console.log("imgur hash", result.data.id);
+          if (result.data.link) {
+            input.photourl = result.data.link
+            input.photourlHash = result.data.id
           }
-          else resolve(newDish)
-         console.log("Dish added", newDish);
+
+          if (result.data.error) {
+            if (result.data.error.code === 1003) {
+              console.log(result.data.error.message);
+              input.photourl = result.data.error.message
+            } else if (!input.photourl) {
+              console.log(result.data.error.message);
+              input.photourl = "No Photo URL Entered"
+            } else {
+              console.log("else");
+              console.log(result.data.error);
+              input.photourl = result.data.error
+            }
+          }
+          delete input._id;
+          console.log("addDish Dish", input);
+          const newDish = new Dish(input)
+          return new Promise((resolve, reject,  object) => {
+            newDish.save((err) => {
+              if(err) {
+                console.log("addDish Error", err);
+                reject(err)
+              }
+              else {
+                resolve(newDish)
+                console.log("Dish added", newDish);
+              }
+            })
+          })
+
         })
-      })
+        .catch(error => {
+          console.log("Error",error);
+          //respond to a network error
+        });
+
     },
     newRestaurant: (root, { input }, { Restaurant }) => {
       console.log("INPUT newRestaurant", input);
@@ -206,9 +264,8 @@ export const resolvers = {
       return new Promise((resolve, reject, object) => {
         newRestaurant.save((err) => {
           if(err){
-            console.log(err);
-            if (err.errors.name = "ValidatorError") {
-              console.log("Error, expected `id` to be unique. Will send restaurant", err.errors)
+           if (err.errors.name = "ValidatorError") {
+              console.log("Error, expected `id` to be unique. Will send restaurant")
               // console.log(newRestaurant);
               resolve(newRestaurant)
             }else {
@@ -224,6 +281,7 @@ export const resolvers = {
       })
     },
     updateDish: (root, {input}, {Dish}) =>{
+      console.log("INPUT updateDish", input);
       return new Promise((resolve, object) => {
         console.log("findOneAndUpdate", input);
         Dish.findOneAndUpdate({ _id: input._id }, input, {new:true},(err, dish) => {
@@ -236,14 +294,44 @@ export const resolvers = {
       })
     },
     deleteDish: (root, args, {Dish}) => {
-      console.log("deleteDish", args._id);
-      return new Promise((resolve, object) => {
-          Dish.remove({ _id: args._id}, (err) => {
-              if (err) reject(err)
-              else resolve('Successfully deleted Dish')
-          })
-      })
-    }
+      console.log("deleteDish deleting...", args);
+      let deleteId = args.photourlHash
+      const uri = 'https://api.imgur.com/3/image/' + deleteId;
+      let apolloFetch = createApolloFetch({ uri });
+      apolloFetch.use(({ request, options }, next) => {
+         if (options.headers) {
+           console.log("imgur Header already set");
+         }else{
+           options.headers = {Authorization: `Bearer ${process.env.imguraccessToken}`}
+           console.log("imgur set header  ");
+         }
+         options.method = 'DELETE'
+         console.log("options",options);
+
+         next();
+       });
+       return apolloFetch()
+       .then(result => {
+         console.log("Delete fetch results", result);
+         return new Promise((resolve, object) => {
+             Dish.remove({ _id: args._id}, (err, res) => {
+                 if (err) {
+                   reject(err)
+                   console.log(err);
+                 }
+                 else {
+                   resolve(res)
+                   console.log("deleted");
+                 }
+             })
+         })
+       })
+       .catch(error => {
+         console.log("Delete Error",error);
+         //respond to a network error
+       });
+
+    },
     // addDish: async (root, args, { Dish }) => {
     //   console.log("adddish mutation", args);
     //   const dish = await new Dish(args.input).save();
