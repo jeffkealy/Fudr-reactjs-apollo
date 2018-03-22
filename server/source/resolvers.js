@@ -282,16 +282,120 @@ export const resolvers = {
     },
     updateDish: (root, {input}, {Dish}) =>{
       console.log("INPUT updateDish", input);
-      return new Promise((resolve, object) => {
-        console.log("findOneAndUpdate", input);
-        Dish.findOneAndUpdate({ _id: input._id }, input, {new:true},(err, dish) => {
-          if(err) reject(err)
-          else {resolve(dish)
-            console.log("dish updated");
-            console.log(dish);
+      //add image to imgur
+      const deleteId = input.photourlHash;
+      const uri = 'https://api.imgur.com/3/image';
+      let apolloFetch = createApolloFetch({ uri });
+      let body = { image: input.photourl,
+             album: 'x7QFo'
+           }
+      apolloFetch.use(({ request, options }, next) => {
+       if (options.headers) {
+         console.log("imgur Header already set");
+       }else{
+         options.headers = {Authorization: `Bearer ${process.env.imguraccessToken}`}
+         console.log("imgur set header  ");
+       }
+       options.body = JSON.stringify(body)
+       console.log("options",options);
+
+       next();
+
+      });
+      return apolloFetch()
+      .then(result => {
+        const { data, errors, extensions } = result;
+        console.log("Input work in result ", input);
+        const newImage = result
+        console.log("imgur result", newImage);
+        console.log("imgur hash", result.data.id);
+        if (result.data.id) {
+          input.photourl = result.data.link
+          input.photourlHash = result.data.id
+          console.log("if - result.data.id");
+        }
+        //error handling
+        if (result.data.error) {
+          if (result.data.error.code === 1003) {
+            console.log(result.data.error.message);
+            input.photourl = result.data.error.message
+          } else if (!input.photourl) {
+            console.log(result.data.error.message);
+            input.photourl = "No Photo URL Entered"
+          } else {
+            console.log("else");
+            console.log(result.data.error);
+            input.photourl = result.data.error
           }
-        })
+        }
+        //if theres a photo to update, deleted the old one
+        if (input.photourlHash) {
+          console.log("deleteDish deleting...", input);
+          console.log("deleteDish hash to delete...", deleteId);
+          console.log("input.photourlHash hash to delete...", input.photourlHash);
+
+          const uri = 'https://api.imgur.com/3/image/' + deleteId;
+          let apolloFetch = createApolloFetch({ uri });
+          apolloFetch.use(({ request, options }, next) => {
+             if (options.headers) {
+               console.log("imgur Header already set");
+             }else{
+               options.headers = {Authorization: `Bearer ${process.env.imguraccessToken}`}
+               console.log("imgur set header  ");
+             }
+             options.method = 'DELETE'
+             console.log("options",options);
+
+             next();
+           });
+           return apolloFetch()
+           .then(result => {
+             console.log("UpdateDish Deleted image from imgur", result);
+             console.log("UpdateDish Dish", input);
+             console.log("newImage", newImage);
+             const newDish = new Dish(input)
+             return new Promise((resolve, object) => {
+               console.log("findOneAndUpdate", input);
+               Dish.findOneAndUpdate({ _id: input._id }, input, {new:true},(err, dish) => {
+                 if(err) reject(err)
+                 else {resolve(dish)
+                   console.log("dish updated");
+                   console.log(dish);
+                 }
+               })
+             })
+
+           })
+           .catch(error => {
+             console.log("Delete Error",error);
+             //respond to a network error
+           });
+        } else {
+          console.log("Else newImage", newImage);
+          console.log("EditDish Dish", input);
+          const newDish = new Dish(input)
+          return new Promise((resolve, object) => {
+            console.log("findOneAndUpdate", input);
+            Dish.findOneAndUpdate({ _id: input._id }, input, {new:true},(err, dish) => {
+              if(err) reject(err)
+              else {
+                resolve(dish)
+                console.log("dish updated");
+                console.log(dish);
+              }
+            })
+          })
+        }
+
+
       })
+      .catch(error => {
+        console.log("Error",error);
+        //respond to a network error
+      });
+
+
+
     },
     deleteDish: (root, args, {Dish}) => {
       console.log("deleteDish deleting...", args);

@@ -18,7 +18,7 @@ class EditDish extends Component{
   }
 
 componentWillReceiveProps(nextProps){
-  console.log("componentWillReceiveProps", nextProps);
+  // console.log("componentWillReceiveProps", nextProps);
   this.setState({
     dishToEdit: nextProps.dishToEdit,
     dishName: nextProps.dish.dishName,
@@ -39,7 +39,8 @@ componentWillReceiveProps(nextProps){
 
   handleSubmit = (event, {mutate}) => {
    event.preventDefault();
-   console.log("SUBMIT edit",this.props);
+   console.log("SUBMIT edit props",this.props);
+   console.log("SUBMIT edit state",this.state);
    const { dishName, photourl, photourlHash } = this.state
    const {dishToEdit} = this.state
    const { _id, yelp_id, restaurant_id} = this.props.dish
@@ -78,11 +79,12 @@ componentWillReceiveProps(nextProps){
     })
     .then( res => {
       console.log("EditDish res", res);
-      this.props.cancelEdit()
+      console.log("res.data.updateDish.photourl", res.data.updateDish.photourl);
       this.setState({
-        dishName: '',
-        photourl:'',
+        photourl: res.data.updateDish.photourl,
       });
+      this.props.cancelEdit()
+
     });
   }
 
@@ -96,11 +98,11 @@ componentWillReceiveProps(nextProps){
           <form onSubmit={this.handleSubmit}>
             <label>
               Dish Name:
-              <input type="text" placeholder={dish.dishName}  name="dishName" value={this.state.dishName} onChange={this.handleChange(this.props.index)} required />
+              <input type="text"   name="dishName" value={this.state.dishName} onChange={this.handleChange()} required />
             </label>
             <label>
               Photo Url:
-              <input type="text" placeholder={dish.photourl} name="photourl" value={this.state.photourl} onChange={this.handleChange(this.props.index)} required />
+              <input type="text"  name="photourl" value={this.state.photourl} onChange={this.handleChange()} required />
             </label>
             <input type="submit" value="Submit" />
           </form>

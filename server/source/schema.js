@@ -50,7 +50,7 @@ const typeDefs = `
     _id: String!
     dishName: String!
     photourl: String!
-    photourlHash: String
+    photourlHash: String!
   }
 
   type Restaurant{
