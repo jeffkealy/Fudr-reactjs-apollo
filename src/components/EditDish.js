@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import { gql, graphql } from 'react-apollo';
 import {dishesByYelpId} from './RestaurantDishes'
 
+const EditDishLogs = false;
 
 class EditDish extends Component{
   constructor(props){
@@ -18,7 +19,7 @@ class EditDish extends Component{
   }
 
 componentWillReceiveProps(nextProps){
-  // console.log("componentWillReceiveProps", nextProps);
+if (true)console.log("componentWillReceiveProps EditDish", nextProps);
   this.setState({
     dishToEdit: nextProps.dishToEdit,
     dishName: nextProps.dish.dishName,
@@ -39,13 +40,13 @@ componentWillReceiveProps(nextProps){
 
   handleSubmit = (event, {mutate}) => {
    event.preventDefault();
-   console.log("SUBMIT edit props",this.props);
-   console.log("SUBMIT edit state",this.state);
+   if (EditDishLogs)console.log("SUBMIT edit props",this.props);
+   if (true)console.log("SUBMIT edit state",this.state);
    const { dishName, photourl, photourlHash } = this.state
    const {dishToEdit} = this.state
    const { _id, yelp_id, restaurant_id} = this.props.dish
-   console.log("dishName, hash", dishName);
-   console.log("dish", yelp_id, restaurant_id);
+   if (EditDishLogs)console.log("dishName, hash", dishName);
+   if (EditDishLogs)console.log("dish", yelp_id, restaurant_id);
    this.props.mutate({
       variables: {
         dish:{
@@ -53,6 +54,8 @@ componentWillReceiveProps(nextProps){
           dishName,
           photourl,
           photourlHash,
+          restaurant_id,
+          yelp_id,
         }},
       optimisticResponse: {
         updateDish: {
@@ -60,26 +63,27 @@ componentWillReceiveProps(nextProps){
           dishName: dishName,
           photourl: photourl,
           photourlHash:photourlHash ,
+          restaurant_id,
+          yelp_id,
           __typename: 'Dish',
         },
       },
       update: (store, { data: {updateDish }}) => {
-          console.log("EditDish readQuery data", updateDish);
+          if (EditDishLogs)console.log("EditDish readQuery data", updateDish);
         const data = store.readQuery({
                                       query: dishesByYelpId,
                                       variables: {yelp_id:yelp_id},
                                     });
-
-        data.dishesByYelpId.splice(dishToEdit,1, {dishName, photourl, restaurant_id, _id, yelp_id, photourlHash})
-        console.log("data data", data );
+        data.dishesByYelpId.splice(dishToEdit,1, updateDish)
+        if (EditDishLogs)console.log("data data", data );
                   store.writeQuery({ query: dishesByYelpId,
                                       variables: {yelp_id:yelp_id},
                                      data});
       },
     })
     .then( res => {
-      console.log("EditDish res", res);
-      console.log("res.data.updateDish.photourl", res.data.updateDish.photourl);
+      if (EditDishLogs)console.log("EditDish res", res);
+      if (EditDishLogs)console.log("res.data.updateDish.photourl", res.data.updateDish.photourl);
       this.setState({
         photourl: res.data.updateDish.photourl,
       });
@@ -90,7 +94,6 @@ componentWillReceiveProps(nextProps){
 
   render(){
     if (this.props.dishToEdit === this.props.index && this.props.isEditing === true) {
-      const {dish} = this.props
       return(
         <div className="edit-form-container">
         <button className="edit-button" onClick={this.props.cancelEdit}>Cancel</button>
@@ -121,6 +124,8 @@ const updateDish = gql`
       dishName
       photourl
       photourlHash
+      restaurant_id
+      yelp_id
     }
   }
 

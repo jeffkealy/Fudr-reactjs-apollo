@@ -59,9 +59,9 @@ export const resolvers = {
     },
     restaurant: async (root, args, {Restaurant}) =>{
       try{
-        console.log("RESTAURANT");
+        // console.log("restaurant Query", args);
         const restaurant = await Restaurant.find({'yelp_id':args.yelp_id});
-        // console.log(restaurant);
+        console.log(restaurant);
         return restaurant
       } catch(e){
         console.log("error: restaurant query");
@@ -109,7 +109,6 @@ export const resolvers = {
         });
     },
     searchRestaurant: (root, args, {SearchRestaurant})=>{
-      console.log('ARGS', args);
       const uri = 'https://api.yelp.com/v3/graphql';
 
       let apolloFetch = createApolloFetch({uri});
@@ -194,7 +193,8 @@ export const resolvers = {
         const uri = 'https://api.imgur.com/3/image';
         let apolloFetch = createApolloFetch({ uri });
         let body = { image: input.photourl,
-               album: 'x7QFo'
+               album: 'x7QFo',
+               name: input.dishName
              }
 
              // input.photourl
@@ -211,12 +211,10 @@ export const resolvers = {
          next();
 
         });
-        return apolloFetch()
+        return apolloFetch() //Post Image to imgur api
         .then(result => {
           const { data, errors, extensions } = result;
-          console.log("Input work in result ", input);
           console.log("imgur result", result);
-          console.log("imgur hash", result.data.id);
           if (result.data.link) {
             input.photourl = result.data.link
             input.photourlHash = result.data.id
@@ -224,7 +222,7 @@ export const resolvers = {
 
           if (result.data.error) {
             if (result.data.error.code === 1003) {
-              console.log(result.data.error.message);
+              console.log("1003 error", result.data.error.message);
               input.photourl = result.data.error.message
             } else if (!input.photourl) {
               console.log(result.data.error.message);
@@ -236,7 +234,7 @@ export const resolvers = {
             }
           }
           delete input._id;
-          console.log("addDish Dish", input);
+          console.log("addDish to mongo", input);
           const newDish = new Dish(input)
           return new Promise((resolve, reject,  object) => {
             newDish.save((err) => {
@@ -259,14 +257,23 @@ export const resolvers = {
 
     },
     newRestaurant: (root, { input }, { Restaurant }) => {
-      console.log("INPUT newRestaurant", input);
+      console.log("newRestaurant, INPUT ", input);
+      // try{
+      //   // console.log("restaurant Query", args);
+      //   const restaurant = await Restaurant.find({'yelp_id':input._id});
+      //   console.log(restaurant);
+      //   return restaurant
+      // } catch(e){
+      //   console.log("error: restaurant query");
+      // }
+      //
       const newRestaurant = new Restaurant(input)
       return new Promise((resolve, reject, object) => {
         newRestaurant.save((err) => {
           if(err){
            if (err.errors.name = "ValidatorError") {
-              console.log("Error, expected `id` to be unique. Will send restaurant")
-              // console.log(newRestaurant);
+              console.log("Error, expected `id` to be unique. Will send restaurant", newRestaurant)
+              console.log("err", err);
               resolve(newRestaurant)
             }else {
               console.log("ERROR: newRestaurant ", err);
@@ -281,13 +288,14 @@ export const resolvers = {
       })
     },
     updateDish: (root, {input}, {Dish}) =>{
-      console.log("INPUT updateDish", input);
+      console.log("updateDish, INPUT:", input);
       //add image to imgur
       const deleteId = input.photourlHash;
       const uri = 'https://api.imgur.com/3/image';
       let apolloFetch = createApolloFetch({ uri });
       let body = { image: input.photourl,
-             album: 'x7QFo'
+             album: 'x7QFo',
+             name: input.dishName
            }
       apolloFetch.use(({ request, options }, next) => {
        if (options.headers) {
@@ -302,20 +310,20 @@ export const resolvers = {
        next();
 
       });
-      return apolloFetch()
+      return apolloFetch() //Post image to imgur api
       .then(result => {
         const { data, errors, extensions } = result;
         console.log("Input work in result ", input);
         const newImage = result
-        console.log("imgur result", newImage);
-        console.log("imgur hash", result.data.id);
+        console.log("imgur Post image result", newImage);
         if (result.data.id) {
           input.photourl = result.data.link
           input.photourlHash = result.data.id
-          console.log("if - result.data.id");
+          console.log("photourl and hash set to new imgur image");
         }
         //error handling
         if (result.data.error) {
+          console.log("error handling");
           if (result.data.error.code === 1003) {
             console.log(result.data.error.message);
             input.photourl = result.data.error.message
@@ -323,14 +331,12 @@ export const resolvers = {
             console.log(result.data.error.message);
             input.photourl = "No Photo URL Entered"
           } else {
-            console.log("else");
-            console.log(result.data.error);
+            console.log("other error",result.data.error);
             input.photourl = result.data.error
           }
         }
         //if theres a photo to update, deleted the old one
-        if (input.photourlHash) {
-          console.log("deleteDish deleting...", input);
+        if (deleteId) {
           console.log("deleteDish hash to delete...", deleteId);
           console.log("input.photourlHash hash to delete...", input.photourlHash);
 
@@ -348,14 +354,13 @@ export const resolvers = {
 
              next();
            });
-           return apolloFetch()
+           return apolloFetch() //delete image on imgur
            .then(result => {
-             console.log("UpdateDish Deleted image from imgur", result);
-             console.log("UpdateDish Dish", input);
-             console.log("newImage", newImage);
+             console.log("updateDish Deleted image from imgur", result);
+             console.log("deleted dish...", input);
              const newDish = new Dish(input)
              return new Promise((resolve, object) => {
-               console.log("findOneAndUpdate", input);
+               console.log("findOneAndUpdate");
                Dish.findOneAndUpdate({ _id: input._id }, input, {new:true},(err, dish) => {
                  if(err) reject(err)
                  else {resolve(dish)
@@ -416,7 +421,7 @@ export const resolvers = {
        });
        return apolloFetch()
        .then(result => {
-         console.log("Delete fetch results", result);
+         console.log("deleteDish fetch results", result);
          return new Promise((resolve, object) => {
              Dish.remove({ _id: args._id}, (err, res) => {
                  if (err) {

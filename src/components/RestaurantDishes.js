@@ -4,6 +4,8 @@ import EditDish from './EditDish'
 import DeleteDish from './DeleteDish'
 import AddDish from './AddDish'
 
+const RestaurantDishesLogs = false;
+
 class ResaurantDishes extends Component {
   constructor(props){
     super(props)
@@ -13,21 +15,20 @@ class ResaurantDishes extends Component {
       dishesByYelpId:[],
       yelp_id:'',
       restaurant_id: '',
+      dish: {}
     };
     this.editDish = this.editDish.bind(this);
     this.cancelEdit = this.cancelEdit.bind(this);
   }
   componentWillReceiveProps(nextProps){
-    console.log("componentWillReceiveProps", nextProps);
-    console.log("componentWillReceiveProps this.props doesnt have dishesByYelpId");
+    if (true)console.log("componentWillReceiveProps", nextProps);
+    if (RestaurantDishesLogs)console.log("componentWillReceiveProps this.props doesnt have dishesByYelpId");
     this.setState({
       dishesByYelpId: nextProps.data.dishesByYelpId,
-      // yelp_id: nextProps.data.yelpId,
-      // restaurant_id: nextProps.data.restaurantId,
     })
   }
   editDish = (i, item) => (event) =>{
-    console.log("editdish", i, item);
+    if (true)console.log("editdish", i, item);
     this.setState({
       dishToEdit: i,
       isEditing: true,
@@ -45,20 +46,20 @@ class ResaurantDishes extends Component {
   render(){
     const {loading, error} = this.props.data;
     let {yelpId, restaurantId} = this.props
-    console.log("RENDER RestaurantDishes", yelpId);
-    console.log("RENDER this.props", this.props);
+    if (RestaurantDishesLogs)console.log("RENDER RestaurantDishes", yelpId);
+    if (RestaurantDishesLogs)console.log("RENDER this.props", this.props);
     if (loading) {
-      console.log("loading props", this.props);
+      if (RestaurantDishesLogs)console.log("loading props", this.props);
       return <p>Loading...</p>
     }
     if (error) {
       return <p>{error.message}</p>
     }
     if (yelpId) {
-      console.log("MOUNT RestaurantDishes state", this.state);
-      console.log("MOUNT this.props", this.props);
+      if (RestaurantDishesLogs)console.log("MOUNT RestaurantDishes state", this.state);
+      if (RestaurantDishesLogs)console.log("MOUNT this.props", this.props);
 
-      console.log(yelpId);
+      if (RestaurantDishesLogs)console.log(yelpId);
 
       return (
         <div>
@@ -76,9 +77,9 @@ class ResaurantDishes extends Component {
               <p>{item.dishName}</p>
               <p>Dish_id: {item._id}</p>
               <p>photourl: {item.photourl}</p>
+              <p>Restaurant ID: {item.restaurant_id}</p>
 
               <button className={this.state.isEditing? "hidden " :"edit-button"} onClick={this.editDish(i, item)}>Update Dish</button>
-
               <EditDish index={i}
                         dish={this.state.dish}
                         photourlHash={item.photourlHash}

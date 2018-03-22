@@ -2,12 +2,12 @@ import React, {Component} from 'react';
 import { gql, graphql } from 'react-apollo';
 import {dishesByYelpId} from './RestaurantDishes'
 
-const DeleteDishLogs = true
+const DeleteDishLogs = false
 
 class DeleteDish extends Component{
 
   deleteDish = ({ mutate }) => {
-    if(DeleteDishLogs)console.log("BUTTON delete", this.props);
+    if(true)console.log("BUTTON delete", this.props);
     let {dishId, yelpId, deleteId, photourlHash }= this.props
     if(DeleteDishLogs)console.log(dishId, yelpId);
     this.props.cancelEdit()

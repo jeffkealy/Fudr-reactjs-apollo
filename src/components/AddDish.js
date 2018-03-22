@@ -3,7 +3,7 @@ import { gql, graphql } from 'react-apollo';
 // import Dish from './Dish.js'
 import {dishesByYelpId} from './RestaurantDishes'
 
-const addDishLogs = true
+const addDishLogs = false;
 
 class NewDish extends Component {
   constructor(props){
@@ -21,7 +21,7 @@ class NewDish extends Component {
     let _id = ''
     let photourlHash = ''
     let {yelpId,restaurantId} = this.props
-    console.log("props", yelpId,restaurantId);
+    console.log("CLICK addDish", yelpId,restaurantId, dishName, photourl);
     this.props.mutate({
       variables: {
         dish:{
@@ -46,7 +46,7 @@ class NewDish extends Component {
       },
       update: (store, { data: { addDish }}) => {
         if(addDishLogs)console.log("CLICK addDish",addDish);
-        console.log("yelp_id", yelpId);
+        if(addDishLogs)console.log("yelp_id", yelpId);
         const data = store.readQuery({
                                       query: dishesByYelpId,
                                       variables: {yelp_id: yelpId},
@@ -54,7 +54,7 @@ class NewDish extends Component {
       if(addDishLogs)  console.log("data",data.dishesByYelpId.length);
         data.dishesByYelpId.push(addDish);
       if(addDishLogs)console.log("data after push",data.dishesByYelpId.length);
-      console.log("yelp_id", yelpId);
+      if(addDishLogs)console.log("yelp_id", yelpId);
       store.writeQuery({ query: dishesByYelpId,
                           variables: {yelp_id: yelpId},
                          data});
@@ -72,9 +72,7 @@ class NewDish extends Component {
 
 
   }
-  componentWillMount(){
-    console.log("componentWillMount");
-  }
+
   // componentDidMount(){
   //   console.log("componentDidMount", this.state);
   // }
@@ -86,7 +84,7 @@ class NewDish extends Component {
   // }
   render () {
     const {yelpId, restaurantId} = this.props
-    console.log("RENDER AddDish");
+    // console.log("RENDER AddDish");
 
       return (
         <div className="AddDish">

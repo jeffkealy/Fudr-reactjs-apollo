@@ -3,6 +3,8 @@ import { gql, graphql, compose } from 'react-apollo';
 import RestaurantDishes from './RestaurantDishes'
 // import SaveRestaurant from './SaveRestaurant'
 
+const RestaurantResultsLogs = false
+
 class RestaurantResults extends Component {
   constructor(props){
     super(props)
@@ -14,10 +16,10 @@ class RestaurantResults extends Component {
     }
 
   this.handleClick = this.handleClick.bind(this);
-  console.log("Props", this.props);
+  if (RestaurantResultsLogs)if (RestaurantResultsLogs)console.log("Props", this.props);
   }
   componentWillReceiveProps(nextProps){
-    console.log("businesses", nextProps);
+    if (RestaurantResultsLogs)if (RestaurantResultsLogs)console.log("businesses", nextProps);
     if (nextProps.data.loading === false) {
       this.setState({
         businesses: nextProps.data.searchRestaurant.business
@@ -26,17 +28,15 @@ class RestaurantResults extends Component {
 
   }
   handleClick(item, i){
-    console.log("clicked restaurant");
+    if (!RestaurantResultsLogs)console.log("clicked restaurant, item:", item);
     this.setState({
       businesses: [item],
       yelp_id: item.id,
       restaurant: item,
     })
-    console.log("Click props",this.props);
-    console.log("Click state",this.state);
-    console.log("Clicked",item);
+    if (RestaurantResultsLogs)console.log("Click state",this.state);
+    if (RestaurantResultsLogs)console.log("Clicked",item);
     let restaurant = item
-    let _id =''
     this.props.mutate({
       variables: {
         BusinessInput: restaurant
@@ -54,14 +54,14 @@ class RestaurantResults extends Component {
         businesses: [],
         restaurant_id: res.data.newRestaurant._id
       })
-      console.log("Response addNewRestaurant", res);
-      console.log("Response addNewRestaurant",this.state);
+      if (!RestaurantResultsLogs)console.log("Response addNewRestaurant", res);
+      if (!RestaurantResultsLogs)console.log("Response addNewRestaurant",this.state);
 
     })
   }
 
   render(){
-    console.log("RENDER RestaurantResults");
+    if (RestaurantResultsLogs)console.log("RENDER RestaurantResults");
     const { loading, error } = this.props.data
     if (loading) {
       return <p>Loading...</p>

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import RestaurantResults from './RestaurantResults.js'
 
-const SearchRestaurantLogs = true
+const SearchRestaurantLogs = false
 
 class SearchRestaurant extends Component {
   state = {
@@ -15,7 +15,7 @@ class SearchRestaurant extends Component {
     },
   }
   handleSave = () => {
-    console.log("submit", this.state);
+    if (true)console.log("Submit", this.state);
     this.setState({
       lookUpbuttonClicked: true,
       submit:{
@@ -31,7 +31,7 @@ class SearchRestaurant extends Component {
   }
 
   render(){
-    // if(SearchRestaurantLogs) console.log("RENDER SearchRestaurant", this.state);
+    if(SearchRestaurantLogs) console.log("RENDER SearchRestaurant", this.state);
     if (this.state.lookUpbuttonClicked === false) {
       return (
         <div>
