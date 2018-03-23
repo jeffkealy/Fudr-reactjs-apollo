@@ -78,6 +78,7 @@ class ResaurantDishes extends Component {
               <p>Dish_id: {item._id}</p>
               <p>photourl: {item.photourl}</p>
               <p>Restaurant ID: {item.restaurant_id}</p>
+              <p>Yelp ID: {item.yelp_id}</p>
 
               <button className={this.state.isEditing? "hidden " :"edit-button"} onClick={this.editDish(i, item)}>Update Dish</button>
               <EditDish index={i}

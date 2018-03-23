@@ -59,9 +59,9 @@ export const resolvers = {
     },
     restaurant: async (root, args, {Restaurant}) =>{
       try{
-        // console.log("restaurant Query", args);
-        const restaurant = await Restaurant.find({'yelp_id':args.yelp_id});
-        console.log(restaurant);
+        console.log("restaurant Query", args);
+        const restaurant = await Restaurant.findById(args._id);
+        console.log("restaurant from mongo", restaurant);
         return restaurant
       } catch(e){
         console.log("error: restaurant query");
@@ -99,7 +99,7 @@ export const resolvers = {
        return apolloFetch({ query }) //all apolloFetch arguments are optional
         .then(result => {
           const { data, errors, extensions } = result;
-          console.log("then", data.business);
+          console.log("business then");
           return data.business
           //GraphQL errors and extensions are optional
         })
@@ -177,8 +177,14 @@ export const resolvers = {
        return apolloFetch({ query }) //all apolloFetch arguments are optional
         .then(result => {
           const { data, errors, extensions } = result;
-          console.log("searchRestaurant then", data.search.business[0].id);
+          console.log(" searchRestaurant result",result);
+          if (data.search.business.length === 0) {
+            console.log("no restaurants found");
+          } else{
+            console.log("searchRestaurant then", data.search.business[0].id);
+          }
           return data.search
+
           //GraphQL errors and extensions are optional
         })
         .catch(error => {
@@ -258,15 +264,6 @@ export const resolvers = {
     },
     newRestaurant: (root, { input }, { Restaurant }) => {
       console.log("newRestaurant, INPUT ", input);
-      // try{
-      //   // console.log("restaurant Query", args);
-      //   const restaurant = await Restaurant.find({'yelp_id':input._id});
-      //   console.log(restaurant);
-      //   return restaurant
-      // } catch(e){
-      //   console.log("error: restaurant query");
-      // }
-      //
       const newRestaurant = new Restaurant(input)
       return new Promise((resolve, reject, object) => {
         newRestaurant.save((err) => {
@@ -274,7 +271,15 @@ export const resolvers = {
            if (err.errors.name = "ValidatorError") {
               console.log("Error, expected `id` to be unique. Will send restaurant", newRestaurant)
               console.log("err", err);
-              resolve(newRestaurant)
+              console.log(input);
+                Restaurant.find({'id':input.id}, function(err, restaurant){
+                  if (err) reject(err)
+                  else {
+                    console.log(" error resolve restaurant", restaurant[0]);
+                    resolve(restaurant[0])
+                  }
+                })
+
             }else {
               console.log("ERROR: newRestaurant ", err);
               reject(err)

@@ -200,7 +200,7 @@ const typeDefs = `
   type Query {
     allDishes (needMoreDishes: Boolean, after: String, first: Int, before: String,last: Int): [Dish]
     dish( _id: String): Dish
-    restaurant(_id:String): Restaurant
+    restaurant(_id:String): Business
     business(id:String):Business
     searchRestaurant(term: String, location: String): SearchRestaurant
     dishesByYelpId(yelp_id: String ): [Dish]
@@ -220,28 +220,3 @@ const typeDefs = `
 const schema = makeExecutableSchema({typeDefs, resolvers});
 
 export {schema};
-
-//    SearchRestaurant(term: String): searchRestaurant
-
-
-
-
-// type DishesConnection{
-//   pageInfo: PageInfo!
-//   edges:[DishEdge]
-//   totalCount: Int
-//   dishes: [Dish]
-//
-// }
-//
-// type DishEdge{
-//   node: Dish
-//   cursor: String!
-// }
-//
-// type PageInfo{
-//   hasNextPage: Boolean!
-//   hasPreviousPage: Boolean!
-//   startCursor: String
-//   endCursor: String
-// }

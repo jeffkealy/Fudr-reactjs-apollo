@@ -113,7 +113,7 @@ class InfoModal extends Component {
             <div className='info-modal restaurant-address'>
               <h1 className='info-modal restaurant-name'>{restaurant.name}</h1>
               <p>{restaurant.address}</p>
-              <p><span>{restaurant.locality}</span>, <span>{restaurant.region}</span> <span>{restaurant.postcode}</span></p>
+              <p>{restaurant.location.formatted_address}</p>
             </div>
           </div>
           <div
@@ -133,10 +133,9 @@ query RestaurantQuery ($_id: String) {
   restaurant ( _id: $_id) {
     _id
     name
-    address
-    locality
-    region
-    postcode
+    location{
+      formatted_address
+    }
   }
 }
 `;

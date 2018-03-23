@@ -16,10 +16,10 @@ class RestaurantResults extends Component {
     }
 
   this.handleClick = this.handleClick.bind(this);
-  if (RestaurantResultsLogs)if (RestaurantResultsLogs)console.log("Props", this.props);
+  if (RestaurantResultsLogs)console.log("Props", this.props);
   }
   componentWillReceiveProps(nextProps){
-    if (RestaurantResultsLogs)if (RestaurantResultsLogs)console.log("businesses", nextProps);
+    if (!RestaurantResultsLogs)console.log("businesses", nextProps);
     if (nextProps.data.loading === false) {
       this.setState({
         businesses: nextProps.data.searchRestaurant.business
@@ -85,7 +85,7 @@ class RestaurantResults extends Component {
 
           </div>
       )
-    }
+    } 
     if (this.state.restaurant){
       return(
         <div>
@@ -100,7 +100,11 @@ class RestaurantResults extends Component {
       )
     }
     else {
-      return null
+      return (
+        <div>
+          <h2>No restaurant found</h2>
+        </div>
+      )
     }
   }
 }

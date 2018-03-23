@@ -23,15 +23,6 @@ class SwipeCard extends Component {
 
 
   }
-  componentWillMount() {
-    // this.setState((prevState, props) => ({
-    // }));
-    console.log("componentWillMount");
-
-  }
-  componentDidMount(allDishes, i){
-    // console.log("componentDidMount");
-  }
   componentDidUpdate(prevProps, prevState){
     // console.log("componentDidUpdate state", this.state);
     // console.log("componentDidUpdate props", this.props);
@@ -89,12 +80,6 @@ class SwipeCard extends Component {
        },
      });
    }
-  // setCurrentDish(allDishes, i){
-  //   let cd = allDishes[0]
-  //   this.setState((prevState, props) => ({
-  //     currentDish: cd
-  //   }));
-  // }
   render(){
     const {loading, error, allDishes} = this.props.DishesListQuery;
     let left = "left"

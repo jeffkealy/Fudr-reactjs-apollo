@@ -1,17 +1,19 @@
 import React from 'react';
 import { gql, graphql } from 'react-apollo';
 
-const Restaurant  = ({ data: { loading, error, restaurant  }}) => {
-  if (loading) {
+const Restaurant  = ({ data}) => {
+  if (data.loading) {
     return <p>Loading...</p>
 
   }
-  if (error) {
-    return <p>{error.message}</p>
+  if (data.error) {
+    return <p>{data.error.message}</p>
   }
   else {
+    console.log("Restaurant",data);
+
     return (
-        <p>{restaurant.name}</p>
+        <p>{data.restaurant.name}</p>
     )
   }
 
@@ -22,7 +24,9 @@ query RestaurantQuery ($_id: String!) {
   restaurant ( _id: $_id) {
     _id
     name
-    address
+    location{
+      formatted_address
+    }
   }
 }
 `;

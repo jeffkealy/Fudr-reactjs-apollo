@@ -7,35 +7,35 @@ var Schema = mongoose.Schema;
 // Create the Schema
 var restaurantSchema = new Schema({
 
-  // name: String,
+  name: String,
   id: { type: String, unique: true },
-  // is_claimed: Boolean,
-  // is_closed: Boolean,
-  // url: String,
-  // phone: String,
-  // display_phone: String,
-  // review_count: Number,
-  // categories: [],
-  // rating: Number,
-  // price: String,
-  // location: {Location: {
-  //   address1: String,
-  //   address2: String,
-  //   address3: String,
-  //   city: String,
-  //   state: String,
-  //   zip_code: String,
-  //   country: String,
-  //   formatted_address: String
-  // }},
-  // coordinates: {Coordinates:{
-  //   latitude: Number,
-  //   longitude: Number,
-  // }},
-  // photos: [String],
-  // hours: [],
-  // reviews: [],
-  // distance: Number
+  is_claimed: Boolean,
+  is_closed: Boolean,
+  url: String,
+  phone: String,
+  display_phone: String,
+  review_count: Number,
+  categories: [],
+  rating: Number,
+  price: String,
+  location:  {
+    address1: String,
+    address2: String,
+    address3: String,
+    city: String,
+    state: String,
+    zip_code: String,
+    country: String,
+    formatted_address: String
+  },
+  coordinates: {
+    latitude: Number,
+    longitude: Number,
+  },
+  photos: [String],
+  hours: [],
+  reviews: [],
+  distance: Number
 
 }, {strict: false});
 
