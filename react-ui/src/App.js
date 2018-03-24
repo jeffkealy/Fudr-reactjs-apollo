@@ -7,6 +7,8 @@ import Dishes from './components/Dishes'
 import NewDish from './components/NewDish'
 
 
+
+
 const networkInterface = createNetworkInterface({
   uri: 'http://localhost:4000/graphql',
 });
