@@ -3,13 +3,16 @@ module.exports = {
     development: {
         db: 'mongodb://localhost:27017/fudrV2',
         app: {
-            name: 'local'
+            name: 'local',
+            description: 'mongodb://localhost:27017/fudrV2'
         }
     },
     production: {
-        db: 'mongodb://'+process.env.username+':'+process.env.password +'@ds133428.mlab.com:33428/heroku_h099xt12',
+        db: 'mongodb://'+process.env.dbuser+':'+process.env.dbpassword+'@ds123259.mlab.com:23259/heroku_v7s1675b',
         app: {
-            name: 'mlab'
+            name: 'mlab',
+            description: 'mongodb://'+'dbuser'+':'+'dbpassword'+'@ds123259.mlab.com:23259/heroku_v7s1675b'
+
         }
     }
 };
