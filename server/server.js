@@ -1,3 +1,4 @@
+require('dotenv').config();
 import express from 'express';
 import bodyParser from 'body-parser';
 import { graphqlExpress, graphiqlExpress } from 'apollo-server-express';
@@ -15,7 +16,7 @@ import Restaurant from './models/restaurant'
 import { schema } from './source/schema';
 
 const myGraphQLSchema = schema;
-const PORT = 4000;
+const PORT = process.env.PORT || 4000;
 const server = express();
 const db = mongoose();
 
