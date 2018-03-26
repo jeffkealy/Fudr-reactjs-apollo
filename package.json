@@ -1,39 +1,23 @@
 {
-  "name": "server",
+  "name": "fudr",
   "version": "1.0.0",
-  "description": "server for graphql",
-  "main": "server.js",
+  "description": "This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).",
+  "main": "index.js",
   "scripts": {
-    "start": "nodemon ./server/server.js --exec babel-node -e js",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "heroku-postbuild": "cd react-ui/ && npm install && npm install --only=dev --no-shrinkwrap && npm run build"
+    "build": "concurrently \"cd client && npm build\" \"cd server && npm build\"",
+    "clean": "concurrently \"rimraf node_modules npm.lock\" \"cd client && rimraf node_modules build npm.lock\" \"cd server && rimraf node_modules build npm.lock\"",
+    "heroku-postbuild": "npm build",
+    "install": "(cd client && npm) && (cd server && npm)",
+    "start": "concurrently \"cd client && npm start\" \"cd server && npm start\"",
+    "start:prod": "cd server && npm start:prod"
   },
-  "cacheDirectories": [
-    "node_modules",
-    "react-ui/node_modules"
-  ],
-  "author": "Jeffy",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jeffkealy/Fudr-reactjs-apollo.git"
+  },
+  "author": "Jeff",
   "license": "ISC",
-  "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-preset-es2015": "^6.24.1",
-    "babel-preset-stage-0": "^6.24.1",
-    "nodemon": "^1.14.11"
-  },
-  "dependencies": {
-    "apollo-fetch": "^0.7.0",
-    "apollo-server-express": "^1.3.2",
-    "body-parser": "^1.18.2",
-    "cors": "^2.8.4",
-    "dotenv": "^5.0.1",
-    "express": "^4.16.2",
-    "express-graphql": "^0.6.11",
-    "graphql": "^0.12.3",
-    "graphql-subscriptions": "^0.5.6",
-    "graphql-tools": "^2.19.0",
-    "http": "0.0.0",
-    "mongoose": "^5.0.2",
-    "mongoose-unique-validator": "^2.0.0",
-    "subscriptions-transport-ws": "^0.9.5"
+  "bugs": {
+    "url": "https://github.com/jeffkealy/Fudr-reactjs-apollo/issues"
   }
 }

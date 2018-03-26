@@ -1,5 +1,6 @@
 import {createApolloFetch} from 'apollo-fetch'
 
+
 export const resolvers = {
   Query: {
     allDishes: async (root, args, { Dish }) => {
