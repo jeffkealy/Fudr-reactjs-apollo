@@ -4,9 +4,9 @@
   "description": "This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).",
   "main": "index.js",
   "scripts": {
-    "build": "concurrently \"cd client && npm build\" \"cd server && npm build\"",
+    "build": "concurrently \"cd client && npm run build\" \"cd server && npm run build\"",
     "clean": "concurrently \"rm -rf node_modules package-lock.json\" \"cd client && rm -rf node_modules build package-lock.json\" \"cd server && rm -rf node_modules build package-lock.json\"",
-    "heroku-postbuild": "npm build",
+    "heroku-postbuild": "npm run build",
     "install": "(cd server && npm install) && (cd client && npm install)",
     "start": "concurrently \"cd client && npm start\" \"cd server && npm start\"",
     "start:prod": "cd server && npm run start:prod"
