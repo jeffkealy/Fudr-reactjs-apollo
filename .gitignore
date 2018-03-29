@@ -12,7 +12,8 @@
 /build
 
 #dist
-server/build
+server/build/*
+!server/build/a1.txt
 
 # misc
 .DS_Store
