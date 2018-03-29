@@ -4,13 +4,17 @@
   "description": "server for graphql",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon ./server.js --exec babel-node -e js",
+    "start": "nodemon ./server.js --exec babel-node -e js --presets es2015,stage-2",
+    "build": "babel . --ignore node_modules, build --out-dir build",
+    "serve": "node build/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Jeffy",
   "license": "ISC",
   "devDependencies": {
     "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-polyfill": "^6.26.0",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
     "nodemon": "^1.14.11"

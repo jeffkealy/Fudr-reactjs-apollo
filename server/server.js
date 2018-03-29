@@ -1,4 +1,4 @@
-require('dotenv').config({path: '../.env'});
+require('dotenv').config({path: '../'});
 import express from 'express';
 import path from 'path';
 import bodyParser from 'body-parser';
@@ -23,9 +23,8 @@ const server = express();
 const db = mongoose();
 
 console.log('PORT', PORT);
-console.log('process.env.PORT', process.env.PORT);
-console.log('process.env.NODE_ENV', process.env.NODE_ENV );
-console.log("process.env.GRAPHQL_URI", process.env.GRAPHQL_URI)
+console.log('process.env.test', process.env.test);
+console.log('process.env.NODE_ENV', process.env.NODE_ENV);
 
 
 
