@@ -9,7 +9,7 @@
     "heroku-postbuild": "npm build",
     "install": "(cd server && npm install) && (cd client && npm install)",
     "start": "concurrently \"cd client && npm start\" \"cd server && npm start\"",
-    "start:prod": "cd server && npm start:prod"
+    "start:prod": "cd server && npm run start:prod"
   },
   "repository": {
     "type": "git",
