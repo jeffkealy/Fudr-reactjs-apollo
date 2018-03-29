@@ -6,6 +6,8 @@ import { BrowserRouter as Router, Route} from 'react-router-dom'
 import Dishes from './components/Dishes'
 import NewDish from './components/NewDish'
 
+console.log("process.env.NODE_ENV", process.env.PORT);
+
 console.log("process.env.NODE_ENV", process.env.NODE_ENV);
 console.log("process.env.REACT_APP_NODE_ENV", process.env.REACT_APP_NODE_ENV);
 
