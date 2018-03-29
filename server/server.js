@@ -1,4 +1,4 @@
-require('dotenv').config();
+require('dotenv').config({path: '../.env'});
 import express from 'express';
 import path from 'path';
 import bodyParser from 'body-parser';
@@ -26,6 +26,7 @@ console.log('PORT', PORT);
 console.log('process.env.PORT', process.env.PORT);
 console.log('process.env.NODE_ENV', process.env.NODE_ENV );
 console.log("process.env.GRAPHQL_URI", process.env.GRAPHQL_URI)
+
 
 
 if(process.env.NODE_ENV !== 'production'){

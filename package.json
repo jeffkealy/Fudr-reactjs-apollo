@@ -19,5 +19,9 @@
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/jeffkealy/Fudr-reactjs-apollo/issues"
+  },
+  "dependencies": {
+    "concurrently": "^3.5.1",
+    "dotenv": "^5.0.1"
   }
 }

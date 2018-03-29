@@ -5,7 +5,6 @@ import SwipeCard from './components/SwipeCard'
 import { BrowserRouter as Router, Route} from 'react-router-dom'
 import Dishes from './components/Dishes'
 import NewDish from './components/NewDish'
-require('dotenv').config();
 
 console.log("process.env.NODE_ENV", process.env.NODE_ENV);
 console.log("process.env.REACT_APP_NODE_ENV", process.env.REACT_APP_NODE_ENV);
@@ -15,8 +14,9 @@ console.log("process.env.REACT_APP_GRAPHQL_URI", process.env.REACT_APP_GRAPHQL_U
 
 
 const isNotProduction = process.env.NODE_ENV !== 'production';
-const uri = isNotProduction ? 'http://localhost:4000/graphql' : process.env.REACT_APP_GRAPHQL_URI;
-
+console.log("isNotProduction", isNotProduction);
+const uri = isNotProduction ? 'http://localhost:4000/graphql' : 'https://fudr.herokuapp.com/graphql';
+console.log("uri", uri);
 const networkInterface = createNetworkInterface({uri});
 
 const client = new ApolloClient({
