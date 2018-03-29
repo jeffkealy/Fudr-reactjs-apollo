@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "build": "concurrently \"cd client && npm build\" \"cd server && npm build\"",
-    "clean": "concurrently \"rimraf node_modules npm.lock\" \"cd client && rimraf node_modules build npm.lock\" \"cd server && rimraf node_modules build npm.lock\"",
+    "clean": "concurrently \"rm -rf node_modules package-lock.json\" \"cd client && rm -rf node_modules build package-lock.json\" \"cd server && rm -rf node_modules build package-lock.json\"",
     "heroku-postbuild": "npm build",
-    "install": "(cd client && npm) && (cd server && npm)",
+    "install": "(cd server && npm install) && (cd client && npm install)",
     "start": "concurrently \"cd client && npm start\" \"cd server && npm start\"",
     "start:prod": "cd server && npm start:prod"
   },
