@@ -12,7 +12,7 @@ console.log("process.env.REACT_APP_NODE_ENV", process.env.REACT_APP_NODE_ENV);
 console.log("process.env.REACT_APP_GRAPHQL_URI", process.env.REACT_APP_GRAPHQL_URI);
 
 
-const isNotProduction = process.env.NODE_ENV !== 'production';
+const isNotProduction = process.env.REACT_APP_NODE_ENV !== 'production';
 console.log("isNotProduction", isNotProduction);
 const uri = isNotProduction ? 'http://localhost:4000/graphql' : process.env.REACT_APP_GRAPHQL_URI;
 console.log("uri", uri);
