@@ -194,10 +194,10 @@ difference between heigh and width is the size of card-text
 }
 @media screen and (max-width:411px){
   .card-container{
-    min-height: 565px;
+    min-height: 540px;
   }
   .card-contents{
-    height: 520px;
+    height: 500px;
     width: 390px;
   }
 }

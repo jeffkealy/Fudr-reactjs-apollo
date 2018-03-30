@@ -61,10 +61,10 @@ h1, h2{
 
 @media screen and (max-width:425px) {
   .App-header{
-    height: 80px;
+    height: 50px;
   }
   .App-title{
-    font-size: 85px;
+    font-size: 55px;
   }
 }
 @media screen and (max-width:400px) {
