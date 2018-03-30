@@ -18,7 +18,7 @@ body {
   padding: 0;
   font-family: sans-serif;
   text-align: center;
-  min-width: 440px;
+  /* min-width: 440px; */
   background-color: #fff;
 
 }
@@ -59,6 +59,41 @@ h1, h2{
   }
 }
 
+@media screen and (max-width:425px) {
+  .App-header{
+    height: 80px;
+  }
+  .App-title{
+    font-size: 85px;
+  }
+}
+@media screen and (max-width:400px) {
+  .App-header{
+    height: 90px;
+  }
+}
+@media screen and (max-width: 375px){
+  .App-header {
+      height: 65px;
+  }
+  .App-title{
+    font-size: 75px;
+  }
+}
+@media screen and (max-width: 363px){
+  .App-header {
+      height: 100px;
+  }
+}
+@media screen and (max-width: 338px){
+  .App-header {
+      height: 65px;
+  }
+  .App-title{
+    font-size: 75px;
+
+  }
+}
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
