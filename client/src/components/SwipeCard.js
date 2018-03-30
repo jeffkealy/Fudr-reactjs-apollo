@@ -14,8 +14,8 @@ class SwipeCard extends Component {
     super(props)
     this.state = {
       yesDishes:[],
-      currentDish:{}
-
+      currentDish:{},
+      cardContentsStyle: {}
     }
     this.swipe = this.swipe.bind(this)
 
@@ -80,6 +80,14 @@ class SwipeCard extends Component {
        },
      });
    }
+  cardContentsStyle(){
+    console.log("cardContentsStyle");
+    this.setState({
+      cardContentsStyle: {
+        padding: 0
+      }
+    })
+  }
   render(){
     const {loading, error, allDishes} = this.props.DishesListQuery;
     let left = "left"
@@ -98,6 +106,7 @@ class SwipeCard extends Component {
             alertLeft={<div>No</div>}
             alertRight={<div>Yes</div>}
             className='card-container'
+
             >
             {allDishes.map((item, i) =>
 
@@ -106,7 +115,9 @@ class SwipeCard extends Component {
                  onSwipeRight={()=>this.swipe(allDishes, item,i, right)}
 
                  >
-                 <div className="card-contents">
+                 <div className="card-contents"
+
+                   >
                    <img className="card-image" src={item.photourl} alt="Dish"/>
                    <div className="card-text">
                      <h2>{item.dishName}</h2>
