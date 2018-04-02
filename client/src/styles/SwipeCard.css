@@ -37,12 +37,17 @@ li {
 .card-container {
   margin: 6px auto;
   position: relative;
-  min-height: 660px;
+  min-height: 637px;
   max-width: 444px;
   overflow: visible;
   border-radius: 5px;
   z-index: 0;
+  top: -20px;
 }
+#cards{
+  /* margin: 4px; */
+}
+
 
 /* heigt of .card needs to be 4px smaller than .card-container */
 .card {
@@ -50,7 +55,6 @@ li {
   position: absolute;
   background: rgba(255,255,255,1);
   height: auto;
-  max-width: 424px;
   margin: 0px auto;
   padding: 10px;
   /* transition: box-shadow .3s; */
@@ -101,7 +105,7 @@ difference between heigh and width is the size of card-text
 }
 .card-text{
   color: #000;
-  padding-top: 15px;
+  padding-top: 45px;
 
 }
 .card-text h2{
@@ -172,78 +176,17 @@ difference between heigh and width is the size of card-text
   margin-bottom: 20px;
 }
 @media screen and (max-width:768px){
-  .card:hover{
-    padding: 0;
-  }
-}
-/* .card-contents{
-  box-shadow: 0px 0px 6px 2px rgba(0, 0, 0, 0.6);
-  border-radius: 5px;
-  height: 620px;
-  width: 424px;
-  background-color: #efefef;
-} */
-@media screen and (max-width:425px){
   .card-container{
-    min-height: 575px;
-  }
-  .card-contents{
-    height: 520px;
-    width: 400px;
-  }
-}
-@media screen and (max-width:411px){
-  .card-container{
-    min-height: 540px;
-  }
-  .card-contents{
-    height: 500px;
-    width: 360px;
-  }
-}
-@media screen and (max-width:400px){
-  .card-container{
-    min-height: 550px;
-  }
-  .card-contents{
-    height: 520px;
-    width: 380px;
-  }
-}
-@media screen and (max-width:390px){
-  .card-container{
-    min-height: 550px;
+    top: 20px;
   }
   .card-contents{
     height: 490px;
-    width: 350px;
+    width: 368px;
   }
-}
-@media screen and (max-width:375px){
   .card-container{
-    min-height: 510px;
+    min-height: 595px;
   }
-  .card-contents{
-    height: 460px;
-    width: 350px;
-  }
-}
-@media screen and (max-width:363px){
-  .card-container{
-    min-height: 463px;
-  }
-  .card-contents{
-    height: 434px;
-    width: 330px;
-  }
-}
-
-@media screen and (max-width:338px){
-  .card-container{
-    min-height: 428px;
-  }
-  .card-contents{
-    height: 384px;
-    width: 280px;
+  .card-text{
+    padding-top: 15px;
   }
 }

@@ -1,18 +1,18 @@
-
 @font-face {
-  font-family: 'Tiki_Tropic_Outline';
-  src:  url('../fonts/Tiki_Tropic_Outline.ttf')  format('truetype');
-  font-weight: normal;
-  font-style: normal;
+    font-family: 'BrandonText';
+    src: url('../fonts/BrandonText-Regular/BrandonText-Regular.eot');
+    src: url('../fonts/BrandonText-Regular/BrandonText-Regular.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/BrandonText-Regular/BrandonText-Regular.woff2') format('woff2'),
+        url('../fonts/BrandonText-Regular/BrandonText-Regular.woff') format('woff'),
+        url('../fonts/BrandonText-Regular/BrandonText-Regular.ttf') format('truetype'),
+        url('../fonts/BrandonText-Regular/BrandonText-Regular.svg#BrandonText-Regular') format('svg');
+    font-weight: normal;
+    font-style: normal;
 }
 
-@font-face {
-  font-family: 'Tiki_Tropic';
-  src:  url('../fonts/Tiki_Tropic.ttf')  format('truetype');
-  font-weight: normal;
-  font-style: normal;
+html{
+  height: 100%;
 }
-
 body {
   margin: 0 auto;
   padding: 0;
@@ -31,17 +31,15 @@ h1, h2{
 
 .App-header {
   height: auto;
-  padding: 5px 0 0px;
-  letter-spacing: 4px;
   /* border-top: 5px solid #05386b;
   border-bottom: 5px solid #05386b; */
 }
 
 .App-title {
-  font-family: 'Tiki_Tropic', sans-serif;
-  -webkit-text-stroke: 4px #9C479D;
+  font-family: 'BrandonText';
+  /* -webkit-text-stroke: 4px #9C479D; */
   font-size: 100px;
-  color: #F7CB15;
+  color: #fe2a12;
   margin: 0;
 }
 
@@ -50,7 +48,15 @@ h1, h2{
 }
 
 /* media queries */
-@media screen and (max-width:644px) {
+@media screen and (max-width:768px){
+  .App-header{
+    height: 0px
+  }
+  .App-title{
+    font-size: 55px;
+  }
+}
+/* @media screen and (max-width:644px) {
   .App-header{
     padding: 0;
   }
@@ -60,6 +66,9 @@ h1, h2{
 }
 
 @media screen and (max-width:425px) {
+  body{
+    max-height: 100%;
+  }
   .App-header{
     height: 50px;
   }
@@ -67,6 +76,7 @@ h1, h2{
     font-size: 55px;
   }
 }
+
 @media screen and (max-width:400px) {
   .App-header{
     height: 90px;
@@ -90,10 +100,10 @@ h1, h2{
       height: 65px;
   }
   .App-title{
-    font-size: 75px;
+    font-size: 65px;
 
   }
-}
+} */
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }

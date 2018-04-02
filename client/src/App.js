@@ -35,7 +35,7 @@ class App extends Component {
         <Router>
           <div className="App" id="App">
             <header className="App-header">
-              <h1 className="App-title">Füdr</h1>
+              <h1 className="App-title">FüDR</h1>
             </header>
             <Route path='/' exact={true}  component={SwipeCard}/>
             <Route path='/Dishes' component={Dishes}/>
