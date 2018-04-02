@@ -122,15 +122,17 @@ class SwipeCard extends Component {
                    <div className="card-text">
                      <h2>{item.dishName}</h2>
                      <Restaurant restaurantID={item.restaurant_id}/>
+                       <InfoModal
+                         currentDish={this.state.currentDish}
+                         restaurantID={this.state.currentDish.restaurant_id}
+                         ></InfoModal>
+
                    </div>
+
                   </div>
                 </Card>
               )}
           </Cards>
-          <InfoModal
-            currentDish={this.state.currentDish}
-            restaurantID={this.state.currentDish.restaurant_id}
-            ></InfoModal>
         </div>
       )
 
