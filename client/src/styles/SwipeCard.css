@@ -105,17 +105,16 @@ difference between heigh and width is the size of card-text
 }
 .card-text{
   color: #000;
-  padding-top: 45px;
+  padding-top: 15px;
 
 }
 .card-text h2{
   margin: 0;
-  padding: 5px 0;
 
 }
 .card-text p{
   margin: 0;
-  padding: 0 0 20px 0;
+  padding: 0 0 10px 0;
 
 }
 
@@ -177,17 +176,17 @@ difference between heigh and width is the size of card-text
 }
 @media screen and (max-width:768px){
   .card-container{
-    top: 22px;
+    top: 10px;
   }
   .card-contents{
-    height: 560px;
+    height: 530px;
     width: 368px;
   }
   .card-container{
     min-height: 595px;
   }
   .card-text{
-    padding-top: 15px;
+    padding-top: 0px;
   }
   .card-text h2{
     font-size: 22px;
