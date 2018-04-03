@@ -45,6 +45,8 @@ class InfoModal extends Component {
     this.openModal = this.openModal.bind(this);
     this.afterOpenModal = this.afterOpenModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
+    this.dayOfTheWeek = this.dayOfTheWeek.bind(this)
+    this.editTime = this.editTime.bind(this)
 
   }
   componentWillMount() {
@@ -65,7 +67,64 @@ class InfoModal extends Component {
     // this.subtitle.style.color = '#f00';
   }
 
+  dayOfTheWeek(day){
+            switch (day) {
+          case 0:
+            return "Monday";
+          case 1:
+            return "Tuesday";
+          case 2:
+            return "Wednesday";
+          case 3:
+            return "Thursday";
+          case 4:
+            return "Friday";
+          case 5:
+            return "Saturday";
+          case 6:
+            return "Sunday";
+          default:
+            return "error"
+          }
+  }
+  editTime(time){
+    let timeInt = parseInt(time)
+    if (timeInt > 1200) {
+      timeInt = timeInt-1200
+      if (timeInt < 1000){
+        let hours = timeInt.toString().slice(0,1);
+        let minutes = timeInt.toString().slice(1,3)
+        let hoursAndMinutes = hours + ":" + minutes + " PM"
+        return hoursAndMinutes
+      } else {
+        let hours = timeInt.toString().slice(0,2);
+        let minutes = timeInt.toString().slice(2,4);
+        let hoursAndMinutes = hours + ":" + minutes + " PM";
+        return hoursAndMinutes
+      }
+    }else{
+      if (timeInt < 1000){
+        if (timeInt < 100 ) {
+          timeInt = timeInt + 1200;
+          let hours = timeInt.toString().slice(0,2);
+          let minutes = timeInt.toString().slice(2,4);
+          let hoursAndMinutes = hours + ":" + minutes + " AM"
+          return hoursAndMinutes
+        }else {
+          let hours = timeInt.toString().slice(0,1);
+          let minutes = timeInt.toString().slice(1,3)
+          let hoursAndMinutes = hours + ":" + minutes + " AM"
+          return hoursAndMinutes
+        }
+      } else {
 
+        let hours = timeInt.toString().slice(0,2);
+        let minutes = timeInt.toString().slice(2,4);
+        let hoursAndMinutes = hours + ":" + minutes + " AM";
+        return hoursAndMinutes
+      }
+    }
+  }
   closeModal() {
     this.setState({modalIsOpen: false});
   }
@@ -73,6 +132,7 @@ class InfoModal extends Component {
   render() {
     const {loading, error, restaurant} = this.props.data;
     const currentDish = this.props.currentDish
+
     if (loading) {
         return <Info className="info-button-loading" />
       }
@@ -114,6 +174,15 @@ class InfoModal extends Component {
               <h1 className='info-modal restaurant-name'>{restaurant.name}</h1>
               <p>{restaurant.address}</p>
               <p>{restaurant.location.formatted_address}</p>
+                {restaurant.hours[0].open.map((oop, i)=>
+                  <div key={i}>
+                    <span>{this.dayOfTheWeek(oop.day)} </span>
+                    <span>{this.editTime(oop.start)} to </span>
+                    <span>{this.editTime(oop.end)} </span>
+                  </div>
+                )}
+
+
             </div>
           </div>
           <div
@@ -128,6 +197,8 @@ class InfoModal extends Component {
   }
 }
 
+
+
 export const restaurantQuery = gql`
 query RestaurantQuery ($_id: String) {
   restaurant ( _id: $_id) {
@@ -135,6 +206,13 @@ query RestaurantQuery ($_id: String) {
     name
     location{
       formatted_address
+    }
+    hours{
+      open{
+        start
+        end
+        day
+      }
     }
   }
 }

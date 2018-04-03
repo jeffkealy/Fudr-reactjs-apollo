@@ -18,9 +18,12 @@ export const resolvers = {
 
             let dishesCopy = dishes.slice().sort(function(){return .5 - Math.random()});
             // let dishesToSend = dishes.slice(dishes.length-10, dishes.length);
-            let dishesToSend = dishes.slice(0,10);
+            // let dishesToSend = dishes.slice(0,10);
 
-            dishesCopy.splice(0, 10)
+            let dishesToSend = dishesCopy.splice(0, 10)
+
+
+
             // console.log(dishesToSend, "dishes");
             console.log("dishes query");
 

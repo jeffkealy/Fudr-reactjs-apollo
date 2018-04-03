@@ -10,7 +10,7 @@ const Restaurant  = ({ data}) => {
     return <p>{data.error.message}</p>
   }
   else {
-    console.log("Restaurant",data);
+    // console.log("Restaurant",data);
 
     return (
         <p>{data.restaurant.name}</p>
