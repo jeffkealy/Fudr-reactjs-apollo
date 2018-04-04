@@ -3,47 +3,32 @@ import {createApolloFetch} from 'apollo-fetch'
 
 export const resolvers = {
   Query: {
-    allDishes: async (root, args, { Dish }) => {
-      // DishesConnection: {
-      //   pageInfo: {
-      //     hasNextPage: true;
-      //     hasPreviousPage: false;
-      //     startCursor: "dtring";
-      //     endCursor: "ftring";
-      //   },
+    dishes: async (root, args, { Dish }) => {
         dishes: {
           try{
-
-            const dishes = await Dish.find();
-            const dishesCopy = dishes.slice();
-
-            console.log("dishesCopy", dishesCopy);
-            // let dishesCopy = dishes.slice().sort(function(){return .5 - Math.random()});
-            // let dishesToSend = dishes.slice(dishes.length-10, dishes.length);
-            if (dishesCopy == undefined) {
-              console.log("IF");
-            }
+            console.log(args);
+            // const dishes = await Dish.find();
+            const dishes = await Dish.paginate({}, {page: args.pageID, limit: 10 })
+            console.log("dishes length", dishes);
             // const dishesCopy = dishes.slice();
 
-            console.log("dishesCopy", dishesCopy.length);
-            // let dishesToSend = dishes.splice(0, 10)
-            console.log("dishes", dishes.length);
-            console.log("splice dishesCopy", dishesCopy.length);
+            // let dishesCopy = dishes.slice().sort(function(){return .5 - Math.random()});
+            // let dishesToSend = dishes.slice(dishes.length-10, dishes.length);
+            // const dishesCopy = dishes.slice();
 
 
             // console.log(dishesToSend, "dishes");
             // console.log("dishes query");
+            let dishesToSend = dishes
 
-             let dishesToSend = dishesCopy
-
-            return dishesToSend.map((x) => {
-              x._id = x._id.toString();
-              return x;
-            });
+            return dishesToSend
+            // .map((x) => {
+            //   x._id = x._id.toString();
+            //   return x;
+            // });
           } catch(e){
             console.log("error :dishes query", e);
           }
-        // }
       }
 
     },

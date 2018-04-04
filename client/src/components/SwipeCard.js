@@ -15,22 +15,23 @@ class SwipeCard extends Component {
     this.state = {
       yesDishes:[],
       currentDish:{},
-      cardContentsStyle: {}
+      cardContentsStyle: {},
+      pageID: 1
     }
     this.swipe = this.swipe.bind(this)
 
-    console.log("constructor props", this.props );
+    // console.log("constructor props", this.props );
 
 
   }
   componentDidUpdate(prevProps, prevState){
     // console.log("componentDidUpdate state", this.state);
-    // console.log("componentDidUpdate props", this.props);
+    console.log("componentDidUpdate props", this.props);
 
     // console.log("currentDish", this.props.DishesListQuery.allDishes[0]);
     // console.log("this.state.currentDish", this.state.currentDish.dishName);
     console.log("componentDidUpdate");
-    let cd = this.props.DishesListQuery.allDishes[0]
+    let cd = this.props.DishesListQuery.dishes.docs[0]
     if (this.state.currentDish.dishName === undefined) {
       console.log("if");
       this.setState((props) =>({
@@ -60,22 +61,40 @@ class SwipeCard extends Component {
       }));
 
     }
-    if ((i+2)% 10 === 0) {
+    console.log("pageID", this.state.pageID);
+    if (this.state.pageID === this.props.DishesListQuery.dishes.pages ) {
+      this.setState({
+        pageID: 1
+      })
+    }
+    if ((i+3)% 10 === 0) {
+        this.setState({
+          pageID: this.state.pageID + 1
+        })
+        console.log("this.state.pageID", this.state.pageID);
         this.onFetchMore()
     }
+
   }
   onFetchMore(){
     const  { fetchMore }  = this.props.DishesListQuery;
      fetchMore({
+       variables:{
+         pageID: this.state.pageID
+       },
        updateQuery: (previousResult, { fetchMoreResult }) => {
          console.log("fetchMore");
+         console.log("previousResult", previousResult);
+         console.log("fetchMoreResult", fetchMoreResult);
          return {
            ...previousResult,
            // Add the new matches data to the end of the old matches data.
-           allDishes: [
-             ...previousResult.allDishes,
-             ...fetchMoreResult.allDishes,
-           ],
+           dishes:{
+              docs:[
+             ...previousResult.dishes.docs,
+             ...fetchMoreResult.dishes.docs,
+            ]
+          },
          };
        },
      });
@@ -89,7 +108,7 @@ class SwipeCard extends Component {
     })
   }
   render(){
-    const {loading, error, allDishes} = this.props.DishesListQuery;
+    const {loading, error, dishes} = this.props.DishesListQuery;
     let left = "left"
     let right = "right"
     if (loading) {
@@ -98,7 +117,8 @@ class SwipeCard extends Component {
     if (error) {
       return <p>{error.message}</p>
     }
-      console.log("RENDER", allDishes);
+      const allDishes = dishes.docs
+      console.log("RENDER", this.props);
       return (
         <div >
           <Cards
@@ -147,12 +167,16 @@ class SwipeCard extends Component {
 
 
 const dishesListQuery = gql`
-  query DishesListQuery {
-    allDishes {
-      _id
-      dishName
-      photourl
-      restaurant_id
+  query DishesListQuery($pageID: Int) {
+    dishes(pageID: $pageID) {
+      docs{
+        _id
+        dishName
+        photourl
+        restaurant_id
+      }
+      page
+      pages
     }
   }
 
@@ -183,6 +207,11 @@ const dishesListQuery = gql`
 // ) (SwipeCard);
 
 SwipeCard = graphql(dishesListQuery,{
+  options: ()=>({
+    variables:{
+      pageID: 1
+    }
+  }),
   name: 'DishesListQuery'
 }
 )(SwipeCard);

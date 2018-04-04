@@ -31,6 +31,12 @@ const typeDefs = `
     cuisinetype:[String]
     restaurant_id: String
   }
+  type AllDishes{
+    docs: [Dish]
+    total: Int
+    pages: Int
+    page: Int
+  }
 
   #Dish INPUT
 
@@ -198,7 +204,7 @@ const typeDefs = `
   }
 
   type Query {
-    allDishes (needMoreDishes: Boolean, after: String, first: Int, before: String,last: Int): [Dish]
+    dishes (pageID: Int): AllDishes
     dish( _id: String): Dish
     restaurant(_id:String): Business
     business(id:String):Business

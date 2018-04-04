@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var mongoosePaginate = require('mongoose-paginate');
 
 
 // Create the Schema
@@ -17,7 +18,7 @@ var dishSchema = new Schema({
 
 
 
-
+dishSchema.plugin(mongoosePaginate)
 
 
 //look at antoinettes mongo
