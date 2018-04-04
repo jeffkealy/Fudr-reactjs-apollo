@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { gql, graphql, compose } from 'react-apollo';
 import RestaurantDishes from './RestaurantDishes'
-// import SaveRestaurant from './SaveRestaurant'
+import '../styles/RestaurantResults.css'
 
 const RestaurantResultsLogs = false
 
@@ -71,10 +71,10 @@ class RestaurantResults extends Component {
     }
     if (this.state.businesses.length > 1) {
       return (
-          <div>
-            <p>Yelpid: {this.state.yelp_id}</p>
+          <div className="restaurant-results">
+            <div>Top 5 results</div>
             {this.state.businesses.map((item, i)=>(
-            <button onClick={()=>this.handleClick(item, i)}  key={i}>
+            <button className="restaurant-results-button button-2" onClick={()=>this.handleClick(item, i)}  key={i}>
 
               <h2>{item.name}</h2>
               <p>{item.location.formatted_address}</p>
@@ -85,7 +85,7 @@ class RestaurantResults extends Component {
 
           </div>
       )
-    } 
+    }
     if (this.state.restaurant){
       return(
         <div>

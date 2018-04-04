@@ -3,6 +3,8 @@ import { gql, graphql } from 'react-apollo';
 import EditDish from './EditDish'
 import DeleteDish from './DeleteDish'
 import AddDish from './AddDish'
+import '../styles/RestaurantDishes.css'
+
 
 const RestaurantDishesLogs = false;
 
@@ -63,7 +65,6 @@ class ResaurantDishes extends Component {
 
       return (
         <div>
-          <div></div>
           <AddDish yelpId={yelpId}
                    restaurantId = {restaurantId}
                    />
@@ -80,7 +81,7 @@ class ResaurantDishes extends Component {
               <p>Restaurant ID: {item.restaurant_id}</p>
               <p>Yelp ID: {item.yelp_id}</p>
 
-              <button className={this.state.isEditing? "hidden " :"edit-button"} onClick={this.editDish(i, item)}>Update Dish</button>
+              <button className={this.state.isEditing? "hidden " :"update-dish-button button-1"} onClick={this.editDish(i, item)}>Update Dish</button>
               <EditDish index={i}
                         dish={this.state.dish}
                         photourlHash={item.photourlHash}
@@ -93,6 +94,7 @@ class ResaurantDishes extends Component {
                           yelpId = {yelpId}
                           deleteId={i}
                           photourlHash={item.photourlHash}
+                          isEditing={this.state.isEditing}
                           cancelEdit={this.cancelEdit}
                 />
               </div>

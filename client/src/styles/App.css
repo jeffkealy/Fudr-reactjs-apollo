@@ -25,6 +25,31 @@ body {
 h1, h2{
   font-weight: 400;
 }
+
+.button-1 {
+  border: none;
+  font-family: inherit;
+  color: white;
+  height: 37px;
+  font-size: 14px;
+  background-color: #29339B;
+  border-radius: 5px;
+  margin: 3px;
+}
+.button-2{
+  border: 2px solid #29339B;
+  border-radius: 5px;
+  background-color: #E6E8E6;
+}
+.input-1{
+  height: 37px;
+  width: 98%;
+  font-size: 14px;
+  text-align: center;
+  border: none;
+  border-radius: 1px;
+
+}
 .App {
   text-align: center;
 }
@@ -49,7 +74,6 @@ h1, h2{
 /* media queries */
 @media screen and (max-width:768px){
   .App-header{
-    height: 0px
   }
   .App-title{
     font-size: 30px;

@@ -17,19 +17,6 @@ li {
   display: none;
 }
 
-.dishes-list-entry{
-  border-top: 1px solid;
-  margin: 20px auto;
-  padding: 20px;
-}
-.dishes-list-entry img{
-  height: 250px;
-  width:auto;
-}
-.dishes-list-entry div:first-child{
-  border-top: 1px solid;
-}
-
 .edit-button{
   margin-bottom: 10px;
 }
@@ -171,12 +158,10 @@ difference between heigh and width is the size of card-text
   transform: translate(-50%, 0);
   margin-left: 50%;
  }
-.edit-form-container{
-  margin-bottom: 20px;
-}
+
 @media screen and (max-width:768px){
   .card-container{
-    top: 10px;
+    top: -30px;
   }
   .card-contents{
     height: 530px;

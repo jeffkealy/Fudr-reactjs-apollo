@@ -1,0 +1,19 @@
+.edit-dish-container{
+  margin: 10px 0 0 0;
+}
+.edit-form-button-container{
+  padding: 10px 0 0 0;
+}
+.dishes-list-entry{
+  border: 1px solid #E6E8E6;
+  margin: 20px auto;
+  padding: 20px;
+  border-radius: 5px;
+}
+.dishes-list-entry img{
+  width: 100%;
+  max-height: 424px;
+}
+.dishes-list-entry div:first-child{
+  border-top: 1px solid;
+}

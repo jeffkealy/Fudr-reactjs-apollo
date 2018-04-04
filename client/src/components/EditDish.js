@@ -95,19 +95,21 @@ if (true)console.log("componentWillReceiveProps EditDish", nextProps);
   render(){
     if (this.props.dishToEdit === this.props.index && this.props.isEditing === true) {
       return(
-        <div className="edit-form-container">
-        <button className="edit-button" onClick={this.props.cancelEdit}>Cancel</button>
+        <div className="edit-dish-container">
 
-          <form onSubmit={this.handleSubmit}>
+          <form className="edit-form" onSubmit={this.handleSubmit}>
+            <div className="edit-form-button-container" >
+              <input className="submit-edit-dish-button button-1" type="submit" value="Update" />
+              <button className="cancel-edit-button button-1" onClick={this.props.cancelEdit}>Cancel</button>
+            </div>
             <label>
               Dish Name:
-              <input type="text"   name="dishName" value={this.state.dishName} onChange={this.handleChange()} required />
+              <input className="input-1" type="text"   name="dishName" value={this.state.dishName} onChange={this.handleChange()} required />
             </label>
             <label>
               Photo Url:
-              <input type="text"  name="photourl" value={this.state.photourl} onChange={this.handleChange()} required />
+              <input className="input-1" type="text"  name="photourl" value={this.state.photourl} onChange={this.handleChange()} required />
             </label>
-            <input type="submit" value="Submit" />
           </form>
         </div>
       )

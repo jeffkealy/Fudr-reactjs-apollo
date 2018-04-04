@@ -1,0 +1,15 @@
+.restaurant-results{
+
+}
+.restaurant-results-button{
+  margin: 10px auto;
+  width: 100%;
+}
+.restaurant-results-button h2{
+  color: #000;
+  margin: 10px 0 2px;
+}
+.restaurant-results-button p{
+  color: #000;
+  margin: 2px 0 10px;
+}

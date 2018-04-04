@@ -4,14 +4,11 @@ import './styles/App.css';
 import SwipeCard from './components/SwipeCard'
 import { BrowserRouter as Router, Route} from 'react-router-dom'
 import Dishes from './components/Dishes'
-import NewDish from './components/NewDish'
 
-console.log("process.env.NODE_ENV", process.env.PORT);
-
-console.log("process.env.NODE_ENV", process.env.NODE_ENV);
-console.log("process.env.REACT_APP_NODE_ENV", process.env.REACT_APP_NODE_ENV);
-
-console.log("process.env.REACT_APP_GRAPHQL_URI", process.env.REACT_APP_GRAPHQL_URI);
+// console.log("process.env.NODE_ENV", process.env.PORT);
+// console.log("process.env.NODE_ENV", process.env.NODE_ENV);
+// console.log("process.env.REACT_APP_NODE_ENV", process.env.REACT_APP_NODE_ENV);
+// console.log("process.env.REACT_APP_GRAPHQL_URI", process.env.REACT_APP_GRAPHQL_URI);
 
 
 const isNotProduction = process.env.REACT_APP_NODE_ENV !== 'production';
@@ -39,7 +36,6 @@ class App extends Component {
             </header>
             <Route path='/' exact={true}  component={SwipeCard}/>
             <Route path='/Dishes' component={Dishes}/>
-            <Route path='/NewDish' component={NewDish}/>
 
           </div>
         </Router>

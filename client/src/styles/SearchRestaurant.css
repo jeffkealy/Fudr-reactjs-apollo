@@ -1,0 +1,50 @@
+.search-restaurant{
+  margin: 0px auto 0;
+  max-width: 424px;
+
+}
+.search-restaurant .input-1{
+
+  display: block;
+  background-color: #eee;
+  /* border-bottom: 1px solid #888; */
+  display: inline-block;
+  margin-bottom: 20px;
+}
+ button{
+  border: 1px solid;
+}
+.look-up-button, .search-diff-button {
+  display: block;
+  margin: 10px auto;
+  width: 100%;
+  font-size: 14px;
+  border-radius: 5px;
+  font-family: inherit;
+
+}
+.look-up-button{
+  width: 60%
+}
+.search-diff-button{
+  width: 60%
+}
+
+@media screen and (max-width:768px){
+
+  .search-restaurant{
+    margin: 10px auto 0;
+    max-width: 368px;
+
+  }
+  .search-restaurant .input-1{
+    font-size: 14px;
+  }
+  .look-up-button, .search-diff-button{
+    border: none;
+    width: 100%;
+  }
+  .look-up-button{
+    margin-top: 0;
+  }
+}

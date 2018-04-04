@@ -1,6 +1,6 @@
 require('dotenv').config();
 
-var env = process.env.NODE_ENV || 'development',
+var env = process.env.NODE_ENV || 'production',
     config = require('./config')[env],
     mongoose = require('mongoose');
     console.log("env variable", process.env.NODE_ENV);

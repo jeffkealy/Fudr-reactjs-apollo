@@ -43,7 +43,7 @@ class DeleteDish extends Component{
   }
   render(){
     return(
-      <button onClick={this.deleteDish}>Delete</button>
+      <button className={this.props.isEditing? "hidden " : "delete-dish-button button-1"} onClick={this.deleteDish}>Delete</button>
     )
   }
 }

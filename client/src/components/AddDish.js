@@ -88,22 +88,24 @@ class NewDish extends Component {
 
       return (
         <div className="AddDish">
-          <button onClick={() => this.setState({addDishVisible: true})}>Add New Dish</button>
+          <button className={this.state.addDishVisible? 'hidden' : 'add-new-dish-button button-1'} onClick={() => this.setState({addDishVisible: true})}>Add New Dish</button>
             <div className={this.state.addDishVisible? '' : 'hidden'}>
-              <button onClick={() => this.setState({addDishVisible: false})}>Cancel</button>
+              <button className="cancel-add-new-dish-button button-1" onClick={() => this.setState({addDishVisible: false})}>Cancel</button>
               <p> yelp_id: {yelpId}</p>
               <p>restaurantId: {restaurantId}</p>
               <input
                 value={this.state.dishName}
                 placeholder='Dish name'
                 onChange={(e) => this.setState({dishName: e.target.value})}
+                className="input-1"
               />
               <input
                 value={this.state.photourl}
                 placeholder='Photo URL'
                 onChange={(e) => this.setState({photourl: e.target.value})}
+                className="input-1"
               />
-            <button type="submit" onClick={this.addDish}>Save</button>
+            <button className="save-new-dish-button button-1" type="submit" onClick={this.addDish}>Save</button>
             </div>
         </div>
       )

@@ -15,25 +15,33 @@ export const resolvers = {
           try{
 
             const dishes = await Dish.find();
+            const dishesCopy = dishes.slice();
 
-            let dishesCopy = dishes.slice().sort(function(){return .5 - Math.random()});
+            console.log("dishesCopy", dishesCopy);
+            // let dishesCopy = dishes.slice().sort(function(){return .5 - Math.random()});
             // let dishesToSend = dishes.slice(dishes.length-10, dishes.length);
-            // let dishesToSend = dishes.slice(0,10);
+            if (dishesCopy == undefined) {
+              console.log("IF");
+            }
+            // const dishesCopy = dishes.slice();
 
-            let dishesToSend = dishesCopy.splice(0, 10)
-
+            console.log("dishesCopy", dishesCopy.length);
+            // let dishesToSend = dishes.splice(0, 10)
+            console.log("dishes", dishes.length);
+            console.log("splice dishesCopy", dishesCopy.length);
 
 
             // console.log(dishesToSend, "dishes");
-            console.log("dishes query");
+            // console.log("dishes query");
 
+             let dishesToSend = dishesCopy
 
             return dishesToSend.map((x) => {
               x._id = x._id.toString();
               return x;
             });
           } catch(e){
-            console.log("error :dishes query");
+            console.log("error :dishes query", e);
           }
         // }
       }
@@ -64,7 +72,7 @@ export const resolvers = {
       try{
         console.log("restaurant Query", args);
         const restaurant = await Restaurant.findById(args._id);
-        console.log("restaurant from mongo", restaurant);
+        // console.log("restaurant from mongo", restaurant);
         return restaurant
       } catch(e){
         console.log("error: restaurant query");
