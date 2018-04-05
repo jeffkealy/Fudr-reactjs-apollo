@@ -44,7 +44,7 @@ export const resolvers = {
     dishesByYelpId: async (root, args, {Dish}) =>{
       try{
         const dishes = await Dish.find({'yelp_id':args.yelp_id});
-        console.log("dishesByYelpId");
+        console.log("dishesByYelpId", dishes.length);
         return dishes.map((x) => {
           x._id = x._id.toString();
           return x;
@@ -108,13 +108,14 @@ export const resolvers = {
       const uri = 'https://api.yelp.com/v3/graphql';
 
       let apolloFetch = createApolloFetch({uri});
-
+      console.log("searchRestaurant", args);
       let query = `
       {
         search(term: "${args.term}", location: "${args.location}", limit: 5){
           business  {
             name
             id
+            alias
             is_claimed
             is_closed
             url
@@ -442,22 +443,6 @@ export const resolvers = {
        });
 
     },
-    // addDish: async (root, args, { Dish }) => {
-    //   console.log("adddish mutation", args);
-    //   const dish = await new Dish(args.input).save();
-    //   dish._id = dish._id.toString();
-    //   return dish;
-    // },
-    // updateDish: async (root, { input }, {  Dish }) => {
-    //   // { _id: 123123, name: "whatever"}
-    //   console.log("findOneAndUpdate", input);
-    //   const dish = await Dish.findOneAndUpdate({ _id: input._id }, Dish);
-    //   const dishToSend = dish.toString();
-    //   console.log("dish", dish);
-    //
-    //   return dishToSend;
-    // },
-
   },
   Subscription:{
     updateDish: async (root, args, { Dish }) => {

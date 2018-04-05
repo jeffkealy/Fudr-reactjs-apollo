@@ -9,6 +9,7 @@ var restaurantSchema = new Schema({
 
   name: String,
   id: { type: String, unique: true },
+  alias: String,
   is_claimed: Boolean,
   is_closed: Boolean,
   url: String,

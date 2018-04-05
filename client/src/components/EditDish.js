@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { gql, graphql } from 'react-apollo';
 import {dishesByYelpId} from './RestaurantDishes'
 
-const EditDishLogs = false;
+const EditDishLogs = true;
 
 class EditDish extends Component{
   constructor(props){
@@ -12,6 +12,7 @@ class EditDish extends Component{
       photourl:'',
       dish:'',
       dishToEdit: '',
+      vegetarian: false,
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -42,11 +43,14 @@ if (true)console.log("componentWillReceiveProps EditDish", nextProps);
    event.preventDefault();
    if (EditDishLogs)console.log("SUBMIT edit props",this.props);
    if (true)console.log("SUBMIT edit state",this.state);
-   const { dishName, photourl, photourlHash } = this.state
+   const { dishName, photourl, photourlHash,vegetarian } = this.state
    const {dishToEdit} = this.state
-   const { _id, yelp_id, restaurant_id} = this.props.dish
+   const restaurant_id = this.props.restaurantId
+   const { _id, yelp_id, alias} = this.props.dish
    if (EditDishLogs)console.log("dishName, hash", dishName);
    if (EditDishLogs)console.log("dish", yelp_id, restaurant_id);
+   this.props.cancelEdit()
+
    this.props.mutate({
       variables: {
         dish:{
@@ -56,6 +60,8 @@ if (true)console.log("componentWillReceiveProps EditDish", nextProps);
           photourlHash,
           restaurant_id,
           yelp_id,
+          alias,
+          vegetarian,
         }},
       optimisticResponse: {
         updateDish: {
@@ -65,6 +71,8 @@ if (true)console.log("componentWillReceiveProps EditDish", nextProps);
           photourlHash:photourlHash ,
           restaurant_id,
           yelp_id,
+          alias,
+          vegetarian: vegetarian,
           __typename: 'Dish',
         },
       },
@@ -87,7 +95,6 @@ if (true)console.log("componentWillReceiveProps EditDish", nextProps);
       this.setState({
         photourl: res.data.updateDish.photourl,
       });
-      this.props.cancelEdit()
 
     });
   }
@@ -110,6 +117,16 @@ if (true)console.log("componentWillReceiveProps EditDish", nextProps);
               Photo Url:
               <input className="input-1" type="text"  name="photourl" value={this.state.photourl} onChange={this.handleChange()} required />
             </label>
+            <div>
+              <span>vegetarian: yes if checked</span>
+              <input
+                type="checkbox"
+                checked={this.state.vegetarian}
+                onChange={(e) => this.setState({vegetarian:!this.state.vegetarian})}
+                className="checkbox-1"
+              />
+            </div>
+
           </form>
         </div>
       )
@@ -128,6 +145,8 @@ const updateDish = gql`
       photourlHash
       restaurant_id
       yelp_id
+      alias
+      vegetarian
     }
   }
 

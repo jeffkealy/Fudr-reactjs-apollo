@@ -3,7 +3,7 @@ import { gql, graphql, compose } from 'react-apollo';
 import RestaurantDishes from './RestaurantDishes'
 import '../styles/RestaurantResults.css'
 
-const RestaurantResultsLogs = false
+const RestaurantResultsLogs = true
 
 class RestaurantResults extends Component {
   constructor(props){
@@ -13,6 +13,7 @@ class RestaurantResults extends Component {
       yelp_id: '',
       restaurant:'',
       restaurant_id: "",
+      alias:""
     }
 
   this.handleClick = this.handleClick.bind(this);
@@ -32,6 +33,7 @@ class RestaurantResults extends Component {
     this.setState({
       businesses: [item],
       yelp_id: item.id,
+      alias:item.alias,
       restaurant: item,
     })
     if (RestaurantResultsLogs)console.log("Click state",this.state);
@@ -52,10 +54,10 @@ class RestaurantResults extends Component {
     .then(res =>{
       this.setState({
         businesses: [],
-        restaurant_id: res.data.newRestaurant._id
+        restaurant_id: res.data.newRestaurant._id,
       })
-      if (!RestaurantResultsLogs)console.log("Response addNewRestaurant", res);
-      if (!RestaurantResultsLogs)console.log("Response addNewRestaurant",this.state);
+      if (RestaurantResultsLogs)console.log("Response addNewRestaurant", res);
+      if (RestaurantResultsLogs)console.log("Response addNewRestaurant",this.state);
 
     })
   }
@@ -94,7 +96,9 @@ class RestaurantResults extends Component {
 
           {this.state.yelp_id &&
             <RestaurantDishes yelpId={this.state.yelp_id}
-                              restaurantId={this.state.restaurant_id}/>
+                              restaurantId={this.state.restaurant_id}
+                              alias={this.state.alias}
+                              />
           }
         </div>
       )
@@ -109,9 +113,6 @@ class RestaurantResults extends Component {
   }
 }
 
-// {this.state.yelp_id &&
-//   <SaveRestaurant yelpId={this.state.businesses} />
-// }
 const addNewRestaurant = gql`
   mutation addRestaurantMutation($BusinessInput:BusinessInput) {
     newRestaurant(input:$BusinessInput ) {
@@ -129,6 +130,7 @@ query RestaurantResultsQuery ($term: String, $location: String) {
     business  {
       name
       id
+      alias
       is_claimed
       is_closed
       url

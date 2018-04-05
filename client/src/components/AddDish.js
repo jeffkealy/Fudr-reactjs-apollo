@@ -12,16 +12,19 @@ class NewDish extends Component {
       dishName: '',
       photourl: '',
       addDishVisible: false,
+      vegetarian: false,
 
     }
   }
 
   addDish = () => {
-    let {dishName, photourl } = this.state;
+    let {dishName, photourl, vegetarian } = this.state;
     let _id = ''
     let photourlHash = ''
-    let {yelpId,restaurantId} = this.props
-    console.log("CLICK addDish", yelpId,restaurantId, dishName, photourl);
+    let {yelpId,restaurantId,alias } = this.props
+    console.log("CLICK addDish  props", this.props);
+    console.log("CLICK addDish  state", this.state);
+
     this.props.mutate({
       variables: {
         dish:{
@@ -30,7 +33,9 @@ class NewDish extends Component {
               photourl:photourl,
               photourlHash: photourlHash,
               yelp_id: yelpId,
-              restaurant_id: restaurantId
+              alias: alias,
+              restaurant_id: restaurantId,
+              vegetarian: vegetarian,
             }
       },
       optimisticResponse: {
@@ -40,7 +45,9 @@ class NewDish extends Component {
           photourl,
           photourlHash,
           yelp_id: yelpId,
+          alias: alias,
           restaurant_id: restaurantId,
+          vegetarian: vegetarian,
           __typename: 'Dish',
         },
       },
@@ -105,6 +112,13 @@ class NewDish extends Component {
                 onChange={(e) => this.setState({photourl: e.target.value})}
                 className="input-1"
               />
+              <input
+                type="checkbox"
+                checked={this.state.vegetarian}
+                onChange={(e) => this.setState({vegetarian:!this.state.vegetarian})}
+                className="checkbox-1"
+              />
+
             <button className="save-new-dish-button button-1" type="submit" onClick={this.addDish}>Save</button>
             </div>
         </div>
@@ -122,7 +136,9 @@ const addDish = gql`
       photourl
       photourlHash
       yelp_id
+      alias
       restaurant_id
+      vegetarian
     }
   }
 `;

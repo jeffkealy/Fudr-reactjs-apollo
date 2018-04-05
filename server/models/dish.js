@@ -11,7 +11,10 @@ var dishSchema = new Schema({
     photourlHash: String,
     cuisinetype:[],
     yelp_id: String,
-    restaurant_id: String
+    alias: String,
+    restaurant_id: String,
+    vegetarian: Boolean
+
 
 
 });

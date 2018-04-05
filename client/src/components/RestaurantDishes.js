@@ -6,7 +6,7 @@ import AddDish from './AddDish'
 import '../styles/RestaurantDishes.css'
 
 
-const RestaurantDishesLogs = false;
+const RestaurantDishesLogs = true;
 
 class ResaurantDishes extends Component {
   constructor(props){
@@ -47,9 +47,7 @@ class ResaurantDishes extends Component {
 
   render(){
     const {loading, error} = this.props.data;
-    let {yelpId, restaurantId} = this.props
-    if (RestaurantDishesLogs)console.log("RENDER RestaurantDishes", yelpId);
-    if (RestaurantDishesLogs)console.log("RENDER this.props", this.props);
+    let {yelpId, restaurantId, alias} = this.props
     if (loading) {
       if (RestaurantDishesLogs)console.log("loading props", this.props);
       return <p>Loading...</p>
@@ -58,15 +56,13 @@ class ResaurantDishes extends Component {
       return <p>{error.message}</p>
     }
     if (yelpId) {
-      if (RestaurantDishesLogs)console.log("MOUNT RestaurantDishes state", this.state);
-      if (RestaurantDishesLogs)console.log("MOUNT this.props", this.props);
-
-      if (RestaurantDishesLogs)console.log(yelpId);
-
+      if (RestaurantDishesLogs)console.log("RestaurantDishes state", this.state);
+      if (RestaurantDishesLogs)console.log("RestaurantDishesprops", this.props);
       return (
         <div>
           <AddDish yelpId={yelpId}
                    restaurantId = {restaurantId}
+                   alias={alias}
                    />
 
                  {this.state.dishesByYelpId.length === 0 &&
@@ -80,7 +76,13 @@ class ResaurantDishes extends Component {
               <p>photourl: {item.photourl}</p>
               <p>Restaurant ID: {item.restaurant_id}</p>
               <p>Yelp ID: {item.yelp_id}</p>
-
+              <p>Alias: {item.alias}</p>
+              {item.vegetarian &&
+              <p>This is vegetarian</p>
+              }
+              {!item.vegetarian &&
+              <p>This is not vegetarian</p>
+              }
               <button className={this.state.isEditing? "hidden " :"update-dish-button button-1"} onClick={this.editDish(i, item)}>Update Dish</button>
               <EditDish index={i}
                         dish={this.state.dish}
@@ -88,6 +90,7 @@ class ResaurantDishes extends Component {
                         dishToEdit={this.state.dishToEdit}
                         isEditing={this.state.isEditing}
                         cancelEdit={this.cancelEdit}
+                        restaurantId = {restaurantId}
                         >
                       </EditDish>
               <DeleteDish dishId = {item._id}
@@ -120,6 +123,8 @@ export const dishesByYelpId = gql`
       photourlHash
       restaurant_id
       yelp_id
+      alias
+      vegetarian
     }
   }
 `;

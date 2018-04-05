@@ -24,12 +24,14 @@ const typeDefs = `
   }
   type Dish{
     _id:String
+    alias: String
     dishName: String
     photourl: String
     photourlHash: String
     yelp_id: String
     cuisinetype:[String]
     restaurant_id: String
+    vegetarian: Boolean
   }
   type AllDishes{
     docs: [Dish]
@@ -46,8 +48,10 @@ const typeDefs = `
     photourl: String!
     photourlHash: String
     yelp_id: String!
+    alias: String
     cuisinetype:[String]
     restaurant_id: String!
+    vegetarian: Boolean
   }
 
   #DishEditInput
@@ -59,6 +63,8 @@ const typeDefs = `
     photourlHash: String
     restaurant_id: String
     yelp_id: String
+    alias: String
+    vegetarian: Boolean
   }
 
   type Restaurant{
@@ -74,6 +80,7 @@ const typeDefs = `
     _id: String
     name: String
     id: String
+    alias: String
     is_claimed: Boolean
     is_closed: Boolean
     url: String
@@ -142,6 +149,7 @@ const typeDefs = `
         distance: Float
         hours: [HoursInput]
         id: String
+        alias: String
         is_claimed: Boolean
         is_closed: Boolean
         location: LocationInput

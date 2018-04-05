@@ -139,7 +139,7 @@ class InfoModal extends Component {
     if (error) {
       return <p>{error.message}</p>
     }
-    // console.log("MODAL RENDER",this.props);
+    console.log("MODAL RENDER",this.props);
 
     return (
       <div>
