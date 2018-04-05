@@ -62,7 +62,10 @@ class SwipeCard extends Component {
 
     }
     console.log("pageID", this.state.pageID);
-    if (this.state.pageID === this.props.DishesListQuery.dishes.pages ) {
+    console.log("pages", this.props.DishesListQuery.dishes.pages -1);
+
+    if (this.state.pageID === this.props.DishesListQuery.dishes.pages - 1 ) {
+      console.log("PAGEID IF");
       this.setState({
         pageID: 1
       })

@@ -63,6 +63,7 @@ class ResaurantDishes extends Component {
           <AddDish yelpId={yelpId}
                    restaurantId = {restaurantId}
                    alias={alias}
+
                    />
 
                  {this.state.dishesByYelpId.length === 0 &&

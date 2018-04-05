@@ -24,7 +24,9 @@ class NewDish extends Component {
     let {yelpId,restaurantId,alias } = this.props
     console.log("CLICK addDish  props", this.props);
     console.log("CLICK addDish  state", this.state);
-
+    this.setState({
+      addDishVisible: false
+    })
     this.props.mutate({
       variables: {
         dish:{
@@ -112,13 +114,15 @@ class NewDish extends Component {
                 onChange={(e) => this.setState({photourl: e.target.value})}
                 className="input-1"
               />
+            <div>
+              <span>vegetarian? Yes if checked</span>
               <input
                 type="checkbox"
                 checked={this.state.vegetarian}
                 onChange={(e) => this.setState({vegetarian:!this.state.vegetarian})}
                 className="checkbox-1"
               />
-
+            </div>
             <button className="save-new-dish-button button-1" type="submit" onClick={this.addDish}>Save</button>
             </div>
         </div>

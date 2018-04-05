@@ -26,6 +26,7 @@ if (true)console.log("componentWillReceiveProps EditDish", nextProps);
     dishName: nextProps.dish.dishName,
     photourl: nextProps.dish.photourl,
     photourlHash: nextProps.dish.photourlHash,
+    vegetarian: nextProps.dish.vegetarian,
   })
 }
 
