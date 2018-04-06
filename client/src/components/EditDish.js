@@ -13,6 +13,8 @@ class EditDish extends Component{
       dish:'',
       dishToEdit: '',
       vegetarian: false,
+      salty: false,
+      sweet: false,
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -27,6 +29,8 @@ if (true)console.log("componentWillReceiveProps EditDish", nextProps);
     photourl: nextProps.dish.photourl,
     photourlHash: nextProps.dish.photourlHash,
     vegetarian: nextProps.dish.vegetarian,
+    salty: nextProps.dish.salty,
+    sweet: nextProps.dish.sweet,
   })
 }
 
@@ -44,7 +48,7 @@ if (true)console.log("componentWillReceiveProps EditDish", nextProps);
    event.preventDefault();
    if (EditDishLogs)console.log("SUBMIT edit props",this.props);
    if (true)console.log("SUBMIT edit state",this.state);
-   const { dishName, photourl, photourlHash,vegetarian } = this.state
+   const { dishName, photourl, photourlHash,vegetarian, salty, sweet } = this.state
    const {dishToEdit} = this.state
    const restaurant_id = this.props.restaurantId
    const { _id, yelp_id, alias} = this.props.dish
@@ -63,6 +67,8 @@ if (true)console.log("componentWillReceiveProps EditDish", nextProps);
           yelp_id,
           alias,
           vegetarian,
+          salty,
+          sweet,
         }},
       optimisticResponse: {
         updateDish: {
@@ -74,6 +80,8 @@ if (true)console.log("componentWillReceiveProps EditDish", nextProps);
           yelp_id,
           alias,
           vegetarian: vegetarian,
+          salty: salty,
+          sweet: sweet,
           __typename: 'Dish',
         },
       },
@@ -119,15 +127,31 @@ if (true)console.log("componentWillReceiveProps EditDish", nextProps);
               <input className="input-1" type="text"  name="photourl" value={this.state.photourl} onChange={this.handleChange()} required />
             </label>
             <div>
-              <span>vegetarian: yes if checked</span>
+              <span>Salty</span>
+              <input
+                type="checkbox"
+                checked={this.state.salty}
+                onChange={(e) => this.setState({salty:!this.state.salty})}
+                className="checkbox-1"
+              />
+              <span>Sweet</span>
+              <input
+                type="checkbox"
+                checked={this.state.sweet}
+                onChange={(e) => this.setState({sweet:!this.state.sweet})}
+                className="checkbox-1"
+              />
+            </div>
+            <div>
+              <span>vegetarian? </span>
               <input
                 type="checkbox"
                 checked={this.state.vegetarian}
                 onChange={(e) => this.setState({vegetarian:!this.state.vegetarian})}
                 className="checkbox-1"
               />
+              <span> yes if checked</span>
             </div>
-
           </form>
         </div>
       )
@@ -148,6 +172,8 @@ const updateDish = gql`
       yelp_id
       alias
       vegetarian
+      salty
+      sweet
     }
   }
 

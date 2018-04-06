@@ -84,6 +84,16 @@ class ResaurantDishes extends Component {
               {!item.vegetarian &&
               <p>This is not vegetarian</p>
               }
+              <p>
+                {
+                  item.salty &&
+                <span>Salty </span>
+                }
+                {
+                  item.sweet &&
+                <span>Sweet </span>
+                }
+              </p>
               <button className={this.state.isEditing? "hidden " :"update-dish-button button-1"} onClick={this.editDish(i, item)}>Update Dish</button>
               <EditDish index={i}
                         dish={this.state.dish}
@@ -126,6 +136,8 @@ export const dishesByYelpId = gql`
       yelp_id
       alias
       vegetarian
+      salty
+      sweet
     }
   }
 `;

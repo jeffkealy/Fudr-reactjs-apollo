@@ -5,25 +5,14 @@ import SwipeCard from './components/SwipeCard'
 import { BrowserRouter as Router, Route} from 'react-router-dom'
 import Dishes from './components/Dishes'
 
-// console.log("process.env.NODE_ENV", process.env.PORT);
-// console.log("process.env.NODE_ENV", process.env.NODE_ENV);
-// console.log("process.env.REACT_APP_NODE_ENV", process.env.REACT_APP_NODE_ENV);
-// console.log("process.env.REACT_APP_GRAPHQL_URI", process.env.REACT_APP_GRAPHQL_URI);
-
-
 const isNotProduction = process.env.REACT_APP_NODE_ENV !== 'production';
-console.log("isNotProduction", isNotProduction);
 const uri = isNotProduction ? 'http://localhost:4000/graphql' : process.env.REACT_APP_GRAPHQL_URI;
-console.log("uri", uri);
 const networkInterface = createNetworkInterface({uri});
 
 const client = new ApolloClient({
   addTypename: false,
   networkInterface,
 });
-
-
-
 
 class App extends Component {
   render() {

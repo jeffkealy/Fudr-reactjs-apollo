@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import Modal from 'react-modal';
 import { gql, graphql } from 'react-apollo';
 import '../styles/InfoModal.css'
-import Info from 'react-icons/lib/md/info-outline'
+import Info from 'react-icons/lib/md/info'
 import Close from 'react-icons/lib/ti/delete-outline'
 
 // const customStyles = {
@@ -39,14 +39,16 @@ class InfoModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      modalIsOpen: false
+      modalIsOpen: false,
+      hoursShowing: false,
     };
 
     this.openModal = this.openModal.bind(this);
     this.afterOpenModal = this.afterOpenModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
-    this.dayOfTheWeek = this.dayOfTheWeek.bind(this)
-    this.editTime = this.editTime.bind(this)
+    this.dayOfTheWeek = this.dayOfTheWeek.bind(this);
+    this.editTime = this.editTime.bind(this);
+    this.toggleHours = this.toggleHours.bind(this);
 
   }
   componentWillMount() {
@@ -66,7 +68,9 @@ class InfoModal extends Component {
     // references are now sync'd and can be accessed.
     // this.subtitle.style.color = '#f00';
   }
-
+  toggleHours(){
+    this.setState({hoursShowing:!this.state.hoursShowing})
+  }
   dayOfTheWeek(day){
             switch (day) {
           case 0:
@@ -126,7 +130,10 @@ class InfoModal extends Component {
     }
   }
   closeModal() {
-    this.setState({modalIsOpen: false});
+    this.setState({
+      modalIsOpen: false,
+      hoursShowing: false,
+    });
   }
 
   render() {
@@ -142,8 +149,8 @@ class InfoModal extends Component {
     // console.log("MODAL RENDER",this.props);
 
     return (
-      <div>
-        <button onClick={this.openModal} className="info-button button icon-button"><Info className="info-icon" /></button>
+      <div className="info-modal-container">
+        <button onClick={this.openModal} className="info-button icon-button-1"><Info className="info-icon" /></button>
         <Modal
           isOpen={this.state.modalIsOpen}
           onAfterOpen={this.afterOpenModal}
@@ -164,8 +171,8 @@ class InfoModal extends Component {
         >
           <div>
             <div className="info-modal-header">
-              <button onClick={this.closeModal} className='close-button button icon-button'><Close className='close-icon' /></button>
-              <span className="info-modal dish-name" ref={subtitle => this.subtitle = subtitle}>{this.props.currentDish.dishName}</span>
+              <button onClick={this.closeModal} className='close-button icon-button-1'><Close className='close-icon' /></button>
+              <h2 className="info-modal dish-name" ref={subtitle => this.subtitle = subtitle}>{this.props.currentDish.dishName}</h2>
             </div>
             <div className='info-modal image-container'>
               <img className='info-modal-image' src={currentDish.photourl} alt="dish"/>
@@ -174,15 +181,20 @@ class InfoModal extends Component {
               <h1 className='info-modal restaurant-name'>{restaurant.name}</h1>
               <p>{restaurant.address}</p>
               <p>{restaurant.location.formatted_address}</p>
-                {restaurant.hours[0].open.map((oop, i)=>
-                  <div key={i}>
-                    <span>{this.dayOfTheWeek(oop.day)} </span>
-                    <span>{this.editTime(oop.start)} to </span>
-                    <span>{this.editTime(oop.end)} </span>
+              <button className="hours-dropdown-button button-3" onClick={this.toggleHours}>
+                <span>Hours</span>
+              </button>
+                {this.state.hoursShowing &&
+                  <div className="info-modal-hours">
+                  {restaurant.hours[0].open.map((oop, i)=>
+                      <div key={i}>
+                        <span>{this.dayOfTheWeek(oop.day)}: </span>
+                        <span>{this.editTime(oop.start)} to </span>
+                        <span>{this.editTime(oop.end)} </span>
+                      </div>
+                  )}
                   </div>
-                )}
-
-
+                }
             </div>
           </div>
           <div

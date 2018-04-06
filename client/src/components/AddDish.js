@@ -13,12 +13,14 @@ class NewDish extends Component {
       photourl: '',
       addDishVisible: false,
       vegetarian: false,
+      salty: false,
+      sweet: false,
 
     }
   }
 
   addDish = () => {
-    let {dishName, photourl, vegetarian } = this.state;
+    let {dishName, photourl, vegetarian, salty, sweet } = this.state;
     let _id = ''
     let photourlHash = ''
     let {yelpId,restaurantId,alias } = this.props
@@ -38,6 +40,8 @@ class NewDish extends Component {
               alias: alias,
               restaurant_id: restaurantId,
               vegetarian: vegetarian,
+              salty: salty,
+              sweet: sweet,
             }
       },
       optimisticResponse: {
@@ -50,6 +54,8 @@ class NewDish extends Component {
           alias: alias,
           restaurant_id: restaurantId,
           vegetarian: vegetarian,
+          salty: salty,
+          sweet: sweet,
           __typename: 'Dish',
         },
       },
@@ -76,6 +82,9 @@ class NewDish extends Component {
       this.setState({
         dishName: '',
         photourl: '',
+        vegetarian: false,
+        salty: false,
+        sweet: false,
       });
     });
 
@@ -114,14 +123,31 @@ class NewDish extends Component {
                 onChange={(e) => this.setState({photourl: e.target.value})}
                 className="input-1"
               />
+              <div>
+                <span>Salty </span>
+                <input
+                  type="checkbox"
+                  checked={this.state.salty}
+                  onChange={(e) => this.setState({salty:!this.state.salty})}
+                  className="checkbox-1"
+                />
+              <span>Sweet </span>
+                <input
+                  type="checkbox"
+                  checked={this.state.sweet}
+                  onChange={(e) => this.setState({sweet:!this.state.sweet})}
+                  className="checkbox-1"
+                />
+              </div>
             <div>
-              <span>vegetarian? Yes if checked</span>
+              <span>vegetarian? </span>
               <input
                 type="checkbox"
                 checked={this.state.vegetarian}
                 onChange={(e) => this.setState({vegetarian:!this.state.vegetarian})}
                 className="checkbox-1"
               />
+              <span> Yes if checked</span>
             </div>
             <button className="save-new-dish-button button-1" type="submit" onClick={this.addDish}>Save</button>
             </div>
@@ -143,6 +169,8 @@ const addDish = gql`
       alias
       restaurant_id
       vegetarian
+      salty
+      sweet
     }
   }
 `;

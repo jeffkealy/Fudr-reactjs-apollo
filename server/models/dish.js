@@ -13,7 +13,9 @@ var dishSchema = new Schema({
     yelp_id: String,
     alias: String,
     restaurant_id: String,
-    vegetarian: Boolean
+    vegetarian: Boolean,
+    salty: Boolean,
+    sweet: Boolean,
 
 
 

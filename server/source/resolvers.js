@@ -10,6 +10,8 @@ export const resolvers = {
             // const dishes = await Dish.find();
             const dishes = await Dish.paginate({}, {page: args.pageID, limit: 10 })
             console.log("dishes length", dishes.docs.length);
+            console.log("pages", dishes.pages);
+
             // const dishesCopy = dishes.slice();
 
             // let dishesCopy = dishes.slice().sort(function(){return .5 - Math.random()});

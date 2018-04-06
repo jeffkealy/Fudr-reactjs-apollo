@@ -62,12 +62,12 @@ class SwipeCard extends Component {
 
     }
     console.log("pageID", this.state.pageID);
-    console.log("pages", this.props.DishesListQuery.dishes.pages -1);
+    console.log("pages -1 ", this.props.DishesListQuery.dishes.pages -1);
 
     if (this.state.pageID === this.props.DishesListQuery.dishes.pages - 1 ) {
       console.log("PAGEID IF");
       this.setState({
-        pageID: 1
+        pageID: 0
       })
     }
     if ((i+3)% 10 === 0) {
@@ -96,8 +96,10 @@ class SwipeCard extends Component {
               docs:[
              ...previousResult.dishes.docs,
              ...fetchMoreResult.dishes.docs,
-            ]
-          },
+              ],
+              page: this.state.pageID,
+              pages: this.props.DishesListQuery.dishes.pages,
+           },
          };
        },
      });
@@ -145,13 +147,13 @@ class SwipeCard extends Component {
                    <div className="card-text">
                      <h2>{item.dishName}</h2>
                      <Restaurant restaurantID={item.restaurant_id}/>
-                       <InfoModal
-                         currentDish={this.state.currentDish}
-                         restaurantID={this.state.currentDish.restaurant_id}
-                         ></InfoModal>
+
 
                    </div>
-
+                   <InfoModal
+                     currentDish={this.state.currentDish}
+                     restaurantID={this.state.currentDish.restaurant_id}
+                     ></InfoModal>
                   </div>
                 </Card>
               )}

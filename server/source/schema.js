@@ -32,6 +32,8 @@ const typeDefs = `
     cuisinetype:[String]
     restaurant_id: String
     vegetarian: Boolean
+    salty: Boolean
+    sweet: Boolean
   }
   type AllDishes{
     docs: [Dish]
@@ -52,6 +54,8 @@ const typeDefs = `
     cuisinetype:[String]
     restaurant_id: String!
     vegetarian: Boolean
+    salty: Boolean
+    sweet: Boolean
   }
 
   #DishEditInput
@@ -65,6 +69,8 @@ const typeDefs = `
     yelp_id: String
     alias: String
     vegetarian: Boolean
+    salty: Boolean
+    sweet: Boolean
   }
 
   type Restaurant{
