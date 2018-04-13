@@ -198,8 +198,8 @@ difference between heigh and width is the size of card-text
 
 @media screen and (max-width:768px){
   .card-container{
-    top: -60px;
-    min-height: 595px;
+    top: -3px;
+    min-height: 478px;
 
   }
   .card-contents{
@@ -232,5 +232,8 @@ difference between heigh and width is the size of card-text
     border: 1px solid;
     margin: 1px 7px 2px ;
 
+  }
+  .review-button{
+    height: 32px;
   }
 }

@@ -3,7 +3,7 @@ import Cards, { Card } from 'react-swipe-card'
 import { gql, graphql } from 'react-apollo';
 import '../styles/SwipeCard.css';
 import InfoModal from './InfoModal';
-// import Dishes from './Dishes.js'
+import ReviewModal from './ReviewModal';
 import Restaurant from './Restaurant.js'
 
 
@@ -16,10 +16,12 @@ class SwipeCard extends Component {
       yesDishes:[],
       currentDish:{},
       cardContentsStyle: {},
-      pageID: 1
+      pageID: 1,
+      reviewModalIsClosed: "App-container"
+
     }
     this.swipe = this.swipe.bind(this)
-
+    this.reviewModalClosed = this.reviewModalClosed.bind(this)
     // console.log("constructor props", this.props );
 
 
@@ -112,6 +114,12 @@ class SwipeCard extends Component {
       }
     })
   }
+  reviewModalClosed(){
+    this.setState({
+      reviewModalIsClosed: "review-modal--closed App-container",
+    })
+    console.log("this.state.reviewModalIsClosed", this.state.reviewModalIsClosed);
+  }
   render(){
     const {loading, error, dishes} = this.props.DishesListQuery;
     let left = "left"
@@ -125,7 +133,11 @@ class SwipeCard extends Component {
       const allDishes = dishes.docs
       console.log("RENDER", this.props);
       return (
-        <div >
+
+        <div className={this.state.reviewModalIsClosed}>
+          <header className="App-header">
+            <h1 className="App-title">FüDR</h1>
+          </header>
           <Cards
             onEnd={()=>console.log("End")}
             alertLeft={<div>No</div>}
@@ -158,6 +170,9 @@ class SwipeCard extends Component {
                 </Card>
               )}
           </Cards>
+          <ReviewModal
+              reviewModalClosed={this.reviewModalClosed}
+            />
         </div>
       )
 

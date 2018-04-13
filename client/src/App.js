@@ -20,12 +20,8 @@ class App extends Component {
       <ApolloProvider client={client}>
         <Router>
           <div className="App" id="App">
-            <header className="App-header">
-              <h1 className="App-title">FüDR</h1>
-            </header>
             <Route path='/' exact={true}  component={SwipeCard}/>
             <Route path='/Dishes' component={Dishes}/>
-
           </div>
         </Router>
       </ApolloProvider>

@@ -5,35 +5,6 @@ import '../styles/InfoModal.css'
 import Info from 'react-icons/lib/md/info'
 import Close from 'react-icons/lib/ti/delete-outline'
 
-// const customStyles = {
-    // overlay: {
-    //   position: 'fixed',
-    //   top: 0,
-    //   left: 0,
-    //   right: 0,
-    //   bottom: 0,
-    //   backgroundColor: 'rgba(191, 27, 27, 0.8)',
-      // transform:'scaleY(.01) scaleX(0)',
-      // animation:'unfoldIn 1s cubic-bezier(0.165, 0.840, 0.440, 1.000) forwards'
-    //
-    // },
-    // content: {
-    //   position: 'absolute',
-    //   top: '40px',
-    //   left: '40px',
-    //   right: '40px',
-    //   bottom: '40px',
-    //   border: '1px solid #ccc',
-    //   background: '#fff',
-    //   overflow: 'auto',
-    //   WebkitOverflowScrolling: 'touch',
-    //   borderRadius: '4px',
-    //   outline: 'none',
-    //   padding: '20px',
-      // transform:'scale(0)',
-      // animation: 'zoomIn .5s .8s cubic-bezier(0.165, 0.840, 0.440, 1.000) forwards'
-  //   }
-  // };
 
 class InfoModal extends Component {
   constructor(props) {
@@ -49,6 +20,8 @@ class InfoModal extends Component {
     this.dayOfTheWeek = this.dayOfTheWeek.bind(this);
     this.editTime = this.editTime.bind(this);
     this.toggleHours = this.toggleHours.bind(this);
+    this.isRestaurantOpen = this.isRestaurantOpen.bind(this);
+
 
   }
   componentWillMount() {
@@ -58,7 +31,7 @@ class InfoModal extends Component {
 
   openModal() {
     this.setState({
-      modalIsOpen: true
+      modalIsOpen: true,
     });
     console.log("MODAL openModal",this.state);
 
@@ -70,6 +43,52 @@ class InfoModal extends Component {
   }
   toggleHours(){
     this.setState({hoursShowing:!this.state.hoursShowing})
+  }
+  isRestaurantOpen(restaurant){
+    let d = new Date();
+    let day = d.getDay();
+    let hour = d.getHours();
+    hour = hour*100
+    let minutes = d.getMinutes()
+    let time = hour + minutes
+    let businessClosedAt = restaurant.hours[0].open[day].end
+    let businessOpenAt = restaurant.hours[0].open[day].start
+    businessClosedAt = parseInt(businessClosedAt, 10)
+    businessOpenAt = parseInt(businessOpenAt, 10)
+    console.log("time", time);
+    if (businessClosedAt < businessOpenAt) {
+      businessClosedAt = businessClosedAt +2400;
+      console.log("businessOpenAt", businessOpenAt);
+      console.log("businessClosedAt", businessClosedAt);
+      if (time <= (businessClosedAt -2400)) {
+        time = time +2400
+
+      }
+      if (time < businessClosedAt && time > businessOpenAt) {
+        console.log("time", time);
+
+        return "Open"
+      } else {
+        console.log("1st else");
+        console.log("time", time);
+
+        return "closed"
+      }
+    } else if (time < businessClosedAt && time > businessOpenAt) {
+      console.log("elseif");
+      console.log("time", time);
+      console.log("businessOpenAt", businessOpenAt);
+      console.log("businessClosedAt", businessClosedAt);
+      return "Open"
+
+    } else {
+      console.log("2nd else");
+      console.log("time", time);
+      console.log("businessOpenAt", businessOpenAt);
+      console.log("businessClosedAt", businessClosedAt);
+
+      return "Closed"
+    }
   }
   dayOfTheWeek(day){
             switch (day) {
@@ -92,7 +111,7 @@ class InfoModal extends Component {
           }
   }
   editTime(time){
-    let timeInt = parseInt(time)
+    let timeInt = parseInt(time, 10)
     if (timeInt > 1200) {
       timeInt = timeInt-1200
       if (timeInt < 1000){
@@ -151,11 +170,12 @@ class InfoModal extends Component {
     return (
       <div className="info-modal-container">
         <button onClick={this.openModal} className="info-button icon-button-1"><Info className="info-icon" /></button>
+        {this.state.modalIsOpen &&
+
         <Modal
           isOpen={this.state.modalIsOpen}
           onAfterOpen={this.afterOpenModal}
           onRequestClose={this.closeModal}
-          contentLabel="Example Modal"
           closeTimeoutMS={700}
           className={{
             base: 'info modal',
@@ -178,12 +198,17 @@ class InfoModal extends Component {
               <img className='info-modal-image' src={currentDish.photourl} alt="dish"/>
             </div>
             <div className='info-modal restaurant-address'>
-              <h1 className='info-modal restaurant-name'>{restaurant.name}</h1>
+              <div>
+                <h1 className='info-modal restaurant-name'>{restaurant.name}</h1>
+              </div>
               <p>{restaurant.address}</p>
               <p>{restaurant.location.formatted_address}</p>
+              <h3 className="openClosed">{this.isRestaurantOpen(restaurant)}</h3>
+
               <button className="hours-dropdown-button button-3" onClick={this.toggleHours}>
                 <span>Hours</span>
               </button>
+
                 {this.state.hoursShowing &&
                   <div className="info-modal-hours">
                   {restaurant.hours[0].open.map((oop, i)=>
@@ -197,13 +222,14 @@ class InfoModal extends Component {
                 }
             </div>
           </div>
+
           <div
-            className='modal-mage-container'
+            className='modal-image-container'
             style={{'backgroundImage':`url(${currentDish.photourl})`}}
               >
           </div>
-
         </Modal>
+      }
       </div>
     );
   }

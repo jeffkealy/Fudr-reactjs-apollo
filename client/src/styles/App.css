@@ -25,7 +25,9 @@ body {
 h1, h2{
   font-weight: 400;
 }
-
+button:focus{
+  outline: none;
+}
 .button-1 {
   border: none;
   font-family: inherit;

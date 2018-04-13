@@ -1,0 +1,171 @@
+.review.modal-overlay{
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+
+}
+.review.modal {
+  position: absolute;
+  color:#000;
+  background-color: #ffF;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  border-radius: 5px;
+  border: 1px solid;
+  outline: none;
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+
+}
+.review.modal-overlay-after-open{
+  z-index:0;
+  transform:scale(1);
+  animation: fadeToWhite .7s cubic-bezier(0.165, 0.840, 0.440, 1.000) forwards;
+
+}
+.review.modal-after-open{
+  animation: blowUpModal .5s cubic-bezier(0.165, 0.840, 0.440, 1.000) forwards;
+
+}
+
+.review-modal--body .App-container{
+  z-index:1;
+  animation:blowUpContent .5s cubic-bezier(0.165, 0.840, 0.440, 1.000) forwards;
+
+}
+
+.review.modal-overlay-before-close{
+  /* transform:scale(0); */
+
+
+}
+
+.review.modal-before-close{
+  animation: blowUpModalTwo .5s cubic-bezier(0.165, 0.840, 0.440, 1.000) forwards;
+}
+.review-modal--closed  {
+  animation: blowUpContentTwo .5s cubic-bezier(0.165, 0.840, 0.440, 1.000) forwards;
+
+}
+
+.four {
+    z-index:0;
+    transform:scale(1);
+    .modal-background {
+      .modal {
+        animation: blowUpModal .5s cubic-bezier(0.165, 0.840, 0.440, 1.000) forwards;
+      }
+    }
+    + .content {
+      z-index:1;
+      animation:blowUpContent .5s cubic-bezier(0.165, 0.840, 0.440, 1.000) forwards;
+    }
+    &.out {
+      .modal-background {
+        .modal {
+          animation: blowUpModalTwo .5s cubic-bezier(0.165, 0.840, 0.440, 1.000) forwards;
+        }
+      }
+      + .content {
+        animation: blowUpContentTwo .5s cubic-bezier(0.165, 0.840, 0.440, 1.000) forwards;
+      }
+    }
+  }
+
+
+  /* .one {
+    transform:scaleY(.01) scaleX(0);
+    animation:unfoldIn 1s cubic-bezier(0.165, 0.840, 0.440, 1.000) forwards;
+    .modal-background {
+      .modal {
+        transform:scale(0);
+        animation: zoomIn .5s .8s cubic-bezier(0.165, 0.840, 0.440, 1.000) forwards;
+      }
+    }
+    &.out {
+      transform:scale(1);
+      animation:unfoldOut 1s .3s cubic-bezier(0.165, 0.840, 0.440, 1.000) forwards;
+      .modal-background {
+        .modal {
+          animation: zoomOut .5s cubic-bezier(0.165, 0.840, 0.440, 1.000) forwards;
+        }
+      }
+    }
+  } */
+
+  @keyframes blowUpContent {
+  0% {
+    transform:scale(1);
+    opacity:1;
+  }
+  99.9% {
+    transform:scale(2.75,1.3);
+    opacity:0;
+  }
+  100% {
+    transform:scale(0);
+  }
+}
+
+
+  @keyframes blowUpContentTwo {
+  0% {
+    opacity:0;
+    transform:scale(2.75,1.3);
+
+  }
+
+  100% {
+    opacity:1;
+    transform:scale(1);
+
+  }
+}
+
+@keyframes blowUpModal {
+  0% {
+    transform:scale(0);
+  }
+  /* 50% {
+    transform:scale(.75,.5);
+
+  } */
+  100% {
+    transform:scale(1);
+  }
+}
+
+@keyframes blowUpModalTwo {
+  0% {
+    transform:scale(1);
+    opacity:1;
+  }
+  100% {
+    transform:scale(0);
+    opacity:0;
+  }
+}
+@keyframes fadeOut {
+  0% {
+    opacity:1;
+  }
+  100% {
+    opacity:0;
+  }
+}
+@keyframes fadeToWhite {
+  0% {
+    background-color: inherit;
+  }
+  100% {
+    background-color: #fff;
+  }
+}
