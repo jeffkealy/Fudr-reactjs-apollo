@@ -9,11 +9,12 @@ class ReviewModal extends Component {
     super(props);
     this.state = {
       modalIsOpen: false,
-      hoursShowing: false,
     };
 
     this.reviewModalState = this.reviewModalState.bind(this);
     this.afterOpenModal = this.afterOpenModal.bind(this);
+    this.closeModal = this.closeModal.bind(this);
+
 
   }
   componentWillMount() {
@@ -35,6 +36,11 @@ class ReviewModal extends Component {
     if (this.state.modalIsOpen) {
       this.props.reviewModalClosed()
     }
+  }
+  closeModal() {
+    this.setState({
+      modalIsOpen: false,
+    });
   }
   render(){
     console.log("REviewmodal props", this.props);
@@ -60,7 +66,11 @@ class ReviewModal extends Component {
           bodyOpenClassName="review-modal--body"
           >
           <div>
-            Tst
+            <div className="review-modal-header">
+              <button onClick={this.closeModal} className='review-close-button icon-button-1'><Close className='close-icon' /></button>
+              <h2>Test</h2>
+            </div>
+
           </div>
 
         </Modal>

@@ -191,7 +191,7 @@ class InfoModal extends Component {
         >
           <div>
             <div className="info-modal-header">
-              <button onClick={this.closeModal} className='close-button icon-button-1'><Close className='close-icon' /></button>
+              <button onClick={this.closeModal} className='info-close-button icon-button-1'><Close className='close-icon' /></button>
               <h2 className="info-modal dish-name" ref={subtitle => this.subtitle = subtitle}>{this.props.currentDish.dishName}</h2>
             </div>
             <div className='info-modal image-container'>
