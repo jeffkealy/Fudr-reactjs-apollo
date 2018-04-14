@@ -38,8 +38,10 @@ class InfoModal extends Component {
   }
 
   afterOpenModal() {
-    // references are now sync'd and can be accessed.
-    // this.subtitle.style.color = '#f00';
+    console.log("REviewmodal props", this.props);
+    if (this.state.modalIsOpen) {
+      this.props.infoModalClosed()
+    }
   }
   toggleHours(){
     this.setState({hoursShowing:!this.state.hoursShowing})
@@ -176,7 +178,7 @@ class InfoModal extends Component {
           isOpen={this.state.modalIsOpen}
           onAfterOpen={this.afterOpenModal}
           onRequestClose={this.closeModal}
-          closeTimeoutMS={700}
+          closeTimeoutMS={200}
           className={{
             base: 'info modal',
             afterOpen: 'info modal-after-open',
@@ -187,6 +189,7 @@ class InfoModal extends Component {
             afterOpen: 'info modal-overlay-after-open',
             beforeClose: 'info modal-overlay-before-close'
           }}
+          bodyOpenClassName="info-modal--body"
 
         >
           <div>

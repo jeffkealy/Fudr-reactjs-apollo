@@ -10,7 +10,7 @@
 }
 .info.modal {
   position: absolute;
-  color:#FFF;
+  color:#000;
   background-color: transparent;
   top: 40px;
   left: 40px;
@@ -26,23 +26,30 @@
 
 }
 .info.modal-overlay-after-open{
-  transform:scaleY(.01) scaleX(0);
-  animation:unfoldIn 1s cubic-bezier(0.165, 0.840, 0.440, 1.000) forwards;
-}
-.info.modal-overlay-before-close{
+  z-index:0;
   transform:scale(1);
-  animation:unfoldOut .4s .3s cubic-bezier(0.165, 0.840, 0.440, 1.000) forwards;
+  animation: fadeToWhite .7s cubic-bezier(0.165, 0.840, 0.440, 1.000) forwards;
+
+}
+.info.modal-after-open{
+  animation: blowUpModal .5s cubic-bezier(0.165, 0.840, 0.440, 1.000) forwards;
 
 }
 
+.info-modal--body .App-container{
+  z-index:1;
+  animation:blowUpContent .5s cubic-bezier(0.165, 0.840, 0.440, 1.000) forwards;
 
-.info.modal-after-open{
-  transform: scale(0);
-  animation: zoomIn .5s .8s cubic-bezier(0.165, 0.840, 0.440, 1.000) forwards;
+}
 
+.info.modal-overlay-before-close{
+  /* transform:scale(0); */
 }
 .info.modal-before-close{
-  animation: zoomOut .5s cubic-bezier(0.165, 0.840, 0.440, 1.000) forwards;
+  animation: blowUpModalTwo .5s cubic-bezier(0.165, 0.840, 0.440, 1.000) forwards;
+}
+.info-modal--closed  {
+  animation: blowUpContentTwo .5s cubic-bezier(0.165, 0.840, 0.440, 1.000) forwards;
 
 }
 .info-close-button {
@@ -113,43 +120,92 @@
 }
 
 /* keyframes */
-@keyframes unfoldIn {
-  0% {
-    transform:scaleY(.005) scaleX(0);
-  }
-  50% {
-    transform:scaleY(.005) scaleX(1);
-  }
-  100% {
-    transform:scaleY(1) scaleX(1);
+
+@media screen and (max-width:768px){
+  .review-modal--closed  {
+    animation: blowUpContentTwoMobile .5s cubic-bezier(0.165, 0.840, 0.440, 1.000) forwards;
+
   }
 }
 
-@keyframes unfoldOut {
+@keyframes blowUpContent {
   0% {
-    transform:scaleY(1) scaleX(1);
+    transform:scale(1);
+    opacity:1;
   }
-  50% {
-    transform:scaleY(.005) scaleX(1);
+  99.9% {
+    transform:scale(2.75,1.3);
+    opacity:0;
   }
   100% {
-    transform:scaleY(.005) scaleX(0);
+    transform:scale(0);
   }
 }
-@keyframes zoomIn {
+
+
+@keyframes blowUpContentTwo {
+  0% {
+    opacity:0;
+    transform:scale(2.75,1.3);
+
+  }
+
+  100% {
+    opacity:1;
+    transform:scale(1);
+
+  }
+}
+@keyframes blowUpContentTwoMobile {
+  0% {
+    opacity:0;
+    transform:scale(2.75,1.1);
+
+  }
+
+  100% {
+    opacity:1;
+    transform:scale(1);
+
+  }
+}
+
+@keyframes blowUpModal {
   0% {
     transform:scale(0);
   }
+  /* 50% {
+  transform:scale(.75,.5);
+
+  } */
   100% {
     transform:scale(1);
   }
 }
 
-@keyframes zoomOut {
+@keyframes blowUpModalTwo {
   0% {
     transform:scale(1);
+    opacity:1;
   }
   100% {
     transform:scale(0);
+    opacity:0;
+  }
+}
+@keyframes fadeOut {
+  0% {
+    opacity:1;
+  }
+  100% {
+    opacity:0;
+  }
+}
+@keyframes fadeToWhite {
+  0% {
+    background-color: inherit;
+  }
+  100% {
+    background-color: #fff;
   }
 }

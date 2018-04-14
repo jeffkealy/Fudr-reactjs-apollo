@@ -17,11 +17,11 @@ class SwipeCard extends Component {
       currentDish:{},
       cardContentsStyle: {},
       pageID: 1,
-      reviewModalIsClosed: "App-container"
+      infoModalIsClosed: "App-container"
 
     }
     this.swipe = this.swipe.bind(this)
-    this.reviewModalClosed = this.reviewModalClosed.bind(this)
+    this.infoModalClosed = this.infoModalClosed.bind(this)
     // console.log("constructor props", this.props );
 
 
@@ -114,11 +114,11 @@ class SwipeCard extends Component {
       }
     })
   }
-  reviewModalClosed(){
+  infoModalClosed(){
     this.setState({
-      reviewModalIsClosed: "review-modal--closed App-container",
+      infoModalIsClosed: "info-modal--closed App-container",
     })
-    console.log("this.state.reviewModalIsClosed", this.state.reviewModalIsClosed);
+    console.log("this.state.infoModalIsClosed", this.state.infoModalIsClosed);
   }
   render(){
     const {loading, error, dishes} = this.props.DishesListQuery;
@@ -134,7 +134,7 @@ class SwipeCard extends Component {
       console.log("RENDER", this.props);
       return (
 
-        <div className={this.state.reviewModalIsClosed}>
+        <div className={this.state.infoModalIsClosed}>
           <header className="App-header">
             <h1 className="App-title">FüDR</h1>
           </header>
@@ -165,6 +165,8 @@ class SwipeCard extends Component {
                    <InfoModal
                      currentDish={this.state.currentDish}
                      restaurantID={this.state.currentDish.restaurant_id}
+                     infoModalClosed={this.infoModalClosed}
+
                      ></InfoModal>
                   </div>
                 </Card>
@@ -172,6 +174,8 @@ class SwipeCard extends Component {
           </Cards>
           <ReviewModal
               reviewModalClosed={this.reviewModalClosed}
+              yesDishes={this.state.yesDishes}
+
             />
         </div>
       )

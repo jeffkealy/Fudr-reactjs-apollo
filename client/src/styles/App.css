@@ -34,7 +34,7 @@ button:focus{
   color: white;
   height: 37px;
   font-size: 14px;
-
+  cursor: pointer;
   background-color: #32bfd2;
   border-radius: 5px;
   margin: 3px;

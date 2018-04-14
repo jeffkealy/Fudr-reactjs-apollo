@@ -1,7 +1,10 @@
 import React from 'react';
 import { gql, graphql } from 'react-apollo';
 
-const Restaurant  = ({ data}) => {
+import OpenClosed from './OpenClosed.js'
+
+
+const Restaurant  = ({ data, restaurantID}) => {
   if (data.loading) {
     return <p>Loading...</p>
 
@@ -10,22 +13,30 @@ const Restaurant  = ({ data}) => {
     return <p>{data.error.message}</p>
   }
   else {
-    // console.log("Restaurant",data);
-
     return (
-        <p>{data.restaurant.name}</p>
+      <div className="Restaurant-container">
+        <p className="Restaurant-name">{data.restaurant.name}</p>
+        <OpenClosed hours={data.restaurant.hours}/>
+      </div>
     )
   }
 
 }
 
 export const restaurantQuery = gql`
-query RestaurantQuery ($_id: String!) {
+query RestaurantQuery ($_id: String) {
   restaurant ( _id: $_id) {
     _id
     name
     location{
       formatted_address
+    }
+    hours{
+      open{
+        start
+        end
+        day
+      }
     }
   }
 }

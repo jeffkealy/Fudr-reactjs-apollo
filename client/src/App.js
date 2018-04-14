@@ -6,7 +6,7 @@ import { BrowserRouter as Router, Route} from 'react-router-dom'
 import Dishes from './components/Dishes'
 
 const isNotProduction = process.env.REACT_APP_NODE_ENV !== 'production';
-const uri = isNotProduction ? 'http://localhost:4000/graphql' : process.env.REACT_APP_GRAPHQL_URI;
+const uri = isNotProduction ? 'http://192.168.1.8:4000/graphql' : process.env.REACT_APP_GRAPHQL_URI;
 const networkInterface = createNetworkInterface({uri});
 
 const client = new ApolloClient({
