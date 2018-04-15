@@ -16,6 +16,19 @@ li {
 .hidden{
   display: none;
 }
+.App-title {
+  /* -webkit-text-stroke: 4px #9C479D; */
+  font-size: 100px;
+  color: #fe2a12;
+  margin: 0;
+
+}
+.App-header {
+  height: auto;
+}
+.App-header a{
+  text-decoration: none;
+}
 
 .edit-button{
   margin-bottom: 10px;
@@ -200,6 +213,11 @@ difference between heigh and width is the size of card-text
  }
 
 @media screen and (max-width:768px){
+  .App-header{
+  }
+  .App-title{
+    font-size: 30px;
+  }
   .card-container{
     top: -3px;
     min-height: 484px;

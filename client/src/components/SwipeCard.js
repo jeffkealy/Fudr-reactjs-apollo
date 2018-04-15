@@ -136,8 +136,9 @@ class SwipeCard extends Component {
 
         <div className={this.state.infoModalIsClosed}>
           <header className="App-header">
-            <h1 className="App-title">FüDR</h1>
+            <a href="/"><h1 className="App-title">FüDR</h1></a>
           </header>
+
           <Cards
             onEnd={()=>console.log("End")}
             alertLeft={<div>No</div>}

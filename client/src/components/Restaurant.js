@@ -15,8 +15,10 @@ const Restaurant  = ({ data, restaurantID}) => {
   else {
     return (
       <div className="Restaurant-container">
-        <p className="Restaurant-name">{data.restaurant.name}</p>
-        <OpenClosed hours={data.restaurant.hours}/>
+        <div className="Restaurant-name">{data.restaurant.name}</div>
+        <OpenClosed hours={data.restaurant.hours}
+                    restaurant={data.restaurant.name}
+          />
       </div>
     )
   }

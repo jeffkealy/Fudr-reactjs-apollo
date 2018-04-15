@@ -3,7 +3,7 @@ import Modal from 'react-modal';
 
 import Restaurant from './Restaurant.js'
 
-import { gql, graphql } from 'react-apollo';
+// import { gql, graphql } from 'react-apollo';
 import '../styles/ReviewModal.css'
 import Close from 'react-icons/lib/ti/delete-outline'
 
@@ -78,7 +78,6 @@ class ReviewModal extends Component {
                   <img className="review-item-image" src={dish.photourl} alt="review" />
                   <div className="review-item-details">
                     <div >{dish.dishName}</div>
-                    <div >{dish.restaurant_id}</div>
                     <Restaurant
                       restaurantID={dish.restaurant_id}
                       />

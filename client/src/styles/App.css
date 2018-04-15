@@ -85,18 +85,7 @@ button:focus{
   text-align: center;
 }
 
-.App-header {
-  height: auto;
-  /* border-top: 5px solid #05386b;
-  border-bottom: 5px solid #05386b; */
-}
-
-.App-title {
-  /* -webkit-text-stroke: 4px #9C479D; */
-  font-size: 100px;
-  color: #fe2a12;
-  margin: 0;
-}
+.
 
 .App-intro {
   font-size: large;
@@ -104,11 +93,6 @@ button:focus{
 
 /* media queries */
 @media screen and (max-width:768px){
-  .App-header{
-  }
-  .App-title{
-    font-size: 30px;
-  }
 }
 
 @keyframes App-logo-spin {
