@@ -1,27 +1,11 @@
-html {
-  /* -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none; */
-}
-
-
-
+//SwipeCard.scss
+@import "./utilities.scss";
 
 li {
   list-style: none;
 }
 .hidden{
   display: none;
-}
-.App-title {
-  /* -webkit-text-stroke: 4px #9C479D; */
-  font-size: 100px;
-  color: #fe2a12;
-  margin: 0;
-
 }
 .App-header {
   height: auto;
@@ -48,12 +32,10 @@ li {
   /* margin: 4px; */
 }
 
-
-/* heigt of .card needs to be 4px smaller than .card-container */
 .card {
   background-size: cover;
   position: absolute;
-  background: rgba(255,255,255,1);
+  background: $container-bkrnd;
   height: auto;
   margin: 0px auto;
   padding: 10px;
@@ -63,11 +45,6 @@ li {
   border-radius: 5px;
 
 }
-/* .card-contents
-controls the width of main container
-height must be 40px shorter card-container min-height
-difference between heigh and width is the size of card-text
- */
 
 .card-contents{
   box-shadow: 0px 0px 6px 2px rgba(0, 0, 0, 0.6);
@@ -84,14 +61,15 @@ difference between heigh and width is the size of card-text
 .card.inactive:last-child > .card-contents{
   box-shadow: none
 }
+.card-contents .restaurant-name{
+
+}
 .animate {
   transition: transform .3s;
   box-shadow: none;
   border-radius: 5px;
 
 }
-/* heigt of .card-contents needs to be 4px smaller than .cardr */
-
 
 .card-image{
 
@@ -104,20 +82,23 @@ difference between heigh and width is the size of card-text
 
 }
 .card-text .OpenClosed-container{
-  display: none;
+  /* display: none; */
 }
 .card-text{
   color: #000;
   padding-top: 15px;
 
 }
+/* 42 characaters */
 .card-text h2{
-  margin: 0;
+  margin: 0 5px;
+  font-size: 20px;
+  font-weight: 700;
 
 }
 .card-text p{
   margin: 0;
-  padding: 0 0 10px 0;
+  padding: 0 0 0px 0;
 
 }
 
@@ -234,7 +215,7 @@ difference between heigh and width is the size of card-text
     padding-top: 0px;
   }
   .card-text h2{
-    font-size: 22px;
+    font-size: 18px;
   }
   .card-text p{
     font-size: 15px;

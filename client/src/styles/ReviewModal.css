@@ -47,21 +47,30 @@
 }
 .review-close-button {
   color: #fff;
-  position: absolute;
-  top: 0;
-  right: 0px;
-  width: 60px;
+  position: relative;
+  top: 5px;
+  left: 36px;
+  width: 50px;
   padding-right: 0;
+  float: left;
+}
+.review-container{
+  max-width: 700px;
+  margin: 0 auto ;
+
 }
 .review-modal-header{
+  border-bottom: 1px solid #fff;
+  margin-bottom: 20px;
+}
+.review-modal-header h2{
+  margin: 10px ;
 }
 .review-item-container{
   text-align: left;
-  max-width: 700px;
   max-height: 250px;
-  margin: 0 auto 20px;
-  color:#000;
-  background-color: rgba(255, 255, 255, 0.86);
+  color:#fff;
+  background-color: #000;
   border-radius: 5px;
 }
 .review-item-image{
@@ -69,13 +78,18 @@
   border-radius: 5px 0 0 5px;
 
 }
+
 .review-item-details{
   display: inline-block;
   vertical-align: top;
   margin: 20px ;
+  padding-bottom: 10px;
   max-width: 410px;
 }
+.review-item-details .Restaurant-name{
+  margin: 5px 0;
 
+}
 
 /* media queries */
 @media screen and (max-width:644px) {
@@ -90,12 +104,18 @@
 }
 @media screen and (max-width:768px){
   .review-modal-header{
-    max-width: 370px;
+    margin: 0px 0px 20px;
+    padding-right: 40px;
+  }
+  .review-close-button{
+    left:-10px;
+    position: sticky;
+    z-index: 9993;
   }
   .review-item-container{
     max-height: 600px;;
     text-align: center;
-    border: 1px solid #fff;
+    /* border-top: 1px solid #fff; */
 
   }
   .review-item-details{
@@ -104,6 +124,7 @@
   }
   .review-item-image{
     margin: 20px 0  0 0;
+    max-width: 325px;
   }
 }
 /* keyframes */

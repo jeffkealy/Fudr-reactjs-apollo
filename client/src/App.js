@@ -1,12 +1,21 @@
 import React, { Component } from 'react';
 import { ApolloClient, ApolloProvider, createNetworkInterface } from 'react-apollo';
-import './styles/App.css';
-import SwipeCard from './components/SwipeCard'
-import { BrowserRouter as Router, Route} from 'react-router-dom'
+import './styles/App.scss';
+import Restaurants from './components/Restaurants'
+// import SwipeCard from './components/SwipeCard'
+
+import {
+  BrowserRouter as Router,
+  Route,
+  Redirect,
+  Link,
+  Switch
+} from 'react-router-dom'
 import Dishes from './components/Dishes'
+import Header from './components/Header'
 
 const isNotProduction = process.env.REACT_APP_NODE_ENV !== 'production';
-const uri = isNotProduction ? 'http://192.168.1.8:4000/graphql' : process.env.REACT_APP_GRAPHQL_URI;
+const uri = isNotProduction ? 'http://localhost:4000/graphql' : process.env.REACT_APP_GRAPHQL_URI;
 const networkInterface = createNetworkInterface({uri});
 
 const client = new ApolloClient({
@@ -20,7 +29,8 @@ class App extends Component {
       <ApolloProvider client={client}>
         <Router>
           <div className="App" id="App">
-            <Route path='/' exact={true}  component={SwipeCard}/>
+            <Header/>
+            <Route path='/' exact={true}  component={Restaurants}/>
             <Route path='/Dishes' component={Dishes}/>
           </div>
         </Router>

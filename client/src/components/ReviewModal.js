@@ -5,13 +5,15 @@ import Restaurant from './Restaurant.js'
 
 // import { gql, graphql } from 'react-apollo';
 import '../styles/ReviewModal.css'
-import Close from 'react-icons/lib/ti/delete-outline'
+// import Close from 'react-icons/lib/ti/delete-outline'
+import BackArrow from 'react-icons/lib/md/arrow-back'
 
 class ReviewModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
       modalIsOpen: false,
+
     };
 
     this.reviewModalState = this.reviewModalState.bind(this);
@@ -66,9 +68,10 @@ class ReviewModal extends Component {
           }}
           bodyOpenClassName="review-modal--body"
           >
-          <div>
+          <button onClick={this.closeModal} className='review-close-button icon-button-1'><BackArrow className='close-icon' /></button>
+
+          <div className="review-container">
             <div className="review-modal-header">
-              <button onClick={this.closeModal} className='review-close-button icon-button-1'><Close className='close-icon' /></button>
               <h2>Review</h2>
             </div>
 
@@ -80,6 +83,7 @@ class ReviewModal extends Component {
                     <div >{dish.dishName}</div>
                     <Restaurant
                       restaurantID={dish.restaurant_id}
+                      openClosed={true}
                       />
 
                   </div>

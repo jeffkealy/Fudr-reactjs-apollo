@@ -34,6 +34,7 @@ export const resolvers = {
       }
 
     },
+
     dish: async (root, args, {Dish}) =>{
       try{
         const dish = await Dish.findById(args._id);
@@ -63,6 +64,16 @@ export const resolvers = {
         return restaurant
       } catch(e){
         console.log("error: restaurant query");
+      }
+    },
+    restaurants: async(root, args, {Restaurant}) =>{
+      try{
+        console.log("RESTAURANTS Query", args.zip_code);
+        const restaurants = await Restaurant.find({"location.zip_code":args.zip_code});
+        console.log("restaurants", restaurants.length);
+        return restaurants
+      } catch(e){
+        console.log("error: Restaurants query");
       }
     },
 

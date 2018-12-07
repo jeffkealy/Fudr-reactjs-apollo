@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Cards, { Card } from 'react-swipe-card'
 import { gql, graphql } from 'react-apollo';
-import '../styles/SwipeCard.css';
+import '../styles/SwipeCard.scss';
 import InfoModal from './InfoModal';
 import ReviewModal from './ReviewModal';
 import Restaurant from './Restaurant.js'
@@ -17,11 +17,12 @@ class SwipeCard extends Component {
       currentDish:{},
       cardContentsStyle: {},
       pageID: 1,
-      infoModalIsClosed: "App-container"
+      infoModalIsClosed: "App-container container"
 
     }
     this.swipe = this.swipe.bind(this)
     this.infoModalClosed = this.infoModalClosed.bind(this)
+    this.checkIfOpen = this.checkIfOpen.bind(this)
     // console.log("constructor props", this.props );
 
 
@@ -64,7 +65,7 @@ class SwipeCard extends Component {
 
     }
     console.log("pageID", this.state.pageID);
-    console.log("pages -1 ", this.props.DishesListQuery.dishes.pages -1);
+    console.log("pageID -1 ", this.props.DishesListQuery.dishes.pages -1);
 
     if (this.state.pageID === this.props.DishesListQuery.dishes.pages - 1 ) {
       console.log("PAGEID IF");
@@ -116,9 +117,13 @@ class SwipeCard extends Component {
   }
   infoModalClosed(){
     this.setState({
-      infoModalIsClosed: "info-modal--closed App-container",
+      infoModalIsClosed: "info-modal--closed App-container container",
     })
     console.log("this.state.infoModalIsClosed", this.state.infoModalIsClosed);
+
+  }
+  checkIfOpen(dishes){
+    console.log("test", dishes);
   }
   render(){
     const {loading, error, dishes} = this.props.DishesListQuery;
@@ -132,12 +137,11 @@ class SwipeCard extends Component {
     }
       const allDishes = dishes.docs
       console.log("RENDER", this.props);
+    if(dishes){
+      this.checkIfOpen(dishes)
       return (
 
         <div className={this.state.infoModalIsClosed}>
-          <header className="App-header">
-            <a href="/"><h1 className="App-title">FüDR</h1></a>
-          </header>
 
           <Cards
             onEnd={()=>console.log("End")}
@@ -159,9 +163,9 @@ class SwipeCard extends Component {
                    <img className="card-image" src={item.photourl} alt="Dish"/>
                    <div className="card-text">
                      <h2>{item.dishName}</h2>
-                     <Restaurant restaurantID={item.restaurant_id}/>
-
-
+                     <Restaurant
+                       restaurantID={item.restaurant_id}
+                       />
                    </div>
                    <InfoModal
                      currentDish={this.state.currentDish}
@@ -180,7 +184,9 @@ class SwipeCard extends Component {
             />
         </div>
       )
-
+    }else {
+      return <div>No Dishes</div>
+    }
   }
 
 
@@ -189,6 +195,11 @@ class SwipeCard extends Component {
 
 // <img className="image" src={item.photourl} alt=""/>
 
+// <Restaurant restaurantID={item.restaurant_id}
+//              openClosed={true}
+//              showOpenClosed={true}
+//
+//   />
 
 
 const dishesListQuery = gql`
@@ -207,29 +218,6 @@ const dishesListQuery = gql`
 
 `;
 
-// export const restaurantQuery = gql`
-// query RestaurantQuery {
-//   restaurant ( _id: "5849abb07d2c6b79132d0e45") {
-//     _id
-//     name
-//     address
-//   }
-// }
-// `;
-
-// const queryOptions = {
-//   name: 'RestaurantQuery',
-//   options: (props) => (console.log(props),{
-//     variables: {
-//       restaurantId: props
-//     },
-//   }),
-// }
-
-// SwipeCard = compose(
-// graphql(dishesListQuery,{ name: 'DishesListQuery' }),
-// // graphql(restaurantQuery, queryOptions),
-// ) (SwipeCard);
 
 SwipeCard = graphql(dishesListQuery,{
   options: ()=>({

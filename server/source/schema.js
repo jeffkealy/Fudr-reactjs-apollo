@@ -82,6 +82,7 @@ const typeDefs = `
     postcode:String
   }
 
+
   type Business{
     _id: String
     name: String
@@ -221,6 +222,7 @@ const typeDefs = `
     dishes (pageID: Int): AllDishes
     dish( _id: String): Dish
     restaurant(_id:String): Business
+    restaurants(zip_code:String): [Business]
     business(id:String):Business
     searchRestaurant(term: String, location: String): SearchRestaurant
     dishesByYelpId(yelp_id: String ): [Dish]

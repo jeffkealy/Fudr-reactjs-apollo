@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import Modal from 'react-modal';
+import OpenClosed from './OpenClosed.js'
 import { gql, graphql } from 'react-apollo';
-import '../styles/InfoModal.css'
+import '../styles/InfoModal.scss'
 import Info from 'react-icons/lib/md/info'
 import Close from 'react-icons/lib/ti/delete-outline'
 
@@ -200,14 +201,15 @@ class InfoModal extends Component {
             <div className='info-modal image-container'>
               <img className='info-modal-image' src={currentDish.photourl} alt="dish"/>
             </div>
-            <div className='info-modal restaurant-address'>
+            <div className='info-modal restaurant-details'>
               <div>
                 <h1 className='info-modal restaurant-name'>{restaurant.name}</h1>
               </div>
               <p>{restaurant.address}</p>
               <p>{restaurant.location.formatted_address}</p>
-              <h3 className="openClosed">{this.isRestaurantOpen(restaurant)}</h3>
-
+              <OpenClosed
+                hours={restaurant.hours}
+                 />
               <button className="hours-dropdown-button button-3" onClick={this.toggleHours}>
                 <span>Hours</span>
               </button>

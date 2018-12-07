@@ -4,7 +4,7 @@ import { gql, graphql } from 'react-apollo';
 import OpenClosed from './OpenClosed.js'
 
 
-const Restaurant  = ({ data, restaurantID}) => {
+const Restaurant  = ({ data, restaurantID, openClosed, showOpenClosed}) => {
   if (data.loading) {
     return <p>Loading...</p>
 
@@ -13,12 +13,16 @@ const Restaurant  = ({ data, restaurantID}) => {
     return <p>{data.error.message}</p>
   }
   else {
+    // console.log("OpenClosed", restaurantID, openClosed);
     return (
       <div className="Restaurant-container">
-        <div className="Restaurant-name">{data.restaurant.name}</div>
-        <OpenClosed hours={data.restaurant.hours}
-                    restaurant={data.restaurant.name}
-          />
+        <p className="Restaurant-name">{data.restaurant.name}</p>
+        {openClosed&&
+          <OpenClosed hours={data.restaurant.hours}
+                      restaurant={data.restaurant.name}
+                      showOpenClosed={showOpenClosed}
+            />
+        }
       </div>
     )
   }

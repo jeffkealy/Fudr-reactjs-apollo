@@ -86,10 +86,13 @@
   margin: 0;
   font-size: 28px;
 }
-.info-modal.restaurant-address p{
+.info-modal.restaurant-details p{
   margin: 0;
 }
-
+.restaurant-details .openClosed-openClosed{
+  margin: 3px auto;
+  font-weight: 700;
+}
 .openClosed{
   margin: 5px 0 3px;
 }
