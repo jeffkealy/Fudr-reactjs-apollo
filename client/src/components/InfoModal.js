@@ -163,7 +163,7 @@ class InfoModal extends Component {
     const currentDish = this.props.currentDish
 
     if (loading) {
-        return <Info className="info-button-loading" />
+        return <button className="info-button-loading action-button"><Info className="info-icon loading" /></button>
       }
     if (error) {
       return <p>{error.message}</p>
@@ -172,7 +172,7 @@ class InfoModal extends Component {
 
     return (
       <div className="info-modal-container">
-        <button onClick={this.openModal} className="info-button icon-button-1"><Info className="info-icon" /></button>
+        <button onClick={this.openModal} className="info-button action-button"><Info className="info-icon" /></button>
         {this.state.modalIsOpen &&
 
         <Modal
@@ -191,6 +191,7 @@ class InfoModal extends Component {
             beforeClose: 'info modal-overlay-before-close'
           }}
           bodyOpenClassName="info-modal--body"
+          shouldReturnFocusAfterClose={true}
 
         >
           <div>

@@ -49,7 +49,7 @@ class ReviewModal extends Component {
 
     return(
       <div className="review-modal-container">
-        <button onClick={this.reviewModalState} className="review-button button-1">Review</button>
+        <button onClick={this.reviewModalState} className="review-button action-button">Review</button>
 
         <Modal
           isOpen={this.state.modalIsOpen}

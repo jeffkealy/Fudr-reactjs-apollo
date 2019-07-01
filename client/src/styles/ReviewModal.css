@@ -28,6 +28,7 @@
 .review.modal-overlay-after-open{
   transform:scaleY(.01) scaleX(0);
   animation:unfoldIn 1s cubic-bezier(0.165, 0.840, 0.440, 1.000) forwards;
+  z-index: 2;
 }
 .review.modal-overlay-before-close{
   transform:scale(1);

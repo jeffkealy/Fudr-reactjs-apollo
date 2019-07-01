@@ -1,6 +1,7 @@
-//App.scss
+/*App.scss*/
 @import "utilities";
 //import fonts
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
 @font-face {
     font-family: 'BrandonText';
     src: url('../fonts/BrandonText/BrandonText-Regular.eot');
@@ -84,6 +85,29 @@ button:focus{
     box-shadow: 0px -5px 30px -5px #000;
   }
 }
+.action-button{
+  background-color:$bkrnd-main;
+  color: #fff;
+  border: none;
+  padding: 10px;
+  border-radius: 50px;
+  border: 1px solid #02b77e;
+  min-width: 120px;
+  font-size: 20px;
+  font-weight: 700;
+  text-transform: uppercase;
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+}
+.action-button:hover{
+  box-shadow: 0px 0px 11px rgba(255, 255, 255, 0.45);
+  transform: scale(1.1);
+}
+.action-button:active{
+  background-color: #0bf6df;
+  box-shadow: 0px 0px 11px rgba(255, 255, 255, 0.75);
+}
+
 
 .button-1 {
   border: none;
@@ -146,7 +170,7 @@ html{
 body {
   margin: 0 auto;
   padding: 0;
-  font-family: 'BrandonText', sans-serif;
+  font-family: 'Montserrat', sans-serif;
   text-align: center;
   background-color: #fff;
   background-image: url('../assets/background.jpg');
@@ -155,13 +179,15 @@ body {
 }
 
 header{
+  position: relative;
+  z-index: 1;
   .large-header{
     h2{
       font-size: 48px;
-      background-image:linear-gradient( to bottom, $bkrnd-main 70%, rgba(0, 0, 0, 0) 70%,),linear-gradient( 42deg, $bkrnd-second 50% ,$bkrnd-third 50%,), url(../assets/background.jpg),linear-gradient( to bottom, #00e5a5 70% , #fff 70%, );
+      background-image:linear-gradient( to bottom, $bkrnd-main 70%, rgba(0, 0, 0, 0) 70%,),linear-gradient( 42deg, $bkrnd-second 50% ,$bkrnd-third 50%,);
       color: #fff;
       text-shadow: 1px 2px 6px #000;
-      border: 2px solid rgba(0,0,0,0.57);
+      border: 2px solid rgb(96, 9, 7);
     }
   }
 }
@@ -171,9 +197,9 @@ header{
 
 .App-container{
   margin: 0 auto;
-  max-width: 544px;
+  max-width: 514px;
   border: 1px solid #000;
-  padding:  90px 0px 20px;
+  padding:  70px 0px 20px;
   background-color: $container-bkrnd;
 }
 .App-header{
@@ -186,6 +212,12 @@ header{
 
 /* media queries */
 @media screen and (max-width:768px){
+  .App-header{
+    margin-top: 0;
+  }
+  .App-container{
+    max-width: 474px
+  }
 }
 
 @keyframes App-logo-spin {

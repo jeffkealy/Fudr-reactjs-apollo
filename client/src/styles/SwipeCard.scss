@@ -1,4 +1,4 @@
-//SwipeCard.scss
+/* SwipeCard.scss */
 @import "./utilities.scss";
 
 li {
@@ -6,9 +6,6 @@ li {
 }
 .hidden{
   display: none;
-}
-.App-header {
-  height: auto;
 }
 .App-header a{
   text-decoration: none;
@@ -162,17 +159,17 @@ li {
 
  }
  .info-button, .info-button-loading{
-   width: 60px;
+   min-width: 50px;
+   padding: 5px;
    position: absolute;
-   left: 182px;
-   bottom: 17px;
+   bottom: 10px;
+   left: 44%;
  }
  .card:nth-last-child(2) .info-button{
-   margin: 0 0 10px 10px;
+   margin: 0 0 10px 2px;
  }
  .info-icon{
    background-color: transparent;
-   color: #fe2a12;
    width: 100%;
    height: 100%;
 
@@ -181,18 +178,20 @@ li {
    box-shadow: 0px 0px 20px 15px #8ee4af;
  }
  .info-button svg{
-   border: 1px solid;
+   color: #fff;
+   border-radius: 50px;
  }
- .info-button-loading{
-   width: 46px;
-   height: 46px;
-   color: #fe2a12;
-   border-radius: 25px;
-   border: 1px solid;
-   margin: 1px 7px 2px ;
+ .info-button{
+   &.loading{
+   // width: 50px;
+   // height: 50px;
+   // color: #fe2a12;
+   // border-radius: 25px;
+   // border: 1px solid;
+   // margin: 1px 7px 2px ;
 
- }
-
+   }
+  }
 @media screen and (max-width:768px){
   .App-header{
   }
